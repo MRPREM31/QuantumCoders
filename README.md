@@ -1,6 +1,6 @@
 # QuantumCoders - AI-Powered Development Team
 
-![QuantumCoders Logo](./assets/icons/favicon.ico)
+![QuantumCoders Logo](./assets/icons/Quantumcoder_logo.png)
 
 > 🚀 Cutting-edge AI-powered development solutions creating futuristic web experiences
 
@@ -315,10 +315,10 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
 
 ## 📞 Contact
 
-- **Email**: contact@quantumcoders.io
-- **Website**: https://quantumcoders.io
-- **GitHub**: https://github.com/MRPREM31/QuantumCoders
-- **Twitter**: @QuantumCoders
+- **Email**: quantumcoders2025@gmail.com
+- **Website**: https://quantumcoders-official.netlify.app/
+- **GitHub**: https://github.com/quantumcoders2025
+- **Twitter**: [@QuantumCoders](https://x.com/CodersQuantum)
 
 ## 🙏 Acknowledgments
 
