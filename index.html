@@ -106,7 +106,7 @@
         }
 
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: auto;
             background: var(--bg-color);
         }
 
@@ -163,6 +163,7 @@
         section {
             padding: 120px 0;
             position: relative;
+            contain: layout style paint;
         }
 
         h1, h2, h3, h4 {
@@ -399,6 +400,7 @@
             background-clip: padding-box, border-box;
             z-index: 1000;
             transition: var(--transition);
+            will-change: transform, box-shadow;
             padding: 12px 0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
@@ -894,6 +896,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            will-change: transform, box-shadow, border-color;
         }
 
         .feature-card::before {
@@ -949,6 +952,7 @@
             border: 1px solid var(--border-color);
             transition: var(--transition);
             position: relative;
+            will-change: transform, box-shadow, border-color;
         }
 
         .team-card:hover {
@@ -1034,6 +1038,7 @@
             border: 1px solid var(--border-color);
             transition: var(--transition);
             position: relative;
+            will-change: transform, box-shadow, border-color;
         }
 
         .project-card:hover {
@@ -1162,6 +1167,7 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            will-change: transform, box-shadow, border-color;
         }
 
         .achievement-card::before {
@@ -1548,6 +1554,10 @@
         }
 
         @media (max-width: 768px) {
+            :root {
+                --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
             section {
                 padding: 80px 0;
             }
@@ -2647,54 +2657,59 @@
                 const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
                 const particleColor = isDark ? '#3b82f6' : '#6366f1';
                 
+                // Reduce particle count on mobile for better performance
+                const isMobile = window.innerWidth < 768;
+                const particleCount = isMobile ? 35 : 70;
+                const enableHoverRepulse = !isMobile; // Disable hover interaction on mobile
+                
                 particlesJS('particles-js', {
                     particles: {
                         number: { 
-                            value: 100, 
+                            value: particleCount, 
                             density: { 
                                 enable: true, 
-                                value_area: 800 
+                                value_area: isMobile ? 1400 : 800
                             } 
                         },
                         color: { value: particleColor },
                         shape: { type: "circle" },
                         opacity: { 
-                            value: 0.5, 
+                            value: 0.35, 
                             random: true,
-                            anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
+                            anim: { enable: true, speed: 0.8, opacity_min: 0.1, sync: false }
                         },
                         size: { 
-                            value: 3, 
+                            value: 2.2, 
                             random: true,
-                            anim: { enable: true, speed: 2, size_min: 0.1, sync: false }
+                            anim: { enable: true, speed: 1.5, size_min: 0.1, sync: false }
                         },
                         line_linked: {
                             enable: true,
-                            distance: 150,
+                            distance: 100,
                             color: particleColor,
-                            opacity: 0.2,
+                            opacity: 0.12,
                             width: 1
                         },
                         move: {
                             enable: true,
-                            speed: 2,
+                            speed: isMobile ? 0.8 : 1.5,
                             direction: "none",
                             random: true,
                             straight: false,
                             out_mode: "out",
                             bounce: false,
-                            attract: { enable: true, rotateX: 600, rotateY: 1200 }
+                            attract: { enable: false }
                         }
                     },
                     interactivity: {
                         detect_on: "canvas",
                         events: {
-                            onhover: { enable: true, mode: "repulse" },
-                            onclick: { enable: true, mode: "push" },
+                            onhover: { enable: enableHoverRepulse, mode: "repulse" },
+                            onclick: { enable: false, mode: "push" },
                             resize: true
                         }
                     },
-                    retina_detect: true
+                    retina_detect: isMobile ? false : true
                 });
             }
         }
@@ -3026,67 +3041,72 @@
             }, 3000);
         }
         
-        // Scroll Effects
+        // Scroll Effects - Optimized with requestAnimationFrame throttling
         function initializeScrollEffects() {
             const navbar = document.querySelector('.navbar');
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.nav-link');
+            const floatingElements = document.querySelectorAll('.floating-element');
+            
+            // Cache section positions to avoid repeated offsetTop calculations
+            const sectionData = Array.from(sections).map(section => ({
+                id: section.getAttribute('id'),
+                top: section.offsetTop,
+                height: section.clientHeight
+            }));
             
             let lastScrollY = 0;
-            let scrollDirection = 'down';
-            let isScrolling = false;
+            let lastActiveLink = '';
+            let ticking = false;
             
-            window.addEventListener('scroll', () => {
-                const currentScrollY = window.scrollY;
-                
-                // Detect scroll direction
-                if (currentScrollY > lastScrollY) {
-                    scrollDirection = 'down';
-                } else {
-                    scrollDirection = 'up';
-                }
-                lastScrollY = currentScrollY;
-                
-                // Navbar scroll effect with smooth transition
-                if (window.scrollY > 50) {
+            function updateScrollEffects(scrollY) {
+                // Navbar scroll effect
+                if (scrollY > 50) {
                     navbar.classList.add('scrolled');
                 } else {
                     navbar.classList.remove('scrolled');
                 }
                 
-                // Active link highlighting with smooth transitions
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    
-                    if (window.scrollY >= sectionTop - 300) {
-                        current = section.getAttribute('id');
+                // Active link highlighting - only update if it changed
+                let currentSection = '';
+                for (let section of sectionData) {
+                    if (scrollY >= section.top - 300) {
+                        currentSection = section.id;
                     }
-                });
-                
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${current}`) {
-                        link.classList.add('active');
-                    }
-                });
-                
-                // Parallax effect for floating elements
-                const floatingElements = document.querySelectorAll('.floating-element');
-                floatingElements.forEach((element, index) => {
-                    const speed = 0.5 + (index * 0.1);
-                    const yPos = -(window.scrollY * speed);
-                    element.style.transform = `translateY(${yPos}px) rotate(${window.scrollY * 0.05}deg)`;
-                });
-                
-                // Add visual feedback for scroll position
-                if (window.scrollY > 10) {
-                    navbar.style.borderBottomColor = 'rgba(99, 102, 241, 0.3)';
-                } else {
-                    navbar.style.borderBottomColor = 'transparent';
                 }
-            }, { passive: true });
+                
+                if (currentSection !== lastActiveLink) {
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href') === `#${currentSection}`);
+                    });
+                    lastActiveLink = currentSection;
+                }
+                
+                // Parallax effect - optimized: only update every 2 scroll pixels and reduce on mobile
+                if (floatingElements.length > 0 && (scrollY - lastScrollY) >= 2) {
+                    floatingElements.forEach((element, index) => {
+                        const speed = 0.3 + (index * 0.08);
+                        const yPos = -(scrollY * speed);
+                        // Use only transform for better performance
+                        element.style.transform = `translateY(${yPos}px)`;
+                    });
+                }
+            }
+            
+            function onScroll() {
+                const currentScrollY = window.scrollY;
+                
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        updateScrollEffects(currentScrollY);
+                        lastScrollY = currentScrollY;
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }
+            
+            window.addEventListener('scroll', onScroll, { passive: true });
             
             // Close mobile menu on window resize
             window.addEventListener('resize', () => {
@@ -3105,9 +3125,10 @@
         // Animations
         function initializeAnimations() {
             // Intersection Observer for fade-in animations
+            const isMobile = window.innerWidth < 768;
             const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
+                threshold: 0.05,
+                rootMargin: isMobile ? '0px 0px 0px 0px' : '0px 0px -50px 0px'
             };
             
             const observer = new IntersectionObserver((entries) => {
@@ -3124,7 +3145,7 @@
             document.querySelectorAll('section, .feature-card, .team-card, .project-card, .achievement-card').forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.8s ease';
+                el.style.transition = isMobile ? 'all 0.5s ease' : 'all 0.8s ease';
                 observer.observe(el);
             });
             
@@ -3138,7 +3159,7 @@
                 setTimeout(() => {
                     loadingBar.style.display = 'none';
                 }, 500);
-            }, 1000);
+            }, 800);
         }
         
         // Handle page visibility changes
