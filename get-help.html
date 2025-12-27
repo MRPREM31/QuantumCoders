@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Help Guide - QuantumCoders</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* PDF-like styling */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: #f8fafc;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* A4 Paper-like container */
+        .pdf-container {
+            background: white;
+            padding: 60px 50px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            position: relative;
+            min-height: 1123px;
+            overflow: hidden;
+        }
+        
+        /* Watermark - Your website name */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 100px;
+            font-weight: 900;
+            color: rgba(236, 72, 153, 0.05); /* Neon pink with transparency */
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            white-space: nowrap;
+        }
+        
+        /* Alternative watermark style */
+        .watermark-alt {
+            position: absolute;
+            top: 30%;
+            left: 10%;
+            transform: rotate(-30deg);
+            font-size: 70px;
+            font-weight: 800;
+            color: rgba(236, 72, 153, 0.03);
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .watermark-alt-2 {
+            position: absolute;
+            bottom: 20%;
+            right: 5%;
+            transform: rotate(30deg);
+            font-size: 60px;
+            font-weight: 800;
+            color: rgba(139, 92, 246, 0.03);
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Header with logo */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 3px solid #ec4899; /* Neon pink */
+            position: relative;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            color: #6b7280;
+            font-size: 18px;
+            font-weight: 400;
+        }
+        
+        /* Main title */
+        .main-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 40px 0 30px;
+            text-align: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 18px;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Section styling */
+        .section {
+            margin: 40px 0;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #ec4899; /* Neon pink */
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title i {
+            color: #ec4899; /* Neon pink */
+        }
+        
+        /* Emergency contact box */
+        .emergency-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 5px solid #d97706;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border: 1px solid #fbbf24;
+        }
+        
+        .emergency-title {
+            color: #92400e;
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Help cards */
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .help-card {
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .help-card:hover {
+            border-color: #ec4899;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.1);
+        }
+        
+        .help-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ec4899, #8b5cf6);
+        }
+        
+        .help-icon {
+            font-size: 32px;
+            color: #ec4899;
+            margin-bottom: 20px;
+        }
+        
+        .help-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+        
+        /* Contact methods */
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .contact-card {
+            text-align: center;
+            padding: 25px 20px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            border-color: #ec4899;
+            transform: translateY(-3px);
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 24px;
+        }
+        
+        /* FAQ section */
+        .faq-container {
+            margin: 25px 0;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+        
+        .faq-question {
+            color: #374151;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        
+        .faq-question i {
+            color: #10b981;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-answer {
+            color: #6b7280;
+            font-size: 16px;
+            line-height: 1.6;
+            padding-left: 30px;
+            display: none;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(45deg);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Troubleshooting steps */
+        .steps-container {
+            margin: 25px 0;
+        }
+        
+        .step {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        /* Resources grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .resource-item {
+            padding: 15px;
+            background: #f0f9ff;
+            border-radius: 8px;
+            border: 1px solid #bae6fd;
+            font-size: 14px;
+            color: #0369a1;
+        }
+        
+        /* Response time indicator */
+        .response-time {
+            background: #dcfce7;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #10b981;
+            margin: 25px 0;
+        }
+        
+        /* Category chips */
+        .category-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 25px 0;
+        }
+        
+        .category-chip {
+            padding: 8px 16px;
+            background: #fce7f3;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #9d174d;
+            border: 1px solid #fbcfe8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-chip:hover,
+        .category-chip.active {
+            background: #ec4899;
+            color: white;
+            border-color: #ec4899;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .cta-box {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+        
+        /* Perfect email display on all devices */
+        .email-line {
+            font-size: 20px;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-block;
+            white-space: nowrap;
+            word-break: keep-all;
+            overflow-x: auto;
+            max-width: 100%;
+            text-align: center;
+        }
+
+        /* Hide scrollbar but allow scroll */
+        .email-line::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .pdf-container {
+                box-shadow: none;
+                border: none;
+                padding: 40px;
+            }
+            
+            .watermark {
+                opacity: 0.1;
+            }
+        }
+
+        /* ===============================
+        RESPONSIVE FIXES (ALL DEVICES)
+        =============================== */
+
+        /* Tablets (≤ 1024px) */
+        @media (max-width: 1024px) {
+            body {
+                padding: 15px;
+            }
+
+            .pdf-container {
+                padding: 40px 30px;
+                min-height: auto;
+            }
+
+            .logo {
+                font-size: 30px;
+            }
+
+            .main-title {
+                font-size: 28px;
+            }
+        }
+
+        /* Mobile Devices (≤ 768px) */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .pdf-container {
+                padding: 25px 20px;
+                border-radius: 6px;
+            }
+
+            .logo {
+                font-size: 26px;
+            }
+
+            .tagline {
+                font-size: 15px;
+            }
+
+            .main-title {
+                font-size: 24px;
+            }
+
+            .subtitle {
+                font-size: 15px;
+            }
+
+            .section-title {
+                font-size: 20px;
+                flex-wrap: wrap;
+            }
+
+            .help-grid,
+            .contact-methods,
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .watermark,
+            .watermark-alt,
+            .watermark-alt-2 {
+                font-size: 40px;
+            }
+
+            .cta-box {
+                padding: 25px 15px;
+            }
+
+            .cta-box h2 {
+                font-size: 20px;
+            }
+
+            .cta-box p {
+                font-size: 15px;
+            }
+            
+            .email-line {
+                font-size: 18px;
+                padding: 12px;
+            }
+            
+            .step {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .step-number {
+                margin: 0 auto;
+            }
+        }
+
+        /* Small Phones (≤ 480px) */
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 22px;
+            }
+
+            .main-title {
+                font-size: 22px;
+            }
+
+            .section {
+                margin: 30px 0;
+            }
+
+            .help-card,
+            .contact-card,
+            .emergency-box {
+                padding: 18px;
+            }
+            
+            .email-line {
+                font-size: 16px;
+                padding: 10px;
+            }
+            
+            .contact-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .faq-question {
+                font-size: 16px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="pdf-container">
+        <!-- Multiple watermarks with your website name -->
+        <div class="watermark">QUANTUMCODERS</div>
+        <div class="watermark-alt">QUANTUMCODERS</div>
+        <div class="watermark-alt-2">QUANTUMCODERS</div>
+        
+        <div class="content">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo">QuantumCoders</div>
+                <div class="tagline">Get Help Guide - Support for Students & Developers</div>
+            </div>
+            
+            <!-- Main Title -->
+            <h1 class="main-title">Get Help Guide</h1>
+            <p class="subtitle">Quick solutions, contact methods, and troubleshooting for technical issues</p>
+            
+            <!-- Emergency Contact -->
+            <div class="emergency-box">
+                <div class="emergency-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Need Immediate Help?
+                </div>
+                <p style="color: #92400e; line-height: 1.6;">
+                    <strong>Email:</strong> quantumcoders2025@gmail.com<br>
+                    <strong>Response Time:</strong> Usually within 24 hours<br>
+                    <strong>Subject:</strong> [HELP] Brief description of your issue
+                </p>
+            </div>
+            
+            <!-- Quick Help Options -->
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-life-ring"></i>
+                    Quick Help Options
+                </h2>
+                
+                <div class="help-grid">
+                    <div class="help-card">
+                        <div class="help-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="help-title">Code Issues</div>
+                        <p style="color: #6b7280; margin-bottom: 15px; line-height: 1.5; font-size: 14px;">
+                            Stuck with bugs, errors, or can't make something work? Share your code and error messages.
+                        </p>
+                        <div class="category-chips">
+                            <span class="category-chip active">Code Snippet</span>
+                            <span class="category-chip">Error Message</span>
+                            <span class="category-chip">What You Tried</span>
+                        </div>
+                    </div>
+                    
+                    <div class="help-card">
+                        <div class="help-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="help-title">Project Guidance</div>
+                        <p style="color: #6b7280; margin-bottom: 15px; line-height: 1.5; font-size: 14px;">
+                            Need help with project structure, technology selection, or implementation approach?
+                        </p>
+                        <div class="category-chips">
+                            <span class="category-chip">Project Idea</span>
+                            <span class="category-chip">Current Progress</span>
+                            <span class="category-chip">Specific Questions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="help-card">
+                        <div class="help-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="help-title">Learning Help</div>
+                        <p style="color: #6b7280; margin-bottom: 15px; line-height: 1.5; font-size: 14px;">
+                            Confused about concepts, stuck in tutorials, or need learning path suggestions?
+                        </p>
+                        <div class="category-chips">
+                            <span class="category-chip">Topic</span>
+                            <span class="category-chip">What's Confusing</span>
+                            <span class="category-chip">Resources Tried</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- How to Contact Us -->
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-envelope"></i>
+                    How to Contact Us
+                </h2>
+                
+                <div class="contact-methods">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div style="font-weight: 600; color: #1f2937; margin-bottom: 10px;">Email (Recommended)</div>
+                        <p style="color: #6b7280; font-size: 14px; margin-bottom: 10px;">
+                            quantumcoders2025@gmail.com
+                        </p>
+                        <p style="color: #9ca3af; font-size: 12px;">
+                            Best for detailed questions and code reviews
+                        </p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div style="font-weight: 600; color: #1f2937; margin-bottom: 10px;">GitHub Issues</div>
+                        <p style="color: #6b7280; font-size: 14px; margin-bottom: 10px;">
+                            github.com/quantumcoders2025
+                        </p>
+                        <p style="color: #9ca3af; font-size: 12px;">
+                            For issues with our open-source projects
+                        </p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div style="font-weight: 600; color: #1f2937; margin-bottom: 10px;">Website Form</div>
+                        <p style="color: #6b7280; font-size: 14px; margin-bottom: 10px;">
+                            Use contact form on our website
+                        </p>
+                        <p style="color: #9ca3af; font-size: 12px;">
+                            For general inquiries and collaboration
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- What to Include -->
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-clipboard-check"></i>
+                    What to Include When Asking for Help
+                </h2>
+                
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>
+                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 5px;">Clear Description</div>
+                            <p style="color: #6b7280; font-size: 14px;">
+                                Explain what you're trying to achieve and what's not working. Avoid vague statements like "it doesn't work."
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>
+                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 5px;">Error Messages</div>
+                            <p style="color: #6b7280; font-size: 14px;">
+                                Copy the exact error message. Don't paraphrase. Screenshots help if the error is visual.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>
+                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 5px;">Code Snippets</div>
+                            <p style="color: #6b7280; font-size: 14px;">
+                                Share relevant code. Use code blocks or GitHub gists. Don't send entire projects via email.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div>
+                            <div style="font-weight: 600; color: #1f2937; margin-bottom: 5px;">What You've Tried</div>
+                            <p style="color: #6b7280; font-size: 14px;">
+                                List the solutions you've already attempted. This helps avoid suggesting things you've already tried.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Common Issues & Solutions -->
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-wrench"></i>
+                    Common Issues & Quick Fixes
+                </h2>
+                
+                <div class="resources-grid">
+                    <div class="resource-item">
+                        <strong>Website not loading?</strong><br>
+                        Clear browser cache, check console errors
+                    </div>
+                    
+                    <div class="resource-item">
+                        <strong>API not working?</strong><br>
+                        Check API keys, endpoints, and CORS settings
+                    </div>
+                    
+                    <div class="resource-item">
+                        <strong>Database connection?</strong><br>
+                        Verify credentials, connection strings, and ports
+                    </div>
+                    
+                    <div class="resource-item">
+                        <strong>Dependency errors?</strong><br>
+                        Update packages, check compatibility
+                    </div>
+                    
+                    <div class="resource-item">
+                        <strong>Responsive issues?</strong><br>
+                        Use browser dev tools, check media queries
+                    </div>
+                    
+                    <div class="resource-item">
+                        <strong>Performance slow?</strong><br>
+                        Optimize images, minimize requests, use caching
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FAQ Section -->
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-question-circle"></i>
+                    Frequently Asked Questions
+                </h2>
+                
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-plus"></i>
+                            How long does it take to get a response?
+                        </div>
+                        <div class="faq-answer">
+                            We typically respond within 24 hours on weekdays. Weekend responses may take 48 hours. For urgent issues, include "[URGENT]" in your email subject.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-plus"></i>
+                            Can you help with my college project?
+                        </div>
+                        <div class="faq-answer">
+                            Yes! We help students with academic projects. We provide guidance and suggestions but don't do the work for you. Share your project requirements and we'll help you get started.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-plus"></i>
+                            Do you provide live coding sessions?
+                        </div>
+                        <div class="faq-answer">
+                            We can schedule short screen-sharing sessions for complex issues after initial email discussion. These are typically 15-30 minutes focused on specific problems.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-plus"></i>
+                            What if my question is very basic?
+                        </div>
+                        <div class="faq-answer">
+                            No question is too basic! We're here to help learners at all levels. However, try searching online first - you might find instant solutions on Stack Overflow or documentation.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-plus"></i>
+                            Can I share large files or codebases?
+                        </div>
+                        <div class="faq-answer">
+                            Use GitHub/GitLab for code. For other files, use Google Drive or WeTransfer and share the link. Don't attach large files directly to emails.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Response Time Indicator -->
+            <div class="response-time">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <i class="fas fa-clock" style="color: #10b981; font-size: 20px;"></i>
+                    <div style="font-weight: 600; color: #065f46;">Expected Response Times</div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                    <div>
+                        <div style="font-size: 12px; color: #047857;">Simple Questions</div>
+                        <div style="font-weight: 600; color: #065f46;">4-8 hours</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: #047857;">Code Issues</div>
+                        <div style="font-weight: 600; color: #065f46;">12-24 hours</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: #047857;">Project Guidance</div>
+                        <div style="font-weight: 600; color: #065f46;">24-48 hours</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Before Contacting Checklist -->
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-check-circle"></i>
+                    Before Contacting Checklist
+                </h2>
+                
+                <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-search" style="color: #3b82f6;"></i>
+                            <span style="font-size: 14px; color: #4b5563;">Searched online for solutions</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-code" style="color: #3b82f6;"></i>
+                            <span style="font-size: 14px; color: #4b5563;">Checked for syntax errors</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-redo" style="color: #3b82f6;"></i>
+                            <span style="font-size: 14px; color: #4b5563;">Restarted your application</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-file-code" style="color: #3b82f6;"></i>
+                            <span style="font-size: 14px; color: #4b5563;">Prepared code snippets</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CTA Box -->
+            <div class="cta-box">
+                <h2 style="margin-bottom: 15px; font-size: 24px;">
+                    <i class="fas fa-hands-helping"></i> Ready to Get Help?
+                </h2>
+                <p style="font-size: 18px; margin-bottom: 25px; opacity: 0.9;">
+                    Contact us with your questions - We're here to help you succeed!
+                </p>
+                <div class="email-line">
+                    quantumcoders2025@gmail.com
+                </div>
+                <p style="margin-top: 20px; font-size: 14px; opacity: 0.8;">
+                    Remember to include all relevant details for faster assistance
+                </p>
+            </div>
+            
+            <!-- Footer -->
+            <div class="footer">
+                <p><strong>QuantumCoders Get Help Guide</strong></p>
+                <p>Your go-to resource for technical support and guidance</p>
+                <div style="margin-top: 15px; color: #9ca3af; font-size: 12px;">
+                    <p>Document Version: 1.0 | Last Updated: December 2025</p>
+                    <p style="margin-top: 5px;">🤝 We're here to help you grow as a developer!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add "Save as PDF" button
+        document.addEventListener('DOMContentLoaded', function() {
+            const printBtn = document.createElement('button');
+            printBtn.innerHTML = '<i class="fas fa-print"></i> Save as PDF';
+            printBtn.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #ec4899, #8b5cf6);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 25px;
+                cursor: pointer;
+                font-weight: 600;
+                box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                transition: all 0.3s ease;
+            `;
+            printBtn.onmouseover = () => printBtn.style.transform = 'translateY(-2px)';
+            printBtn.onmouseout = () => printBtn.style.transform = 'translateY(0)';
+            printBtn.onclick = () => {
+                // Expand all FAQ answers before printing
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.add('active');
+                });
+                window.print();
+            };
+            document.body.appendChild(printBtn);
+            
+            // FAQ toggle functionality
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const faqItem = this.parentElement;
+                    faqItem.classList.toggle('active');
+                });
+            });
+            
+            // Category chips functionality
+            const chips = document.querySelectorAll('.category-chip');
+            chips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    // Don't toggle active state for all chips, just visual feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+            
+            // Print shortcut
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                    e.preventDefault();
+                    // Expand all FAQ answers before printing
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        item.classList.add('active');
+                    });
+                    window.print();
+                }
+                
+                // Escape to close FAQ
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.faq-item.active').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                }
+            });
+            
+            // Adjust button text for small screens
+            function adjustButtonText() {
+                if (window.innerWidth <= 480) {
+                    printBtn.innerHTML = '<i class="fas fa-print"></i> PDF';
+                } else if (window.innerWidth <= 768) {
+                    printBtn.innerHTML = '<i class="fas fa-print"></i> Save PDF';
+                } else {
+                    printBtn.innerHTML = '<i class="fas fa-print"></i> Save as PDF';
+                }
+            }
+            
+            // Adjust on load and resize
+            window.addEventListener('load', adjustButtonText);
+            window.addEventListener('resize', adjustButtonText);
+            
+            // Collapse FAQ after print
+            window.addEventListener('afterprint', () => {
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
