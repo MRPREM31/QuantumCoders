@@ -1,0 +1,79 @@
+# robots.txt - Search Engine Crawler Instructions
+# For QuantumCoders Website
+# Last Updated: December 27, 2025
+
+# Allow all bots to crawl the website
+User-agent: *
+Allow: /
+
+# Disallow private directories
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /.env
+Disallow: /config/
+Disallow: /temp/
+Disallow: /cache/
+
+# Disallow search engines from crawling certain files
+Disallow: /*.json
+Disallow: /*.xml
+Disallow: /assets/fonts/
+Disallow: /netlify/
+
+# Allow crawling of specific directories
+Allow: /assets/
+Allow: /netlify/functions/
+
+# Crawl delay for heavy crawlers (in seconds)
+Crawl-delay: 1
+
+# Request rate limit (requests per 10 seconds)
+Request-rate: 10/10s
+
+# Specify sitemap location
+Sitemap: https://quantumcoders.io/sitemap.xml
+Sitemap: https://quantumcoders.example.com/sitemap.xml
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Bad bots that should be blocked
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+# Allow image indexing
+User-agent: Googlebot-Image
+Allow: /assets/images/
+
+User-agent: Bingbot-Image
+Allow: /assets/images/
+
+# Allow mobile crawlers
+User-agent: Googlebot-Mobile
+Allow: /
+
+User-agent: Mobile-Safari
+Allow: /
+
+# Directive to not crawl entire site (commented out)
+# Uncomment to disable indexing
+# User-agent: *
+# Disallow: /
