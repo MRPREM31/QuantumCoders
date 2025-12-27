@@ -1,0 +1,8 @@
+{
+  "name": "quantumcoders-chatbot",
+  "version": "1.0.0",
+  "description": "Quantum AI Assistant for QuantumCoders",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.7"
+  }
+}

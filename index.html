@@ -2097,13 +2097,13 @@
                     <!-- Team Member 6 - Team Lead -->
                         <div class="team-card">
                         <div class="team-img-container">
-                            <img src="./assets/images/Prem.jpeg" 
-                                alt="Prem Prasad Pradhan - Team Lead, QuantumCoders" 
+                            <img src="./assets/images/Team Member/Aliva.jpeg" 
+                                alt="Aliva - Team Lead, QuantumCoders" 
                                 class="team-img">
                         </div>
 
                         <div class="team-info">
-                            <h3>Prem Prasad Pradhan</h3>
+                            <h3>Aliva</h3>
                             <div class="team-role">Team Lead & Founder, QuantumCoders</div>
 
                             <p>
@@ -2143,13 +2143,13 @@
                     <!-- Team Member 7 - Team Lead -->
                         <div class="team-card">
                         <div class="team-img-container">
-                            <img src="./assets/images/Prem.jpeg" 
-                                alt="Prem Prasad Pradhan - Team Lead, QuantumCoders" 
+                            <img src="./assets/images/Team Member/Asish.jpeg" 
+                                alt="Asish - Team Lead, QuantumCoders" 
                                 class="team-img">
                         </div>
 
                         <div class="team-info">
-                            <h3>Prem Prasad Pradhan</h3>
+                            <h3>Asish</h3>
                             <div class="team-role">Team Lead & Founder, QuantumCoders</div>
 
                             <p>
@@ -2289,19 +2289,32 @@
                     <!-- Project 3 - Quantum Blockchain -->
                     <div class="project-card">
                         <div class="project-img-container">
-                            <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Quantum Blockchain" class="project-img">
+                            <img src="./assets/images/Projects/Gamified STEM Learning Platform for Rural Schools.jpg" alt="Gamified STEM Learning Platform for Rural Schools" class="project-img">
                         </div>
                         <div class="project-info">
-                            <h3>Quantum Blockchain Network</h3>
-                            <p>A quantum-resistant blockchain platform that uses quantum key distribution for unbreakable security.</p>
+                            <h3>Gamified STEM Learning Platform</h3>
+                            <p>
+                                A gamified digital learning platform designed for rural schools to make STEM subjects
+                                fun, engaging, and accessible. Developed for Smart India Hackathon 2025 by Team QuantumCoders.
+                            </p>
+
                             <div class="project-tech">
-                                <span class="tech-tag">Blockchain</span>
-                                <span class="tech-tag">Quantum Cryptography</span>
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">TypeScript</span>
                                 <span class="tech-tag">Node.js</span>
-                                <span class="tech-tag">Solidity</span>
+                                <span class="tech-tag">SQLite</span>
+                                <span class="tech-tag">Offline-First</span>
+                                <span class="tech-tag">Gamification</span>
                             </div>
-                            <a href="#" class="btn"><i class="fas fa-eye"></i> Explore Blockchain</a>
+
+                            <a href="https://github.com/MRPREM31/Gamified-STEM-Learning-Platform-for-Rural-Areas"
+                            class="btn"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                                <i class="fas fa-eye"></i> View Project on GitHub
+                            </a>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -2339,7 +2352,7 @@
                     </div>
 
                     <div class="memory-card">
-                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Team Quantum Hackathon" class="memory-img">
+                        <img src="./assets/images/Memories/NATH_2025.jpeg" alt="Team Quantum Hackathon" class="memory-img">
                         <div class="memory-overlay">
                             <h3>Quantum Hackathon Victory</h3>
                             <p>Winning first place with our quantum machine learning algorithm</p>
@@ -2751,38 +2764,213 @@
             });
         }
         
-        // Contact Form
+        // Contact Form with Google Apps Script Integration
         function initializeForm() {
             const contactForm = document.getElementById('contactForm');
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
             
-            contactForm.addEventListener('submit', function(e) {
+            // Your Google Apps Script Web App URL
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxKrqLx54CkxiZvngCTB1u-u01Dfd4OJP4NEPbHJ5IksZzt_v_IrwS7qE_naK5s7omrdQ/exec';
+            
+            contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 // Get form data
                 const formData = {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    subject: document.getElementById('subject').value,
-                    message: document.getElementById('message').value
+                    name: document.getElementById('name').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    subject: document.getElementById('subject').value.trim(),
+                    message: document.getElementById('message').value.trim(),
+                    timestamp: new Date().toISOString()
                 };
                 
+                // Validate form
+                if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+                    showNotification('Please fill in all required fields.', 'error');
+                    return;
+                }
+                
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(formData.email)) {
+                    showNotification('Please enter a valid email address.', 'error');
+                    return;
+                }
+                
                 // Show loading state
-                const submitBtn = this.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Transmitting...';
                 submitBtn.disabled = true;
                 
-                // Simulate API call
-                setTimeout(() => {
-                    // Show success message
-                    showNotification('Message transmitted successfully! Our quantum team will contact you soon.', 'success');
+                // Add quantum transmission effect
+                const formElements = contactForm.querySelectorAll('.form-input, .form-textarea');
+                formElements.forEach(element => {
+                    element.style.transition = 'all 0.5s ease';
+                    element.style.boxShadow = '0 0 20px var(--primary-glow)';
+                });
+                
+                try {
+                    // Send to Google Apps Script
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', // Important for Google Apps Script
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    // Note: With 'no-cors', we can't read the response directly
+                    // But Google Apps Script will still process it
+                    
+                    // Show success with quantum animation
+                    const successMessage = document.createElement('div');
+                    successMessage.innerHTML = `
+                        <div style="
+                            position: fixed;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background: var(--card-bg);
+                            backdrop-filter: blur(20px);
+                            padding: 40px;
+                            border-radius: 20px;
+                            border: 2px solid var(--primary-color);
+                            box-shadow: 0 0 50px var(--primary-glow);
+                            z-index: 10000;
+                            max-width: 500px;
+                            width: 90%;
+                            text-align: center;
+                            animation: fadeIn 0.3s ease;
+                        ">
+                            <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--primary-color); margin-bottom: 20px; animation: pulse 2s infinite;"></i>
+                            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Quantum Message Transmitted!</h3>
+                            <p>Your message has been entangled with our communication system. You'll receive a confirmation email shortly.</p>
+                            <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                                Check your inbox at: <strong>${formData.email}</strong>
+                            </p>
+                            <button onclick="this.parentElement.remove()" class="btn" style="margin-top: 20px;">
+                                <i class="fas fa-times"></i> Close Portal
+                            </button>
+                        </div>
+                    `;
+                    document.body.appendChild(successMessage);
+                    
+                    // Remove message after 5 seconds
+                    setTimeout(() => {
+                        if (successMessage.parentElement) {
+                            successMessage.remove();
+                        }
+                    }, 5000);
                     
                     // Reset form
                     contactForm.reset();
+                    
+                    // Remove glow effects
+                    formElements.forEach(element => {
+                        element.style.boxShadow = '';
+                    });
+                    
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    
+                    showNotification(
+                        'Message transmission failed. Please try again or contact us directly at quantumcoders2025@gmail.com',
+                        'error'
+                    );
+                    
+                    // Remove glow effects
+                    formElements.forEach(element => {
+                        element.style.boxShadow = '';
+                    });
+                    
+                } finally {
+                    // Reset button state
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
-                }, 2000);
+                }
             });
+        }
+
+        // Enhanced notification function
+        function showNotification(message, type) {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.quantum-notification');
+            existingNotifications.forEach(notification => notification.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `quantum-notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <span>${message}</span>
+                    <button class="notification-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: var(--card-bg);
+                color: var(--text-color);
+                padding: 20px;
+                border-radius: 12px;
+                border-left: 4px solid ${type === 'success' ? 'var(--neon-green)' : 'var(--neon-pink)'};
+                box-shadow: var(--shadow-lg);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                z-index: 10000;
+                animation: slideDown 0.3s ease;
+                backdrop-filter: blur(10px);
+                border: 1px solid var(--border-color);
+                max-width: 400px;
+            `;
+            
+            const contentStyle = `
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                flex: 1;
+            `;
+            
+            const iconStyle = `
+                font-size: 1.3rem;
+                color: ${type === 'success' ? 'var(--neon-green)' : 'var(--neon-pink)'};
+            `;
+            
+            const closeBtnStyle = `
+                background: none;
+                border: none;
+                color: var(--text-secondary);
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 4px;
+                transition: var(--transition);
+            `;
+            
+            notification.querySelector('.notification-content').style.cssText = contentStyle;
+            notification.querySelector('i').style.cssText = iconStyle;
+            notification.querySelector('.notification-close').style.cssText = closeBtnStyle;
+            
+            // Add close button functionality
+            notification.querySelector('.notification-close').addEventListener('click', () => {
+                notification.style.animation = 'slideUp 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            });
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.animation = 'slideUp 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 5000);
         }
         
         function showNotification(message, type) {
