@@ -1222,22 +1222,41 @@
                 `;
             }
             
+            // Replace the getAIResponse function with this improved version:
             async function getAIResponse(message) {
-                // Call Netlify Function
-                const response = await fetch('/.netlify/functions/chatbot', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ message })
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                try {
+                    // Try Netlify function first
+                    const response = await fetch('/.netlify/functions/chatbot', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message })
+                    });
+                    
+                    if (!response.ok) {
+                        console.warn('Netlify function failed, using fallback');
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    return data.reply || data.error || "I couldn't generate a response. Please try again.";
+                    
+                } catch (error) {
+                    console.error('Chatbot error:', error);
+                    
+                    // Fallback responses
+                    const fallbackResponses = [
+                        "I'm currently learning to respond better! Try asking me about web development or AI. 🚀",
+                        "QuantumCoders AI is optimizing! Meanwhile, check out our projects at the main site. 💻",
+                        "I'm having a quantum moment! Please try again or contact the team directly. ⚡",
+                        "Connection to my AI brain is fuzzy. Try: 'What is QuantumCoders?' or 'Tell me about web development'",
+                        "I'm here to help! Ask me about: HTML/CSS, JavaScript, React, AI projects, or hackathons! 🤖"
+                    ];
+                    
+                    // Return a random fallback response
+                    return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
                 }
-                
-                const data = await response.json();
-                return data.reply || "I couldn't generate a response. Please try again.";
             }
         }
         

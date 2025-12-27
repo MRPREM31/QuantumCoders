@@ -1,66 +1,88 @@
 // netlify/functions/chatbot.js
 const { Groq } = require('groq-sdk');
 
+// netlify/functions/chatbot.js
 exports.handler = async function(event, context) {
-    // Only allow POST requests
+    console.log('Chatbot function called');
+    
+    // Handle CORS
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Content-Type': 'application/json'
+    };
+
+    // Handle OPTIONS request (preflight)
+    if (event.httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 200,
+            headers,
+            body: ''
+        };
+    }
+
+    // Only allow POST
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
+            headers,
             body: JSON.stringify({ error: 'Method not allowed' })
         };
     }
 
     try {
-        const { message } = JSON.parse(event.body);
+        let message;
         
-        if (!message) {
+        // Parse request
+        try {
+            const body = JSON.parse(event.body || '{}');
+            message = body.message;
+            console.log('Received message:', message);
+        } catch {
             return {
                 statusCode: 400,
-                body: JSON.stringify({ error: 'Message is required' })
+                headers,
+                body: JSON.stringify({ error: 'Invalid request format' })
             };
         }
 
-        // Initialize Groq client with your API key from environment variables
-        const groq = new Groq({
-            apiKey: process.env.GROQ_API_KEY
-        });
+        // Simple response without Groq for testing
+        const responses = {
+            hello: "Hello! I'm Quantum AI from QuantumCoders! How can I help you today? 🤖",
+            hi: "Hi there! Ready to talk tech? 💻",
+            who: "I'm Quantum AI, the chatbot assistant for QuantumCoders - a student tech team!",
+            help: "I can help with web development, AI projects, coding questions, and tech guidance!",
+            default: "Thanks for your message! I'm currently learning to assist with tech questions. Try asking about web development or AI!"
+        };
 
-        // Create chat completion
-        const chatCompletion = await groq.chat.completions.create({
-            messages: [
-                {
-                    role: "system",
-                    content: "You are Quantum AI, a helpful assistant from QuantumCoders. You specialize in coding, technology, web development, AI, and quantum computing. Keep responses concise, helpful, and engaging. Use emojis occasionally to make it friendly."
-                },
-                {
-                    role: "user",
-                    content: message
-                }
-            ],
-            model: "mixtral-8x7b-32768",
-            temperature: 0.7,
-            max_tokens: 500,
-            stream: false
-        });
+        const lowerMessage = (message || '').toLowerCase();
+        let reply = responses.default;
+
+        if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+            reply = responses.hello;
+        } else if (lowerMessage.includes('who are you')) {
+            reply = responses.who;
+        } else if (lowerMessage.includes('help')) {
+            reply = responses.help;
+        }
+
+        console.log('Sending response:', reply);
 
         return {
             statusCode: 200,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                reply: chatCompletion.choices[0]?.message?.content || "I couldn't generate a response."
-            })
+            headers,
+            body: JSON.stringify({ reply })
         };
 
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error in chatbot function:', error);
         
         return {
-            statusCode: 500,
+            statusCode: 200,
+            headers,
             body: JSON.stringify({ 
-                error: 'Failed to process request',
-                details: error.message 
+                reply: "I'm experiencing some technical difficulties. Please try again in a moment! ⚡"
             })
         };
     }
