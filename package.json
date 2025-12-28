@@ -1,17 +1,14 @@
 {
   "name": "quantumcoders-official",
   "version": "1.0.0",
-  "description": "QuantumCoders Official Website with AI Chatbot",
+  "description": "QuantumCoders Official Website",
   "main": "index.html",
   "scripts": {
     "build": "echo 'No build required'"
   },
   "dependencies": {
-    "groq-sdk": "^0.3.0"
+    "groq-sdk": "^0.4.1"
   },
-  "keywords": ["quantum", "ai", "chatbot", "groq"],
-  "author": "QuantumCoders",
-  "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
   }

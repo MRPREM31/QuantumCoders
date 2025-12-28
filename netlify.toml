@@ -1,10 +1,11 @@
 [build]
-  command = "npm install"
+  command = "npm install --production"
   publish = "."
   functions = "netlify/functions"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
+  NODE_ENV = "production"
 
 [[redirects]]
   from = "/*"
@@ -12,6 +13,7 @@
   status = 200
 
 [[headers]]
-  for = "/*"
+  for = "/.netlify/functions/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "*"
