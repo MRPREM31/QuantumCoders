@@ -2584,7 +2584,10 @@
     </footer>
 
     <!-- AI Assistant Floating Button -->
-    <a href="chatbot.html" class="ai-assistant" title="Talk to Quantum AI">
+    <a href="#" 
+    class="ai-assistant" 
+    title="Quantum AI (Coming Soon)"
+    onclick="showComingSoon(event)">
         <i class="fas fa-robot"></i>
         <div class="ai-pulse"></div>
     </a>
@@ -3160,6 +3163,16 @@
                     loadingBar.style.display = 'none';
                 }, 500);
             }, 800);
+        }
+
+        // AI Assistant Coming Soon Alert if comming then delete this function
+        function showComingSoon(event) {
+            event.preventDefault();
+            alert(
+                "🚀 Quantum AI — Coming Soon\n\n" +
+                "We are currently building this AI assistant.\n" +
+                "Stay tuned for future updates!"
+            );
         }
         
         // Handle page visibility changes
