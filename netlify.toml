@@ -1,19 +1,14 @@
 [build]
-  command = "npm install --production"
+  command = "npm install"
   publish = "."
   functions = "netlify/functions"
 
 [build.environment]
-  NODE_VERSION = "20"
-  NODE_ENV = "production"
+  NODE_VERSION = "18"
+  # Remove NODE_ENV or set to development to install all dependencies
+  NODE_ENV = "development"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-[[headers]]
-  for = "/.netlify/functions/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Headers = "*"
