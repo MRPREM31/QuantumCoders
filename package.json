@@ -1,0 +1,12 @@
+{
+  "name": "quantumcoders-official",
+  "version": "1.0.0",
+  "description": "QuantumCoders Official Website with AI Chatbot",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build required'"
+  },
+  "keywords": ["quantum", "ai", "chatbot", "groq"],
+  "author": "QuantumCoders",
+  "license": "MIT"
+}
