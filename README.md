@@ -315,10 +315,10 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
 
 ## 📞 Contact
 
-- **Email**: quantumcoders2025@gmail.com
-- **Website**: https://quantumcoders-official.netlify.app/
-- **GitHub**: https://github.com/quantumcoders2025
-- **Twitter**: [@QuantumCoders](https://x.com/CodersQuantum)
+- **Email**: [@QuantumCoders](quantumcoderstechlab@gmail.com)
+- **Website**: [@QuantumCoders](https://quantumcoders-official.netlify.app/)
+- **GitHub**: [@QuantumCoders](https://github.com/quantumcoders-tech-lab)
+- **Twitter**: [@QuantumCoders](https://x.com/QuantumCodersTL)
 
 ## 🙏 Acknowledgments
 
