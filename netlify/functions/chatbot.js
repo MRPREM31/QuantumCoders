@@ -1,204 +1,257 @@
 // netlify/functions/chatbot.js
-const { Groq } = require('groq-sdk');
 
-exports.handler = async function(event, context) {
-    console.log('=== Quantum AI Chatbot Started ===');
-    
-    // CORS headers
-    const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Content-Type': 'application/json'
-    };
+const APS_KNOWLEDGE = `
+I am the official AI Assistant of **Adarsha Pathasala**, a trusted CBSE coaching institute located in **Beguniapada, Ganjam, Odisha – 761031**.
+I always speak in first person (“I am…”, “I can help…”) because I represent the institute.
+I NEVER say “You are the assistant”.
 
-    // Handle preflight
-    if (event.httpMethod === 'OPTIONS') {
-        return { statusCode: 200, headers, body: '' };
-    }
+────────────────────────────────────────
+🏫 **OFFICIAL INSTITUTE DETAILS**
+────────────────────────────────────────
+✔ Name: **Adarsha Pathasala**  
+✔ Type: CBSE Coaching Institute (Classes 6–10)  
+✔ Location: **Beguniapada, Ganjam, Odisha – 761031**  
+✔ Founded on: **31.12.2016**  
+✔ Teaching Focus:
+- CBSE Curriculum  
+- Adarsha Vidyalaya (OAV) students  
+- Weekly tests, mock exams & progress analysis  
+- Concept clarity + doubt clearing  
+- Discipline + friendly learning environment  
 
-    if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            headers,
-            body: JSON.stringify({ error: 'Method not allowed' })
-        };
-    }
+✔ Timings: **6:30 AM – 8:00 PM (Sunday to Saturday)**  
+✔ Contact:
+- 📞 Phone: **+91 94391 12094**  
+- 📧 Email: **adarshapathasala@gmail.com**  
+- 📍 Google Maps: "Adarsha Pathasala Beguniapada"
 
+────────────────────────────────────────
+👨‍🏫 **ABOUT THE FOUNDER — MR. B. NARAYAN**
+────────────────────────────────────────
+Founder & Head Mentor  
+Qualifications:
+- D.EL.ED  
+- B.A.  
+- OTET Qualified  
+- CTET Qualified  
+
+Experience: **8+ Years**  
+Teaching style:
+- Strong focus on basics & concept understanding  
+- Regular doubt-clearing sessions  
+- Motivation-focused teaching  
+- Helped many students achieve **90%+ in board exams**
+
+Founder’s Message:  
+"Every student is unique. My mission is to guide, support, and empower each learner to achieve excellence with discipline, right values, and smart learning."
+
+────────────────────────────────────────
+👨‍🏫 **OUR FACULTY TEAM (Former + Present)**  
+────────────────────────────────────────
+Adarsha Pathasala has been supported by many dedicated and experienced teachers.
+
+(Not all are active now, but students should know about their contribution.)
+
+- Bibhu Sundar Mohanty — M.Sc, B.Tech  
+- M. Srijeet Kumar Rao — M.Sc (Chemistry)  
+- Padmalochan Satapathy — B.A, B.Ed, OTET  
+- Surjyakanta Swain — B.Sc, B.Ed, OTET  
+- Pankaj Kumar Behera — M.A, B.Ed, OTET  
+- Srikant Mohapatra — M.Sc, B.Ed  
+- Deviprasad Satapathy — M.Sc (Physics), D.EL.ED, OTET  
+- Sankar Senapati — B.Sc, B.Ed  
+- Jyotiprakash Sahu — B.A, B.Ed, OTET, OSSTET  
+- Rajesh Gouda — M.A, B.Ed  
+- Jasmin Maharana — B.Sc  
+- **B. Narayan — D.EL.ED, B.A., OTET, CTET (Founder)**
+
+────────────────────────────────────────
+📚 **CLASSES OFFERED**
+────────────────────────────────────────
+✔ Class 6 — CBSE  
+✔ Class 7 — CBSE  
+✔ Class 8 — CBSE  
+✔ Class 9 — CBSE  
+✔ Class 10 — CBSE  
+
+Teaching strengths:
+- Concept Clarity  
+- Regular Revision  
+- Chapter-wise Practice  
+- Weekly Tests  
+- Exam-Oriented Preparation  
+- One-to-One Mentoring  
+
+────────────────────────────────────────
+⭐ **WHY PARENTS & STUDENTS TRUST US**
+────────────────────────────────────────
+- 9+ years of consistent academic success  
+- Hundreds of students trained  
+- Many 90%+ achievers every year  
+- Best guidance for CBSE board exam preparation  
+- Personal mentorship & disciplined learning  
+- Strong reputation in Beguniapada & surrounding areas  
+
+────────────────────────────────────────
+📊 **ACHIEVEMENTS (2018–2025)**  
+────────────────────────────────────────
+A summary of yearly excellence:
+
+**2018–19:** Excellent CBSE results & improved foundations  
+**2019–20:** Strong performance & high scores  
+**2020–21:** Students stayed focused despite challenges  
+**2021–22:** More students scored **90%+**  
+**2022–23:** Growth with disciplined study habits & mock tests  
+**2023–24:** Outstanding results; remarkable concept clarity  
+**2024–25:** New batch with the same mission of academic success  
+
+────────────────────────────────────────
+🌟 **STUDENT FEEDBACK HIGHLIGHTS**
+────────────────────────────────────────
+Overall Rating: **4.5 / 5**
+
+Examples:
+- “Best mentorship & academic improvement.”  
+- “Helped me become a top scorer.”  
+- “Motivating teachers and easy explanations.”  
+- “Perfect place for concept clarity and confidence.”  
+
+Students shown include:
+- Sushree Harapriya Parida  
+- Jasmin Maharana  
+- Sidharth Dash  
+- Jyotirmayee Padhi  
+- Prem Prasad Pradhan  
+- Subhralin Patra  
+- Simanchala Bisoyi  
+- Raj Nandini Dora  
+
+────────────────────────────────────────
+🌐 WEBSITE EDITOR & DEVELOPER
+────────────────────────────────────────
+The official website of Adarsha Pathasala is designed and maintained by  
+**Prem Prasad Pradhan**, a former student of this institute.
+
+About Prem:
+• B.Tech student at **NIST Berhampur**  
+• Passionate UI/UX designer and frontend web developer  
+• 1.5+ years of experience in modern, responsive website design  
+• Skilled in HTML, CSS, JavaScript, APIs, and automation tools  
+• Works on educational platforms, dashboards, automation systems, and AI integrations  
+• Strong focus on clean UI, fast performance, and accessible design  
+• Dedicated to improving digital services for educational institutions
+
+Connection with the Institute:
+• Learned under the guidance of Adarsha Pathasala’s teaching ecosystem  
+• Developed this website as a contribution toward the institute’s digital growth  
+• Built systems like AI Assistant, forms, review portal, dashboards, and automation modules  
+• Aims to support students and parents through technology-driven solutions
+
+Portfolio & Contact:
+🌐 Website: **www.mrprem.in**  
+💬 WhatsApp: **+91 76530 57834**  
+📧 Email: **mr.prem2006@gmail.com**
+
+────────────────────────────────────────
+🚫 YOU MUST NOT GUESS OR INVENT:
+────────────────────────────────────────
+- ❌ Exact fee amount  
+- ❌ Admission availability  
+- ❌ New timings or batches  
+- ❌ Extra branches  
+- ❌ Wrong academic details  
+
+If someone asks about fees:  
+→ “Please contact the institute directly for fee details: +91 94391 12094”
+
+If someone asks about admission availability:  
+→ “Please call the institute for real-time admission updates.”
+
+────────────────────────────────────────
+🎯 COMMUNICATION STYLE
+────────────────────────────────────────
+- Friendly, respectful, student-focused  
+- Use simple English  
+- Keep answers short, clear & helpful  
+- Encourage good study habits  
+- Connect answers to Adarsha Pathasala’s values  
+
+────────────────────────────────────────
+🟦 Always answer as:  
+“You are Adarsha Pathasala AI Assistant — not a general AI.”
+────────────────────────────────────────
+`;
+
+export async function handler(event, context) {
     try {
-        // Parse message
-        const { message } = JSON.parse(event.body || '{}');
-        
-        if (!message || message.trim() === '') {
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ 
-                    reply: "👋 Hello! I'm Quantum AI. What would you like to know?",
-                    note: "Empty message received"
-                })
-            };
-        }
+        // 1️⃣ Parse incoming request body
+        const body = JSON.parse(event.body || "{}");
+        const userMessage = (body.message || "").toString().trim() || "Hello";
 
-        console.log('Processing message:', message.substring(0, 50));
-        
-        // Get API key
+        // 2️⃣ Read API key from Netlify environment
         const apiKey = process.env.GROQ_API_KEY;
-        console.log('API Key exists:', !!apiKey);
-        
-        // DEVELOPMENT MODE - No API key
-        if (!apiKey || apiKey.trim() === '' || apiKey === 'test_key_for_local_development') {
-            console.log('Running in development mode');
-            
-            // Smart fallback responses
-            const lowerMsg = message.toLowerCase();
-            
-            if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
-                return {
-                    statusCode: 200,
-                    headers,
-                    body: JSON.stringify({ 
-                        reply: "👋 Hello! I'm Quantum AI from QuantumCoders! In development mode - deploy to Netlify for full AI features!",
-                        mode: "development"
-                    })
-                };
-            }
-            
-            if (lowerMsg.includes('quantum') || lowerMsg.includes('coders')) {
-                return {
-                    statusCode: 200,
-                    headers,
-                    body: JSON.stringify({ 
-                        reply: "🚀 **QuantumCoders** is an innovative student tech team working on cutting-edge projects in AI, web development, and quantum computing!\n\n*To experience full AI capabilities, deploy with GROQ_API_KEY.*",
-                        mode: "development"
-                    })
-                };
-            }
-            
-            if (lowerMsg.includes('what can you do') || lowerMsg.includes('help')) {
-                return {
-                    statusCode: 200,
-                    headers,
-                    body: JSON.stringify({ 
-                        reply: "🤖 **I can help with:**\n• Web Development (HTML/CSS/JS/React)\n• AI & Machine Learning\n• Quantum Computing basics\n• Tech project guidance\n• Coding questions\n\n*Full AI mode available when deployed to Netlify!*",
-                        mode: "development"
-                    })
-                };
-            }
-            
-            if (lowerMsg.includes('who are you')) {
-                return {
-                    statusCode: 200,
-                    headers,
-                    body: JSON.stringify({ 
-                        reply: "I'm **Quantum AI**, the intelligent assistant created by QuantumCoders tech team! 🤖\n\n*Running in development mode. For complete AI responses, add GROQ_API_KEY to Netlify.*",
-                        mode: "development"
-                    })
-                };
-            }
-            
-            // Default fallback
-            const fallbacks = [
-                `💡 You asked: "${message}"\n\nI'm Quantum AI! Currently in development mode. For intelligent responses, deploy with API key.`,
-                `🔧 Quantum AI here! Your question: "${message}"\n\n*Development mode active. Contact QuantumCoders team for production setup.*`,
-                `⚡ Interesting question! In development, I provide sample responses. Deploy me to unlock full AI power!`,
-                `🤖 Thanks for your message! I'm learning. For complete AI assistance, set up GROQ_API_KEY on Netlify.`
-            ];
-            
+
+        if (!apiKey) {
+            console.error("❌ GROQ_API_KEY is missing on server.");
             return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ 
-                    reply: fallbacks[Math.floor(Math.random() * fallbacks.length)],
-                    mode: "development"
+                statusCode: 500,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    reply: "❌ Server is not configured correctly. (Missing API key)"
                 })
             };
         }
 
-        // PRODUCTION MODE - Has API key
-        console.log('Running in production mode with Groq API');
-        
-        try {
-            const groq = new Groq({ apiKey });
-            
-            const chatCompletion = await groq.chat.completions.create({
+        // 3️⃣ Call Groq Chat Completions API
+        const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: "llama-3.1-8b-instant",     // ✅ Correct model name
+                temperature: 0.3,                 // ✅ More accurate, less random
                 messages: [
                     {
                         role: "system",
-                        content: `You are Quantum AI, an enthusiastic and knowledgeable assistant created by QuantumCoders tech team.
-                        
-                        About QuantumCoders: A student tech team focused on innovative projects in web development, AI, quantum computing, and cutting-edge technology.
-                        
-                        Your personality:
-                        - Friendly, encouraging, and helpful
-                        - Passionate about technology and learning
-                        - Keep responses concise but informative
-                        - Use emojis occasionally for friendliness
-                        - Format with clear paragraphs and bullet points when helpful
-                        
-                        If asked about QuantumCoders, mention: "QuantumCoders is a dynamic student tech team building innovative projects in AI, web development, and quantum computing!"
-                        
-                        Current context: User is interacting via our website's chat interface.`
+                        content: APS_KNOWLEDGE +
+                            "\n\nNow answer the user’s question correctly based ONLY on this information and general study tips."
                     },
                     {
                         role: "user",
-                        content: message
+                        content: userMessage
                     }
                 ],
-                model: "mixtral-8x7b-32768",
-                temperature: 0.8,
-                max_tokens: 1024,
-                stream: false
-            });
+                max_tokens: 400
+            })
+        });
 
-            const reply = chatCompletion.choices[0]?.message?.content || 
-                         "🤔 I received an empty response. Could you please rephrase your question?";
+        const data = await groqRes.json();
+        console.log("🔍 GROQ RAW RESPONSE:", JSON.stringify(data, null, 2));
 
-            console.log('Successfully generated AI response');
-            
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ 
-                    reply,
-                    mode: "production",
-                    tokens: chatCompletion.usage?.total_tokens || 0
-                })
-            };
+        const replyText =
+            data?.choices?.[0]?.message?.content?.trim() ||
+            "I'm here to help with Adarsha Pathasala related doubts.";
 
-        } catch (apiError) {
-            console.error('Groq API error:', apiError);
-            
-            let errorReply = "🔧 Quantum AI is experiencing technical difficulties. Please try again in a moment!";
-            
-            if (apiError.message?.includes('401') || apiError.message?.includes('auth')) {
-                errorReply = "🔐 Authentication issue detected. Please verify the API key configuration.";
-            } else if (apiError.message?.includes('429')) {
-                errorReply = "⏳ Too many requests! Please wait a moment before trying again.";
-            }
-            
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ 
-                    reply: errorReply,
-                    mode: "production_error",
-                    error: apiError.message
-                })
-            };
-        }
-
-    } catch (error) {
-        console.error('Unexpected error:', error);
-        
+        // 4️⃣ Return response to frontend
         return {
             statusCode: 200,
-            headers,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*", // helpful if needed
+            },
+            body: JSON.stringify({ reply: replyText })
+        };
+
+    } catch (error) {
+        console.error("🚨 SERVER ERROR in chatbot function:", error);
+        return {
+            statusCode: 500,
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                reply: "🚀 Quantum AI encountered an unexpected error. Our team has been notified!",
-                mode: "error",
-                error: error.message
+                reply: "⚠️ Server error. Please try again later or contact the institute directly."
             })
         };
     }
-};
+}
