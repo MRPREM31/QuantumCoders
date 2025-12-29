@@ -220,151 +220,46 @@ We are QuantumCoders – a forward-thinking technology team working on future-re
 ────────────────────────────────────────
 `;
 
-exports.handler = async function(event, context) {
-    // Handle CORS preflight requests
-    if (event.httpMethod === 'OPTIONS') {
-        return {
-            statusCode: 200,
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'POST, OPTIONS'
-            },
-            body: ''
-        };
-    }
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ reply: "Method Not Allowed" });
+  }
 
-    try {
-        // Parse incoming request
-        const body = JSON.parse(event.body || '{}');
-        const userMessage = (body.message || '').toString().trim();
+  const { message = "Hello" } = req.body || {};
+  const apiKey = process.env.GROQ_API_KEY;
 
-        if (!userMessage) {
-            return {
-                statusCode: 400,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify({
-                    reply: "Please provide a message to continue our conversation."
-                })
-            };
-        }
+  if (!apiKey) {
+    return res.status(500).json({
+      reply: "Server misconfigured (missing API key)"
+    });
+  }
 
-        // Check for API key
-        const apiKey = process.env.GROQ_API_KEY;
-        
-        if (!apiKey) {
-            // Fallback to local responses if no API key
-            return {
-                statusCode: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify({
-                    reply: getLocalResponse(userMessage)
-                })
-            };
-        }
+  try {
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "llama-3.1-8b-instant",
+          messages: [{ role: "user", content: message }],
+          temperature: 0.4,
+          max_tokens: 400
+        })
+      }
+    );
 
-        // Call Groq API with the knowledge base
-        const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: 'llama-3.1-8b-instant',
-                temperature: 0.3,
-                messages: [
-                    {
-                        role: 'system',
-                        content: QUANTUM_CODERS_KNOWLEDGE + 
-                            "\n\nIMPORTANT: Always answer as Quantum AI Assistant from QuantumCoders. " +
-                            "Be helpful, accurate, and professional. " +
-                            "If you don't know something, suggest contacting the team directly."
-                    },
-                    {
-                        role: 'user',
-                        content: userMessage
-                    }
-                ],
-                max_tokens: 500
-            })
-        });
+    const data = await response.json();
+    res.json({
+      reply: data?.choices?.[0]?.message?.content || "How can I help you?"
+    });
 
-        const data = await groqResponse.json();
-        
-        const replyText = data?.choices?.[0]?.message?.content?.trim() || 
-                         "I'm here to help with QuantumCoders and technology-related questions. What would you like to know?";
-
-        return {
-            statusCode: 200,
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({ reply: replyText })
-        };
-
-    } catch (error) {
-        console.error('Error in quantum-chatbot function:', error);
-        
-        return {
-            statusCode: 200,
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({
-                reply: "I apologize, but I'm experiencing technical difficulties. " +
-                       "You can reach QuantumCoders directly at quantumcoderstechlab@gmail.com " +
-                       "or visit our main website for more information."
-            })
-        };
-    }
-};
-
-// Local fallback responses
-function getLocalResponse(userMessage) {
-    const lowerMessage = userMessage.toLowerCase();
-    
-    // Common questions with local responses
-    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-        return "Hello! 👋 I'm Quantum AI Assistant from QuantumCoders. How can I help you today? You can ask about our team, projects, or technology guidance.";
-    }
-    
-    if (lowerMessage.includes('quantumcoder') || lowerMessage.includes('what is quantum')) {
-        return "QuantumCoders is a student-run technology team founded in 2025, focused on AI development, web solutions, and innovative digital projects. We have 8 dedicated members working on practical, real-world applications.";
-    }
-    
-    if (lowerMessage.includes('project') || lowerMessage.includes('build')) {
-        return "Our current projects include:\n\n1. **Edufarma AI** – Smart agricultural platform using AI\n2. **DiagnoseHub AI** – Medical diagnosis assistant\n3. **Gamified STEM Learning Platform** – For rural education\n\nYou can find more details on our GitHub repositories.";
-    }
-    
-    if (lowerMessage.includes('team') || lowerMessage.includes('member')) {
-        return "Our team has 8 members:\n• Prem Prasad Pradhan (Lead)\n• Aradhana Satapathy (Presenter)\n• Srikant Sabat (Backend)\n• Samir Dash (ML Specialist)\n• Sankar Acharya (Frontend)\n• Alibha Bisoyi (Python/SQL)\n• Asish Choudhury (Community)\n• Barsarani Tripathy (PPT Design)";
-    }
-    
-    if (lowerMessage.includes('join') || lowerMessage.includes('collaborate')) {
-        return "To join QuantumCoders:\n1. Email us at quantumcoderstechlab@gmail.com\n2. Include your background and interests\n3. We'll discuss suitable projects\n4. Start contributing!\n\nWe welcome students with passion for technology and willingness to learn.";
-    }
-    
-    if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('reach')) {
-        return "Contact QuantumCoders at:\n📧 quantumcoderstechlab@gmail.com\n📧 quantumcoders@zohomail.in\n📞 +91 9827775230\n\nWe typically respond within 24-48 hours.";
-    }
-    
-    if (lowerMessage.includes('web') || lowerMessage.includes('development')) {
-        return "For web development:\n• Start with HTML/CSS/JavaScript fundamentals\n• Learn React for modern frontend\n• Explore Node.js for backend\n• Practice with real projects\n• Check out freeCodeCamp or MDN Web Docs for learning resources.";
-    }
-    
-    if (lowerMessage.includes('ai') || lowerMessage.includes('machine learning')) {
-        return "For AI/ML learning:\n1. Learn Python basics\n2. Study mathematics fundamentals\n3. Practice with scikit-learn\n4. Explore TensorFlow/PyTorch\n5. Work on Kaggle projects\n6. Join AI communities for support";
-    }
-    
-    // Default response
-    return "Thank you for your question! I'm Quantum AI Assistant from QuantumCoders. I can help with:\n\n• Team and project information\n• Technology learning guidance\n• Programming help\n• Collaboration opportunities\n\nTry asking specific questions or use the quick action buttons for common topics! 🚀";
+  } catch (err) {
+    res.status(500).json({
+      reply: "Server error. Please try again later."
+    });
+  }
 }

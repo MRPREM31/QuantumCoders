@@ -1215,7 +1215,7 @@
             
             try {
                 // Send to backend
-                const response = await fetch('/.netlify/functions/quantum-chatbot', {
+                const response = await fetch('/api/quantum-chatbot', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
