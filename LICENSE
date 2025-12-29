@@ -1,32 +1,78 @@
-MIT License
+QuantumCoders Restricted Source License (QRSL)
 
 Copyright (c) 2025 QuantumCoders Team (MRPREM31)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+All Rights Reserved.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This software, including but not limited to its source code, documentation,
+architecture, algorithms, design elements, user interface, logic, workflows,
+and associated assets (collectively referred to as the "Software"), is the
+exclusive intellectual property of QuantumCoders and QuantumCoders Tech Lab.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+────────────────────────────────────────
+PERMITTED USE
+────────────────────────────────────────
+Permission is granted solely to:
+• View the Software
+• Evaluate the Software for academic, educational, or non-commercial purposes
 
----
+No other rights are granted, whether expressly or implied.
 
-ADDITIONAL TERMS FOR COMMERCIAL USE:
+────────────────────────────────────────
+STRICT PROHIBITIONS
+────────────────────────────────────────
+Unless explicitly authorized in writing by QuantumCoders Tech Lab, you may NOT:
 
-If you use this project for commercial purposes, we kindly request that you:
-1. Provide attribution to QuantumCoders Team
-2. Link back to the original repository (https://github.com/MRPREM31/QuantumCoders)
-3. Include a copy of this license with any distribution
+1. Copy, paste, reproduce, or extract any portion of the source code
+2. Modify, adapt, refactor, or create derivative works
+3. Redistribute, publish, or disclose the Software in any form
+4. Use the Software for commercial, freelance, enterprise, or client projects
+5. Sell, sublicense, lease, or monetize the Software
+6. Claim authorship or ownership of the Software or its components
+7. Host, mirror, or rebrand the Software under another name
+8. Use the Software to train AI models, datasets, or automated systems
 
-For commercial licensing inquiries, please contact: contact@quantumcoders.io
+Any unauthorized use constitutes a violation of intellectual property law
+and may result in legal, civil, or criminal action.
+
+────────────────────────────────────────
+COMMERCIAL & SPECIAL LICENSING
+────────────────────────────────────────
+Commercial use, redistribution, modification, or integration of the Software
+is strictly prohibited without a **separate, signed licensing agreement**
+issued by QuantumCoders Tech Lab.
+
+For licensing requests, permissions, or partnerships, contact:
+
+📧 Email: quantumcoderstechlab@gmail.com
+
+────────────────────────────────────────
+ATTRIBUTION REQUIREMENTS (IF PERMITTED)
+────────────────────────────────────────
+Where written permission is granted, all approved usage must include:
+
+• Attribution to "QuantumCoders Team"
+• A visible and clickable link to:
+  https://github.com/MRPREM31/QuantumCoders
+• Inclusion of this license in all copies or distributions
+
+────────────────────────────────────────
+NO WARRANTY
+────────────────────────────────────────
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+
+IN NO EVENT SHALL QUANTUMCODERS, QUANTUMCODERS TECH LAB, OR ITS MEMBERS
+BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE
+USE OR MISUSE OF THE SOFTWARE.
+
+────────────────────────────────────────
+GOVERNING LAW
+────────────────────────────────────────
+This License shall be governed by and construed in accordance with
+the laws of India.
+
+────────────────────────────────────────
+END OF LICENSE
+────────────────────────────────────────

@@ -1,52 +1,66 @@
-# robots.txt - Search Engine Crawler Instructions
-# For QuantumCoders Website
-# Last Updated: December 27, 2025
+# robots.txt for QuantumCoders Website
+# Project: QuantumCoders & QuantumCoders Tech Lab
+# Domain: https://quantumcoders.vercel.app/
+# Last Updated: 2025-12-30
 
-# Allow all bots to crawl the website
+############################
+# DEFAULT RULES – ALL BOTS
+############################
 User-agent: *
 Allow: /
 
-# Disallow private directories
-Disallow: /admin/
-Disallow: /private/
+# Protect sensitive & internal paths
 Disallow: /.git/
 Disallow: /node_modules/
 Disallow: /.env
+Disallow: /.env.*
 Disallow: /config/
 Disallow: /temp/
 Disallow: /cache/
+Disallow: /admin/
+Disallow: /private/
 
-# Disallow search engines from crawling certain files
-Disallow: /*.json
-Disallow: /*.xml
-Disallow: /assets/fonts/
+# Platform & deployment internals
+Disallow: /.netlify/
 Disallow: /netlify/
+Disallow: /api/
+Disallow: /vercel/
 
-# Allow crawling of specific directories
-Allow: /assets/
-Allow: /netlify/functions/
+############################
+# FILE TYPE RESTRICTIONS
+############################
+# Prevent crawling raw config/data files
+Disallow: /*.json$
+Disallow: /*.lock$
+Disallow: /*.map$
 
-# Crawl delay for heavy crawlers (in seconds)
-Crawl-delay: 1
+# Allow sitemap explicitly
+Allow: /sitemap.xml
 
-# Request rate limit (requests per 10 seconds)
-Request-rate: 10/10s
+############################
+# IMAGE & ASSET INDEXING
+############################
+# Allow images for Google Image Search
+User-agent: Googlebot-Image
+Allow: /assets/images/
+Allow: /assets/icons/
 
-# Specify sitemap location
-Sitemap: https://quantumcoders.io/sitemap.xml
-Sitemap: https://quantumcoders.example.com/sitemap.xml
+User-agent: Bingbot-Image
+Allow: /assets/images/
+Allow: /assets/icons/
 
-# Google specific
+############################
+# GOOGLE & BING (FULL ACCESS)
+############################
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 0
 
-# Bing specific
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
 
-# Bad bots that should be blocked
+############################
+# BLOCK AGGRESSIVE SEO SCRAPERS
+############################
 User-agent: AhrefsBot
 Disallow: /
 
@@ -57,23 +71,15 @@ User-agent: DotBot
 Disallow: /
 
 User-agent: MJ12bot
-Crawl-delay: 10
+Disallow: /
 
-# Allow image indexing
-User-agent: Googlebot-Image
-Allow: /assets/images/
-
-User-agent: Bingbot-Image
-Allow: /assets/images/
-
-# Allow mobile crawlers
+############################
+# MOBILE CRAWLERS
+############################
 User-agent: Googlebot-Mobile
 Allow: /
 
-User-agent: Mobile-Safari
-Allow: /
-
-# Directive to not crawl entire site (commented out)
-# Uncomment to disable indexing
-# User-agent: *
-# Disallow: /
+############################
+# SITEMAP LOCATION
+############################
+Sitemap: https://quantumcoders.vercel.app/sitemap.xml
