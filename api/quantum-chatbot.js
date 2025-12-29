@@ -245,17 +245,35 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           model: "llama-3.1-8b-instant",
-          messages: [{ role: "user", content: message }],
-          temperature: 0.4,
-          max_tokens: 400
+          temperature: 0.3,
+          max_tokens: 300,
+          messages: [
+            {
+              role: "system",
+              content:
+                QUANTUM_CODERS_KNOWLEDGE +
+                "\n\nStrict rules:\n" +
+                "- Answer only the specific question.\n" +
+                "- Never repeat the entire knowledge block.\n" +
+                "- Keep answers concise and helpful.\n" +
+                "- Always respond as Quantum AI Assistant.\n"
+            },
+            {
+              role: "user",
+              content: message
+            }
+          ]
         })
       }
     );
 
     const data = await response.json();
-    res.json({
-      reply: data?.choices?.[0]?.message?.content || "How can I help you?"
-    });
+
+    const reply =
+      data?.choices?.[0]?.message?.content?.trim() ||
+      "How can I help you regarding QuantumCoders?";
+
+    res.json({ reply });
 
   } catch (err) {
     res.status(500).json({
