@@ -316,7 +316,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
 ## 📞 Contact
 
 - **Email**: [@QuantumCoders](quantumcoderstechlab@gmail.com)
-- **Website**: [@QuantumCoders](https://quantumcoders-official.netlify.app/)
+- **Website**: [@QuantumCoders](https://quantumcoders.vercel.app/)
 - **GitHub**: [@QuantumCoders](https://github.com/quantumcoders-tech-lab)
 - **Twitter**: [@QuantumCoders](https://x.com/QuantumCodersTL)
 
