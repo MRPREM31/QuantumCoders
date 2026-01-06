@@ -1009,11 +1009,8 @@
     </div>
     
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Email data
-            const email = 'quantumcoderstechlab@gmail.com';
-            const emailSubject = '[Join Request] Your Name - College';
-            const emailBody = `Hello QuantumCoders Team,
+        // Email template for application
+        const emailTemplate = `Hello QuantumCoders Team,
 
 I am interested in joining the QuantumCoders Tech Lab community. Here are my details:
 
@@ -1033,19 +1030,60 @@ Looking forward to your response.
 Best regards,
 [Your Full Name]`;
 
-            // Elements
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
             const copyEmailBtn = document.getElementById('copyEmailBtn');
             const sendEmailBtn = document.getElementById('sendEmailBtn');
             const emailAddress = document.getElementById('emailAddress');
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toastMessage');
+            
+            const email = 'quantumcoderstechlab@gmail.com';
+            const subject = '[Join Request] Your Name - College';
 
-            // Copy Email Functionality
-            copyEmailBtn.addEventListener('click', async function() {
+            // 1. COPY EMAIL BUTTON FUNCTIONALITY
+            copyEmailBtn.addEventListener('click', function() {
+                // Create a temporary textarea element
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = email;
+                tempTextArea.style.position = 'fixed';
+                tempTextArea.style.left = '-999999px';
+                tempTextArea.style.top = '-999999px';
+                document.body.appendChild(tempTextArea);
+                
+                // Select and copy
+                tempTextArea.select();
+                tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+                
                 try {
-                    await navigator.clipboard.writeText(email);
-                    
-                    // Show success state
+                    // Try using modern Clipboard API first
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(email).then(function() {
+                            showCopySuccess();
+                        }).catch(function(err) {
+                            // Fallback to execCommand
+                            fallbackCopy();
+                        });
+                    } else {
+                        // Fallback for older browsers
+                        fallbackCopy();
+                    }
+                } catch (err) {
+                    // Final fallback
+                    fallbackCopy();
+                }
+                
+                // Remove the temporary element
+                document.body.removeChild(tempTextArea);
+                
+                function fallbackCopy() {
+                    document.execCommand('copy');
+                    showCopySuccess();
+                }
+                
+                function showCopySuccess() {
+                    // Visual feedback
                     copyEmailBtn.classList.add('copied');
                     copyEmailBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
                     
@@ -1054,59 +1092,60 @@ Best regards,
                     toast.style.display = 'flex';
                     
                     // Reset button after 2 seconds
-                    setTimeout(() => {
+                    setTimeout(function() {
                         copyEmailBtn.classList.remove('copied');
                         copyEmailBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Email';
                     }, 2000);
                     
-                } catch (err) {
-                    // Fallback for older browsers
-                    const textArea = document.createElement('textarea');
-                    textArea.value = email;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    
-                    // Show success with fallback
-                    copyEmailBtn.classList.add('copied');
-                    copyEmailBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    toastMessage.textContent = 'Email copied to clipboard!';
-                    toast.style.display = 'flex';
-                    
-                    setTimeout(() => {
-                        copyEmailBtn.classList.remove('copied');
-                        copyEmailBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Email';
-                    }, 2000);
+                    // Hide toast after 3 seconds
+                    setTimeout(function() {
+                        toast.style.display = 'none';
+                    }, 3000);
                 }
-                
-                // Hide toast after 3 seconds
-                setTimeout(() => {
-                    toast.style.display = 'none';
-                }, 3000);
             });
 
-            // Send Email Functionality
+            // 2. SEND EMAIL BUTTON FUNCTIONALITY
             sendEmailBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 
-                // Encode email components
-                const mailtoLink = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+                // Properly encode the email components
+                const encodedSubject = encodeURIComponent(subject);
+                const encodedBody = encodeURIComponent(emailTemplate);
+                
+                // Create mailto link
+                const mailtoLink = `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`;
                 
                 // Try to open email client
-                window.open(mailtoLink, '_blank');
+                try {
+                    // Show loading message
+                    toastMessage.textContent = 'Opening email client...';
+                    toast.style.display = 'flex';
+                    
+                    // Open email client
+                    window.location.href = mailtoLink;
+                    
+                    // If window.location doesn't work, try window.open
+                    setTimeout(function() {
+                        if (!document.hasFocus()) {
+                            // Email client opened successfully
+                            toastMessage.textContent = 'Email client opened!';
+                        }
+                    }, 1000);
+                    
+                } catch (error) {
+                    // Error handling
+                    toastMessage.textContent = 'Could not open email client. Please copy email manually.';
+                    toast.style.display = 'flex';
+                    console.error('Error opening email client:', error);
+                }
                 
-                // Show toast message
-                toastMessage.textContent = 'Opening email client...';
-                toast.style.display = 'flex';
-                
-                // Hide toast after 3 seconds
-                setTimeout(() => {
+                // Hide toast after 5 seconds
+                setTimeout(function() {
                     toast.style.display = 'none';
-                }, 3000);
+                }, 5000);
             });
 
-            // Add "Save as PDF" button
+            // 3. ADD PRINT BUTTON
             const printBtn = document.createElement('button');
             printBtn.innerHTML = '<i class="fas fa-print"></i> Save as PDF';
             printBtn.className = 'print-button';
@@ -1130,12 +1169,21 @@ Best regards,
                 font-family: 'Inter', sans-serif;
             `;
             
-            printBtn.onmouseover = () => printBtn.style.transform = 'translateY(-2px)';
-            printBtn.onmouseout = () => printBtn.style.transform = 'translateY(0)';
-            printBtn.onclick = () => window.print();
+            printBtn.onmouseover = function() {
+                printBtn.style.transform = 'translateY(-2px)';
+            };
+            
+            printBtn.onmouseout = function() {
+                printBtn.style.transform = 'translateY(0)';
+            };
+            
+            printBtn.onclick = function() {
+                window.print();
+            };
+            
             document.body.appendChild(printBtn);
 
-            // Mobile responsive adjustments
+            // 4. MOBILE RESPONSIVE ADJUSTMENTS
             function adjustForMobile() {
                 if (window.innerWidth <= 768) {
                     printBtn.style.padding = '10px 20px';
@@ -1157,11 +1205,10 @@ Best regards,
                 }
             }
             
-            // Initial adjustment
             adjustForMobile();
             window.addEventListener('resize', adjustForMobile);
 
-            // Print shortcut
+            // 5. PRINT SHORTCUT
             document.addEventListener('keydown', function(e) {
                 if (e.ctrlKey && e.key === 'p') {
                     e.preventDefault();
@@ -1169,20 +1216,20 @@ Best regards,
                 }
             });
 
-            // Auto-scroll email on small screens if needed
+            // 6. EMAIL SCROLL FOR MOBILE
             let scrollInterval;
-            const emailDisplay = document.querySelector('.email-display');
             
             function startEmailScroll() {
-                if (window.innerWidth <= 480 && emailAddress.scrollWidth > emailDisplay.clientWidth) {
+                const emailContainer = document.querySelector('.email-display');
+                if (window.innerWidth <= 480 && emailAddress.scrollWidth > emailContainer.clientWidth) {
                     let position = 0;
                     scrollInterval = setInterval(function() {
                         position += 1;
                         emailAddress.scrollLeft = position;
                         
-                        if (position >= emailAddress.scrollWidth - emailDisplay.clientWidth) {
+                        if (position >= emailAddress.scrollWidth - emailContainer.clientWidth) {
                             position = 0;
-                            setTimeout(() => {
+                            setTimeout(function() {
                                 emailAddress.scrollLeft = 0;
                             }, 1000);
                         }
@@ -1198,10 +1245,10 @@ Best regards,
             
             // Start auto-scroll on mobile if needed
             if (window.innerWidth <= 480) {
-                startEmailScroll();
+                setTimeout(startEmailScroll, 1000);
             }
             
-            // Handle window resize for auto-scroll
+            // Handle window resize
             window.addEventListener('resize', function() {
                 stopEmailScroll();
                 if (window.innerWidth <= 480) {
@@ -1210,12 +1257,15 @@ Best regards,
             });
             
             // Pause scroll on hover/touch
-            emailDisplay.addEventListener('mouseenter', stopEmailScroll);
-            emailDisplay.addEventListener('mouseleave', function() {
-                if (window.innerWidth <= 480) {
-                    startEmailScroll();
-                }
-            });
+            const emailDisplay = document.querySelector('.email-display');
+            if (emailDisplay) {
+                emailDisplay.addEventListener('mouseenter', stopEmailScroll);
+                emailDisplay.addEventListener('mouseleave', function() {
+                    if (window.innerWidth <= 480) {
+                        startEmailScroll();
+                    }
+                });
+            }
         });
     </script>
 </body>
