@@ -398,7 +398,7 @@
             margin-bottom: 15px;
         }
         
-        /* Contact Section */
+        /* Contact Section - FIXED */
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -413,6 +413,11 @@
             border-radius: 10px;
             border: 1px solid #e2e8f0;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 220px;
         }
         
         .contact-card:hover {
@@ -524,6 +529,27 @@
             margin-top: 20px;
         }
         
+        /* Email line fix */
+        .email-line {
+            font-size: 16px;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-block;
+            white-space: nowrap;
+            word-break: keep-all;
+            overflow-x: auto;
+            max-width: 100%;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        /* Hide scrollbar but allow scroll */
+        .email-line::-webkit-scrollbar {
+            display: none;
+        }
+        
         /* Print styles */
         @media print {
             body {
@@ -539,6 +565,11 @@
             
             .watermark {
                 opacity: 0.1;
+            }
+            
+            /* Hide print button when printing */
+            .print-button {
+                display: none !important;
             }
         }
 
@@ -563,6 +594,11 @@
 
             .main-title {
                 font-size: 28px;
+            }
+            
+            .contact-card {
+                padding: 25px 15px;
+                min-height: 200px;
             }
         }
 
@@ -605,6 +641,7 @@
             .contact-grid,
             .stats-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
             }
 
             .watermark,
@@ -625,6 +662,23 @@
             .identity-icon {
                 margin: 0 auto;
             }
+            
+            /* Contact card fixes for mobile */
+            .contact-card {
+                padding: 25px 15px;
+                min-height: 180px;
+                margin: 0 5px;
+            }
+            
+            .contact-icon {
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+            
+            .cta-box {
+                padding: 30px 20px;
+                margin: 30px 0;
+            }
         }
 
         /* Small Phones (≤ 480px) */
@@ -641,17 +695,43 @@
                 margin: 30px 0;
             }
 
-            .mission-card,
+            .mission-card {
+                padding: 20px;
+            }
+            
             .activity-card,
             .join-card,
             .value-card,
             .benefit-card,
             .stat-card {
-                padding: 18px;
+                padding: 20px 15px;
             }
-
+            
+            /* Contact card specific fixes for small phones */
             .contact-card {
-                padding: 6px;
+                padding: 25px 15px !important; /* Force override */
+                min-height: 170px;
+                margin: 5px 0;
+            }
+            
+            .contact-icon {
+                font-size: 28px;
+                margin-bottom: 12px;
+            }
+            
+            .contact-card div[style*="font-weight"] {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+            
+            .contact-card p {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+            
+            .contact-link {
+                font-size: 14px;
+                margin-top: 8px;
             }
 
             .cta-box {
@@ -665,25 +745,48 @@
             .cta-box p {
                 font-size: 15px;
             }
-
-            /* Perfect email display on all devices */
+            
             .email-line {
-                font-size: 16px;
-                font-weight: 600;
-                background: rgba(255,255,255,0.2);
-                padding: 15px;
-                border-radius: 8px;
-                display: inline-block;
-                white-space: nowrap;      /* NEVER break line */
-                word-break: keep-all;     /* Keep email intact */
-                overflow-x: auto;         /* Scroll if screen is too small */
-                max-width: 100%;
-                text-align: center;
+                font-size: 14px;
+                padding: 12px;
+                margin: 8px 0;
             }
-
-            /* Hide scrollbar but allow scroll */
-            .email-line::-webkit-scrollbar {
-                display: none;
+            
+            /* Fix for the community highlight */
+            .community-highlight {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+                gap: 10px;
+            }
+        }
+        
+        /* Extra Small Phones (≤ 360px) */
+        @media (max-width: 360px) {
+            .pdf-container {
+                padding: 20px 15px;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .main-title {
+                font-size: 20px;
+            }
+            
+            .contact-card {
+                padding: 20px 12px !important;
+                min-height: 160px;
+            }
+            
+            .contact-icon {
+                font-size: 24px;
+            }
+            
+            .email-line {
+                font-size: 13px;
+                padding: 10px;
             }
         }
 
@@ -1036,7 +1139,7 @@
                             <i class="fab fa-github"></i>
                         </div>
                         <div style="font-weight: 600; color: #1f2937; margin-bottom: 10px;">GitHub</div>
-                        <p style="color: #6b7280; font-size: 14px;">github.com/quantumcoders-tech-lab</p>
+                        <p style="color: #6b7280; font-size: 14px; margin: 5px 0;">github.com/quantumcoders-tech-lab</p>
                         <a href="https://github.com/quantumcoders-tech-lab" target="_blank" class="contact-link">Visit Profile →</a>
                     </div>
                     
@@ -1045,7 +1148,7 @@
                             <i class="fas fa-users"></i>
                         </div>
                         <div style="font-weight: 600; color: #1f2937; margin-bottom: 10px;">Community</div>
-                        <p style="color: #6b7280; font-size: 14px;">Student Technology Community</p>
+                        <p style="color: #6b7280; font-size: 14px; margin: 5px 0;">Student Technology Community</p>
                         <a href="./index.html#contact" class="contact-link">Join Us →</a>
                     </div>
                 </div>
@@ -1088,6 +1191,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const printBtn = document.createElement('button');
             printBtn.innerHTML = '<i class="fas fa-print"></i> Save as PDF';
+            printBtn.className = 'print-button';
             printBtn.style.cssText = `
                 position: fixed;
                 bottom: 20px;
@@ -1105,11 +1209,27 @@
                 align-items: center;
                 gap: 8px;
                 transition: all 0.3s ease;
+                font-family: 'Inter', sans-serif;
             `;
             printBtn.onmouseover = () => printBtn.style.transform = 'translateY(-2px)';
             printBtn.onmouseout = () => printBtn.style.transform = 'translateY(0)';
             printBtn.onclick = () => window.print();
             document.body.appendChild(printBtn);
+            
+            // Mobile responsive for print button
+            if (window.innerWidth <= 768) {
+                printBtn.style.padding = '10px 20px';
+                printBtn.style.fontSize = '14px';
+                printBtn.style.bottom = '15px';
+                printBtn.style.right = '15px';
+            }
+            
+            if (window.innerWidth <= 480) {
+                printBtn.style.padding = '8px 16px';
+                printBtn.style.fontSize = '13px';
+                printBtn.style.bottom = '10px';
+                printBtn.style.right = '10px';
+            }
             
             // Add smooth hover effects to cards
             const cards = document.querySelectorAll('.activity-card, .join-card, .value-card, .contact-card, .stat-card');
@@ -1149,6 +1269,13 @@
                     section.style.transform = 'translateY(0)';
                 });
             }, 100);
+            
+            // Fix for email line on very small screens
+            const emailLine = document.querySelector('.email-line');
+            if (emailLine && window.innerWidth <= 360) {
+                emailLine.style.fontSize = '12px';
+                emailLine.style.padding = '8px 10px';
+            }
         });
         
         // Print shortcut
@@ -1156,6 +1283,31 @@
             if (e.ctrlKey && e.key === 'p') {
                 e.preventDefault();
                 window.print();
+            }
+        });
+        
+        // Window resize handler
+        window.addEventListener('resize', function() {
+            const printBtn = document.querySelector('.print-button');
+            if (printBtn) {
+                if (window.innerWidth <= 768) {
+                    printBtn.style.padding = '10px 20px';
+                    printBtn.style.fontSize = '14px';
+                    printBtn.style.bottom = '15px';
+                    printBtn.style.right = '15px';
+                } else {
+                    printBtn.style.padding = '12px 24px';
+                    printBtn.style.fontSize = '16px';
+                    printBtn.style.bottom = '20px';
+                    printBtn.style.right = '20px';
+                }
+                
+                if (window.innerWidth <= 480) {
+                    printBtn.style.padding = '8px 16px';
+                    printBtn.style.fontSize = '13px';
+                    printBtn.style.bottom = '10px';
+                    printBtn.style.right = '10px';
+                }
             }
         });
     </script>
