@@ -4,6 +4,9 @@
     <!-- Basic Meta -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Clipboard Permission Hint (CRITICAL FIX) -->
+    <meta http-equiv="Permissions-Policy" content="clipboard-write=(self)">
 
     <title>How to Join QuantumCoders | QuantumCoders Tech Lab</title>
 
@@ -391,6 +394,11 @@
             flex: 1;
             text-align: left;
             padding-right: 15px;
+            user-select: all;
+            -webkit-user-select: all;
+            -moz-user-select: all;
+            -ms-user-select: all;
+            cursor: text;
         }
         
         /* Buttons container */
@@ -740,6 +748,21 @@
                 padding: 12px 18px;
             }
         }
+        
+        /* Focus states for accessibility */
+        .action-btn:focus,
+        .copy-btn:focus,
+        .send-btn:focus {
+            outline: 2px solid white;
+            outline-offset: 3px;
+        }
+        
+        /* iOS Safari fix */
+        @supports (-webkit-touch-callout: none) {
+            .action-btn {
+                padding: 16px 28px;
+            }
+        }
 
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800&display=swap" rel="stylesheet">
@@ -961,13 +984,16 @@
                     </div>
                 </div>
                 
-                <!-- Action Buttons -->
+                <!-- Action Buttons - FIXED VERSION -->
                 <div class="action-buttons">
                     <button class="action-btn copy-btn" id="copyEmailBtn">
                         <i class="fas fa-copy"></i> Copy Email
                     </button>
                     
-                    <a href="#" class="action-btn send-btn" id="sendEmailBtn">
+                    <!-- FIXED: Direct mailto link with proper encoding -->
+                    <a class="action-btn send-btn"
+                       href="mailto:quantumcoderstechlab@gmail.com?subject=Join%20Request%20-%20Your%20Name%20-%20College&body=Hello%20QuantumCoders%20Team,%0A%0AI%20am%20interested%20in%20joining%20QuantumCoders%20Tech%20Lab.%20Here%20are%20my%20details:%0A%0AName:%20[Your%20Full%20Name]%0ACollege:%20[Your%20College%20Name]%0AYear%20%26%20Branch:%20[Year%20of%20Study]%20-%20[Branch/Department]%0AProgramming%20Skills:%20[Languages/Technologies%20you%20know]%0AAreas%20of%20Interest:%20[AI/Web%20Development/Mobile%20Apps/etc.]%0A%0AWhy%20I%20want%20to%20join%20QuantumCoders:%0A[Briefly%20explain%20why%20you%20want%20to%20join%20and%20what%20you%20hope%20to%20achieve]%0A%0AI%20have%20read%20and%20understood%20the%20joining%20process%20and%20time%20commitment%20requirements.%0A%0ALooking%20forward%20to%20your%20response.%0A%0ABest%20regards,%0A[Your%20Full%20Name]"
+                       id="sendEmailBtn">
                         <i class="fas fa-paper-plane"></i> Send Email
                     </a>
                 </div>
@@ -1008,144 +1034,73 @@
         <span id="toastMessage">Email copied to clipboard!</span>
     </div>
     
+    <!-- FIXED JavaScript - Clean and reliable -->
     <script>
-        // Email template for application
-        const emailTemplate = `Hello QuantumCoders Team,
-
-I am interested in joining the QuantumCoders Tech Lab community. Here are my details:
-
-Name: [Your Full Name]
-College: [Your College Name]
-Year & Branch: [Year of Study] - [Branch/Department]
-Programming Skills: [Languages/Technologies you know]
-Areas of Interest: [AI/Web Development/Mobile Apps/etc.]
-
-Why I want to join QuantumCoders:
-[Briefly explain why you want to join and what you hope to achieve]
-
-I have read and understood the joining process and time commitment requirements.
-
-Looking forward to your response.
-
-Best regards,
-[Your Full Name]`;
-
-        // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            // Get elements
-            const copyEmailBtn = document.getElementById('copyEmailBtn');
-            const sendEmailBtn = document.getElementById('sendEmailBtn');
-            const emailAddress = document.getElementById('emailAddress');
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            
-            const email = 'quantumcoderstechlab@gmail.com';
-            const subject = '[Join Request] Your Name - College';
+            // 1. COPY EMAIL BUTTON - PERFECT WORKING VERSION
+            document.getElementById('copyEmailBtn').addEventListener('click', async function() {
+                const email = 'quantumcoderstechlab@gmail.com';
+                const btn = this;
+                const toast = document.getElementById('toast');
+                const toastMessage = document.getElementById('toastMessage');
 
-            // 1. COPY EMAIL BUTTON FUNCTIONALITY
-            copyEmailBtn.addEventListener('click', function() {
-                // Create a temporary textarea element
-                const tempTextArea = document.createElement('textarea');
-                tempTextArea.value = email;
-                tempTextArea.style.position = 'fixed';
-                tempTextArea.style.left = '-999999px';
-                tempTextArea.style.top = '-999999px';
-                document.body.appendChild(tempTextArea);
-                
-                // Select and copy
-                tempTextArea.select();
-                tempTextArea.setSelectionRange(0, 99999); // For mobile devices
-                
                 try {
-                    // Try using modern Clipboard API first
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(email).then(function() {
-                            showCopySuccess();
-                        }).catch(function(err) {
-                            // Fallback to execCommand
-                            fallbackCopy();
-                        });
-                    } else {
-                        // Fallback for older browsers
-                        fallbackCopy();
-                    }
-                } catch (err) {
-                    // Final fallback
-                    fallbackCopy();
-                }
-                
-                // Remove the temporary element
-                document.body.removeChild(tempTextArea);
-                
-                function fallbackCopy() {
-                    document.execCommand('copy');
-                    showCopySuccess();
-                }
-                
-                function showCopySuccess() {
-                    // Visual feedback
-                    copyEmailBtn.classList.add('copied');
-                    copyEmailBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    
-                    // Show toast
+                    // Modern Clipboard API (works on HTTPS/localhost)
+                    await navigator.clipboard.writeText(email);
+
+                    // Success feedback
+                    btn.classList.add('copied');
+                    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
                     toastMessage.textContent = 'Email copied to clipboard!';
                     toast.style.display = 'flex';
-                    
-                    // Reset button after 2 seconds
-                    setTimeout(function() {
-                        copyEmailBtn.classList.remove('copied');
-                        copyEmailBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Email';
-                    }, 2000);
-                    
-                    // Hide toast after 3 seconds
-                    setTimeout(function() {
-                        toast.style.display = 'none';
-                    }, 3000);
-                }
-            });
 
-            // 2. SEND EMAIL BUTTON FUNCTIONALITY
-            sendEmailBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Properly encode the email components
-                const encodedSubject = encodeURIComponent(subject);
-                const encodedBody = encodeURIComponent(emailTemplate);
-                
-                // Create mailto link
-                const mailtoLink = `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`;
-                
-                // Try to open email client
-                try {
-                    // Show loading message
-                    toastMessage.textContent = 'Opening email client...';
-                    toast.style.display = 'flex';
+                } catch (err) {
+                    console.log('Clipboard API failed, using fallback');
                     
-                    // Open email client
-                    window.location.href = mailtoLink;
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = email;
+                    textarea.style.position = 'fixed';
+                    textarea.style.left = '-9999px';
+                    textarea.style.top = '0';
+                    textarea.setAttribute('readonly', '');
                     
-                    // If window.location doesn't work, try window.open
-                    setTimeout(function() {
-                        if (!document.hasFocus()) {
-                            // Email client opened successfully
-                            toastMessage.textContent = 'Email client opened!';
+                    document.body.appendChild(textarea);
+                    
+                    // Select and copy
+                    textarea.select();
+                    textarea.setSelectionRange(0, 99999); // For mobile
+                    
+                    try {
+                        const successful = document.execCommand('copy');
+                        
+                        if (successful) {
+                            toastMessage.textContent = 'Email copied to clipboard!';
+                        } else {
+                            toastMessage.textContent = 'Please copy manually: ' + email;
                         }
-                    }, 1000);
+                    } catch (err2) {
+                        // Last resort
+                        toastMessage.textContent = 'Please copy manually: ' + email;
+                    }
                     
-                } catch (error) {
-                    // Error handling
-                    toastMessage.textContent = 'Could not open email client. Please copy email manually.';
                     toast.style.display = 'flex';
-                    console.error('Error opening email client:', error);
+                    
+                    // Clean up
+                    setTimeout(() => {
+                        document.body.removeChild(textarea);
+                    }, 100);
                 }
-                
-                // Hide toast after 5 seconds
-                setTimeout(function() {
+
+                // Reset button and hide toast after 2.5 seconds
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<i class="fas fa-copy"></i> Copy Email';
                     toast.style.display = 'none';
-                }, 5000);
+                }, 2500);
             });
 
-            // 3. ADD PRINT BUTTON
+            // 2. PRINT BUTTON
             const printBtn = document.createElement('button');
             printBtn.innerHTML = '<i class="fas fa-print"></i> Save as PDF';
             printBtn.className = 'print-button';
@@ -1169,21 +1124,21 @@ Best regards,
                 font-family: 'Inter', sans-serif;
             `;
             
-            printBtn.onmouseover = function() {
-                printBtn.style.transform = 'translateY(-2px)';
-            };
+            printBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
             
-            printBtn.onmouseout = function() {
-                printBtn.style.transform = 'translateY(0)';
-            };
+            printBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
             
-            printBtn.onclick = function() {
+            printBtn.addEventListener('click', function() {
                 window.print();
-            };
+            });
             
             document.body.appendChild(printBtn);
 
-            // 4. MOBILE RESPONSIVE ADJUSTMENTS
+            // 3. MOBILE RESPONSIVE ADJUSTMENTS
             function adjustForMobile() {
                 if (window.innerWidth <= 768) {
                     printBtn.style.padding = '10px 20px';
@@ -1208,64 +1163,18 @@ Best regards,
             adjustForMobile();
             window.addEventListener('resize', adjustForMobile);
 
-            // 5. PRINT SHORTCUT
+            // 4. PRINT SHORTCUT
             document.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.key === 'p') {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
                     e.preventDefault();
                     window.print();
                 }
             });
 
-            // 6. EMAIL SCROLL FOR MOBILE
-            let scrollInterval;
-            
-            function startEmailScroll() {
-                const emailContainer = document.querySelector('.email-display');
-                if (window.innerWidth <= 480 && emailAddress.scrollWidth > emailContainer.clientWidth) {
-                    let position = 0;
-                    scrollInterval = setInterval(function() {
-                        position += 1;
-                        emailAddress.scrollLeft = position;
-                        
-                        if (position >= emailAddress.scrollWidth - emailContainer.clientWidth) {
-                            position = 0;
-                            setTimeout(function() {
-                                emailAddress.scrollLeft = 0;
-                            }, 1000);
-                        }
-                    }, 50);
-                }
-            }
-            
-            function stopEmailScroll() {
-                if (scrollInterval) {
-                    clearInterval(scrollInterval);
-                }
-            }
-            
-            // Start auto-scroll on mobile if needed
-            if (window.innerWidth <= 480) {
-                setTimeout(startEmailScroll, 1000);
-            }
-            
-            // Handle window resize
-            window.addEventListener('resize', function() {
-                stopEmailScroll();
-                if (window.innerWidth <= 480) {
-                    setTimeout(startEmailScroll, 500);
-                }
-            });
-            
-            // Pause scroll on hover/touch
-            const emailDisplay = document.querySelector('.email-display');
-            if (emailDisplay) {
-                emailDisplay.addEventListener('mouseenter', stopEmailScroll);
-                emailDisplay.addEventListener('mouseleave', function() {
-                    if (window.innerWidth <= 480) {
-                        startEmailScroll();
-                    }
-                });
-            }
+            // 5. TESTING - Remove in production
+            console.log('QuantumCoders Join Page Loaded');
+            console.log('Copy Email Button: READY');
+            console.log('Send Email Button: READY (direct mailto link)');
         });
     </script>
 </body>
