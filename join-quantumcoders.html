@@ -335,31 +335,15 @@
             transform: translateY(-3px);
         }
         
-        /* Perfect email display on all devices */
-        .email-line {
-            font-size: 18px;
-            font-weight: 600;
-            background: rgba(255,255,255,0.2);
-            padding: 15px;
-            border-radius: 8px;
-            display: inline-block;
-            white-space: nowrap;
-            word-break: keep-all;
-            overflow-x: auto;
-            max-width: 100%;
-            text-align: center;
-        }
-
-        /* Hide scrollbar but allow scroll */
-        .email-line::-webkit-scrollbar {
-            display: none;
-        }
+        /* ===============================
+        CTA BOX WITH BUTTONS
+        =============================== */
         
         /* CTA Box */
         .cta-box {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
             color: white;
-            padding: 30px;
+            padding: 40px 30px;
             border-radius: 12px;
             text-align: center;
             margin: 40px 0;
@@ -379,6 +363,133 @@
             opacity: 0.3;
         }
         
+        /* Email display container */
+        .email-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            transition: all 0.3s ease;
+        }
+        
+        .email-display:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .email-address {
+            font-size: 18px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            text-align: left;
+            padding-right: 15px;
+        }
+        
+        /* Buttons container */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0 15px;
+            flex-wrap: wrap;
+        }
+        
+        /* Button styles */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            min-width: 180px;
+        }
+        
+        /* Copy Email Button */
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Send Email Button */
+        .send-btn {
+            background: white;
+            color: #6366f1;
+            border: 2px solid white;
+        }
+        
+        .send-btn:hover {
+            background: #f8fafc;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .action-btn i {
+            font-size: 18px;
+        }
+        
+        /* Success animation for copy */
+        .copy-btn.copied {
+            background: #10b981;
+            border-color: #10b981;
+            animation: pulse 0.5s ease;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         /* Print styles */
         @media print {
             body {
@@ -394,6 +505,11 @@
             
             .watermark {
                 opacity: 0.1;
+            }
+            
+            .print-button,
+            .action-buttons {
+                display: none !important;
             }
         }
 
@@ -418,6 +534,10 @@
 
             .main-title {
                 font-size: 28px;
+            }
+            
+            .cta-box {
+                padding: 35px 25px;
             }
         }
 
@@ -452,6 +572,7 @@
             .steps-container,
             .benefits-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
             }
 
             .watermark,
@@ -461,19 +582,71 @@
             }
 
             .cta-box {
-                padding: 25px 15px;
+                padding: 30px 20px;
+                margin: 30px 0;
             }
 
             .cta-box h2 {
-                font-size: 20px;
+                font-size: 22px;
             }
 
             .cta-box p {
-                font-size: 15px;
+                font-size: 16px;
+                margin-bottom: 20px;
             }
 
             .contact-title {
                 font-size: 18px;
+            }
+            
+            /* Email display mobile */
+            .email-display {
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .email-address {
+                font-size: 16px;
+                text-align: center;
+                padding-right: 0;
+                width: 100%;
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 5px;
+            }
+            
+            /* Hide scrollbar but allow scroll */
+            .email-address::-webkit-scrollbar {
+                height: 3px;
+            }
+            
+            .email-address::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .email-address::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 2px;
+            }
+            
+            /* Action buttons mobile */
+            .action-buttons {
+                gap: 12px;
+            }
+            
+            .action-btn {
+                padding: 14px 22px;
+                font-size: 15px;
+                min-width: 160px;
+            }
+            
+            .toast {
+                bottom: 15px;
+                right: 15px;
+                left: 15px;
+                text-align: center;
+                justify-content: center;
             }
         }
 
@@ -493,7 +666,7 @@
 
             .step,
             .benefit {
-                padding: 18px;
+                padding: 18px 15px;
             }
 
             .social-links {
@@ -505,15 +678,69 @@
                 height: 35px;
             }
 
-            .email-line {
-                font-size: 14px;
-                padding: 12px;
-            }
-
             ul, ol {
                 margin-left: 15px;
             }
+            
+            .cta-box {
+                padding: 25px 15px;
+            }
+            
+            .cta-box h2 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+            
+            .cta-box p {
+                font-size: 15px;
+                margin-bottom: 15px;
+            }
+            
+            /* Action buttons small phones */
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .action-btn {
+                width: 100%;
+                max-width: 280px;
+                padding: 13px 20px;
+            }
+            
+            .email-display {
+                margin: 15px 0;
+            }
+            
+            .email-address {
+                font-size: 15px;
+            }
         }
+        
+        /* Extra Small Phones (≤ 360px) */
+        @media (max-width: 360px) {
+            .pdf-container {
+                padding: 20px 15px;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .main-title {
+                font-size: 20px;
+            }
+            
+            .email-address {
+                font-size: 14px;
+            }
+            
+            .action-btn {
+                font-size: 14px;
+                padding: 12px 18px;
+            }
+        }
+
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -723,12 +950,28 @@
                 <h2 style="margin-bottom: 20px; font-size: 24px;">
                     <i class="fas fa-rocket"></i> Ready to Start Your Journey?
                 </h2>
-                <p style="font-size: 18px; margin-bottom: 25px; opacity: 0.9;">
+                <p style="font-size: 18px; margin-bottom: 20px; opacity: 0.9;">
                     Join a community where students help students grow
                 </p>
-                <div class="email-line">
-                    quantumcoderstechlab@gmail.com
+                
+                <!-- Email Display -->
+                <div class="email-display">
+                    <div class="email-address" id="emailAddress">
+                        quantumcoderstechlab@gmail.com
+                    </div>
                 </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn copy-btn" id="copyEmailBtn">
+                        <i class="fas fa-copy"></i> Copy Email
+                    </button>
+                    
+                    <a href="#" class="action-btn send-btn" id="sendEmailBtn">
+                        <i class="fas fa-paper-plane"></i> Send Email
+                    </a>
+                </div>
+                
                 <p style="margin-top: 20px; font-size: 14px; opacity: 0.8;">
                     Send your application email today!
                 </p>
@@ -759,19 +1002,114 @@
         </div>
     </div>
     
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Email copied to clipboard!</span>
+    </div>
+    
     <script>
-        // Simple print functionality
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'p') {
-                e.preventDefault();
-                window.print();
-            }
-        });
-        
-        // Add "Save as PDF" button for convenience
         document.addEventListener('DOMContentLoaded', function() {
+            // Email data
+            const email = 'quantumcoderstechlab@gmail.com';
+            const emailSubject = '[Join Request] Your Name - College';
+            const emailBody = `Hello QuantumCoders Team,
+
+I am interested in joining the QuantumCoders Tech Lab community. Here are my details:
+
+Name: [Your Full Name]
+College: [Your College Name]
+Year & Branch: [Year of Study] - [Branch/Department]
+Programming Skills: [Languages/Technologies you know]
+Areas of Interest: [AI/Web Development/Mobile Apps/etc.]
+
+Why I want to join QuantumCoders:
+[Briefly explain why you want to join and what you hope to achieve]
+
+I have read and understood the joining process and time commitment requirements.
+
+Looking forward to your response.
+
+Best regards,
+[Your Full Name]`;
+
+            // Elements
+            const copyEmailBtn = document.getElementById('copyEmailBtn');
+            const sendEmailBtn = document.getElementById('sendEmailBtn');
+            const emailAddress = document.getElementById('emailAddress');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+
+            // Copy Email Functionality
+            copyEmailBtn.addEventListener('click', async function() {
+                try {
+                    await navigator.clipboard.writeText(email);
+                    
+                    // Show success state
+                    copyEmailBtn.classList.add('copied');
+                    copyEmailBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    
+                    // Show toast
+                    toastMessage.textContent = 'Email copied to clipboard!';
+                    toast.style.display = 'flex';
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        copyEmailBtn.classList.remove('copied');
+                        copyEmailBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Email';
+                    }, 2000);
+                    
+                } catch (err) {
+                    // Fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = email;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    // Show success with fallback
+                    copyEmailBtn.classList.add('copied');
+                    copyEmailBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    toastMessage.textContent = 'Email copied to clipboard!';
+                    toast.style.display = 'flex';
+                    
+                    setTimeout(() => {
+                        copyEmailBtn.classList.remove('copied');
+                        copyEmailBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Email';
+                    }, 2000);
+                }
+                
+                // Hide toast after 3 seconds
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 3000);
+            });
+
+            // Send Email Functionality
+            sendEmailBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Encode email components
+                const mailtoLink = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+                
+                // Try to open email client
+                window.open(mailtoLink, '_blank');
+                
+                // Show toast message
+                toastMessage.textContent = 'Opening email client...';
+                toast.style.display = 'flex';
+                
+                // Hide toast after 3 seconds
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 3000);
+            });
+
+            // Add "Save as PDF" button
             const printBtn = document.createElement('button');
             printBtn.innerHTML = '<i class="fas fa-print"></i> Save as PDF';
+            printBtn.className = 'print-button';
             printBtn.style.cssText = `
                 position: fixed;
                 bottom: 20px;
@@ -789,11 +1127,95 @@
                 align-items: center;
                 gap: 8px;
                 transition: all 0.3s ease;
+                font-family: 'Inter', sans-serif;
             `;
+            
             printBtn.onmouseover = () => printBtn.style.transform = 'translateY(-2px)';
             printBtn.onmouseout = () => printBtn.style.transform = 'translateY(0)';
             printBtn.onclick = () => window.print();
             document.body.appendChild(printBtn);
+
+            // Mobile responsive adjustments
+            function adjustForMobile() {
+                if (window.innerWidth <= 768) {
+                    printBtn.style.padding = '10px 20px';
+                    printBtn.style.fontSize = '14px';
+                    printBtn.style.bottom = '15px';
+                    printBtn.style.right = '15px';
+                } else {
+                    printBtn.style.padding = '12px 24px';
+                    printBtn.style.fontSize = '16px';
+                    printBtn.style.bottom = '20px';
+                    printBtn.style.right = '20px';
+                }
+                
+                if (window.innerWidth <= 480) {
+                    printBtn.style.padding = '8px 16px';
+                    printBtn.style.fontSize = '13px';
+                    printBtn.style.bottom = '10px';
+                    printBtn.style.right = '10px';
+                }
+            }
+            
+            // Initial adjustment
+            adjustForMobile();
+            window.addEventListener('resize', adjustForMobile);
+
+            // Print shortcut
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'p') {
+                    e.preventDefault();
+                    window.print();
+                }
+            });
+
+            // Auto-scroll email on small screens if needed
+            let scrollInterval;
+            const emailDisplay = document.querySelector('.email-display');
+            
+            function startEmailScroll() {
+                if (window.innerWidth <= 480 && emailAddress.scrollWidth > emailDisplay.clientWidth) {
+                    let position = 0;
+                    scrollInterval = setInterval(function() {
+                        position += 1;
+                        emailAddress.scrollLeft = position;
+                        
+                        if (position >= emailAddress.scrollWidth - emailDisplay.clientWidth) {
+                            position = 0;
+                            setTimeout(() => {
+                                emailAddress.scrollLeft = 0;
+                            }, 1000);
+                        }
+                    }, 50);
+                }
+            }
+            
+            function stopEmailScroll() {
+                if (scrollInterval) {
+                    clearInterval(scrollInterval);
+                }
+            }
+            
+            // Start auto-scroll on mobile if needed
+            if (window.innerWidth <= 480) {
+                startEmailScroll();
+            }
+            
+            // Handle window resize for auto-scroll
+            window.addEventListener('resize', function() {
+                stopEmailScroll();
+                if (window.innerWidth <= 480) {
+                    setTimeout(startEmailScroll, 500);
+                }
+            });
+            
+            // Pause scroll on hover/touch
+            emailDisplay.addEventListener('mouseenter', stopEmailScroll);
+            emailDisplay.addEventListener('mouseleave', function() {
+                if (window.innerWidth <= 480) {
+                    startEmailScroll();
+                }
+            });
         });
     </script>
 </body>
