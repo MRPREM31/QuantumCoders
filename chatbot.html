@@ -46,6 +46,30 @@
     <link rel="manifest" href="/manifest.json">
     
     <style>
+        /* ===== CSS RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            overscroll-behavior: none;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            font-weight: 400;
+            font-size: 16px;
+            touch-action: pan-y;
+        }
+
         /* ===== CSS VARIABLES ===== */
         :root {
             /* Dark Theme (Default) */
@@ -66,42 +90,43 @@
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
             --bg-tertiary: #334155;
-            --bg-surface: rgba(30, 41, 59, 0.85);
-            --bg-overlay: rgba(15, 23, 42, 0.95);
-            --bg-glass: rgba(30, 41, 59, 0.6);
+            --bg-surface: rgba(30, 41, 59, 0.95);
+            --bg-overlay: rgba(15, 23, 42, 0.98);
+            --bg-glass: rgba(30, 41, 59, 0.8);
             
-            --border-color: rgba(99, 102, 241, 0.25);
-            --border-light: rgba(99, 102, 241, 0.15);
-            --border-heavy: rgba(99, 102, 241, 0.4);
+            --border-color: rgba(99, 102, 241, 0.2);
+            --border-light: rgba(99, 102, 241, 0.1);
+            --border-heavy: rgba(99, 102, 241, 0.3);
             
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
             --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
             --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
             --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.7);
-            --shadow-primary: 0 0 25px rgba(99, 102, 241, 0.3);
-            --shadow-accent: 0 0 20px rgba(6, 182, 212, 0.3);
+            --shadow-primary: 0 0 20px rgba(99, 102, 241, 0.3);
+            --shadow-accent: 0 0 15px rgba(6, 182, 212, 0.3);
             
             --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             --gradient-dark: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
             --gradient-accent: linear-gradient(135deg, var(--accent-color), var(--accent-light));
-            --gradient-surface: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.15));
+            --gradient-surface: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(6, 182, 212, 0.1));
             
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 16px;
-            --radius-xl: 24px;
+            --radius-xl: 20px;
             --radius-full: 9999px;
             
             --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
             --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
             --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
             
-            --blur-sm: blur(12px);
-            --blur-md: blur(20px);
-            --blur-lg: blur(30px);
+            --blur-sm: blur(8px);
+            --blur-md: blur(16px);
+            --blur-lg: blur(24px);
             
             --header-height: 64px;
-            --input-height: 60px;
+            --input-height: 56px;
+            --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         [data-theme="light"] {
@@ -119,52 +144,26 @@
             --bg-primary: #ffffff;
             --bg-secondary: #f9fafb;
             --bg-tertiary: #f3f4f6;
-            --bg-surface: rgba(255, 255, 255, 0.9);
+            --bg-surface: rgba(255, 255, 255, 0.95);
             --bg-overlay: rgba(255, 255, 255, 0.98);
-            --bg-glass: rgba(255, 255, 255, 0.7);
+            --bg-glass: rgba(255, 255, 255, 0.9);
             
-            --border-color: rgba(79, 70, 229, 0.2);
+            --border-color: rgba(79, 70, 229, 0.15);
             --border-light: rgba(79, 70, 229, 0.1);
-            --border-heavy: rgba(79, 70, 229, 0.3);
+            --border-heavy: rgba(79, 70, 229, 0.2);
             
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
-            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.2);
-            --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.25);
-            --shadow-primary: 0 0 20px rgba(79, 70, 229, 0.2);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.2);
+            --shadow-primary: 0 0 15px rgba(79, 70, 229, 0.2);
         }
 
-        /* ===== BASE STYLES ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            overscroll-behavior: none;
-        }
-
+        /* Apply theme colors */
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             color: var(--text-primary);
             background: var(--bg-primary);
-            line-height: 1.6;
-            font-weight: 400;
-            font-size: 16px;
             transition: background-color var(--transition-slow), color var(--transition-slow);
-            touch-action: pan-y;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                font-size: 15px;
-            }
         }
 
         .code-font {
@@ -174,8 +173,8 @@
 
         /* ===== CUSTOM SCROLLBAR ===== */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
 
         ::-webkit-scrollbar-track {
@@ -184,7 +183,7 @@
 
         ::-webkit-scrollbar-thumb {
             background: var(--border-color);
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -220,29 +219,14 @@
         }
 
         .loader-spinner {
-            width: 56px;
-            height: 56px;
+            width: 48px;
+            height: 48px;
             border: 3px solid transparent;
             border-top-color: var(--primary-color);
             border-right-color: var(--accent-color);
             border-radius: 50%;
             animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-
-        .loader-spinner::after {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: -8px;
-            right: -8px;
-            bottom: -8px;
-            border: 2px solid transparent;
-            border-top-color: var(--primary-light);
-            border-radius: 50%;
-            animation: spin 2s linear infinite reverse;
-            opacity: 0.5;
+            margin: 0 auto 16px;
         }
 
         @keyframes spin {
@@ -257,67 +241,36 @@
             left: 0;
             right: 0;
             height: var(--header-height);
-            background: var(--bg-glass);
+            background: var(--bg-surface);
             backdrop-filter: var(--blur-md);
             -webkit-backdrop-filter: var(--blur-md);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 16px;
             z-index: 1000;
-            gap: 16px;
+            gap: 12px;
             transition: all var(--transition);
-        }
-
-        .navbar.scrolled {
-            background: var(--bg-surface);
-            box-shadow: var(--shadow-md);
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                height: 60px;
-                padding: 0 16px;
-                gap: 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .navbar {
-                height: 56px;
-                gap: 10px;
-            }
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             text-decoration: none;
-            transition: transform var(--transition-fast);
-        }
-
-        .logo:hover {
-            transform: translateY(-1px);
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: var(--radius-md);
             background: var(--gradient-primary);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-white);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             box-shadow: var(--shadow-primary);
-            transition: all var(--transition-fast);
-        }
-
-        .logo:hover .logo-icon {
-            transform: rotate(15deg);
-            box-shadow: var(--shadow-accent);
         }
 
         .logo-text {
@@ -327,19 +280,17 @@
 
         .logo-title {
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -0.01em;
         }
 
         .logo-subtitle {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
             margin-top: -2px;
-            font-weight: 500;
         }
 
         .nav-spacer {
@@ -347,8 +298,8 @@
         }
 
         .nav-btn {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: var(--radius-md);
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -358,58 +309,26 @@
             justify-content: center;
             cursor: pointer;
             transition: all var(--transition-fast);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--gradient-primary);
-            opacity: 0;
-            transition: opacity var(--transition-fast);
         }
 
         .nav-btn:hover {
             background: var(--bg-tertiary);
             border-color: var(--primary-color);
             color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .nav-btn:hover::before {
-            opacity: 0.1;
-        }
-
-        .nav-btn.active {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: var(--text-white);
-            box-shadow: var(--shadow-primary);
         }
 
         .nav-btn i {
-            position: relative;
-            z-index: 1;
-            font-size: 1.1rem;
-        }
-
-        @media (max-width: 768px) {
-            .nav-btn {
-                width: 42px;
-                height: 42px;
-            }
+            font-size: 1rem;
         }
 
         /* ===== MENU PANEL ===== */
         .menu-panel {
             position: fixed;
             top: calc(var(--header-height) + 8px);
-            right: 20px;
-            width: 300px;
-            background: var(--bg-glass);
+            right: 16px;
+            width: 280px;
+            max-width: calc(100vw - 32px);
+            background: var(--bg-surface);
             backdrop-filter: var(--blur-lg);
             -webkit-backdrop-filter: var(--blur-lg);
             border: 1px solid var(--border-color);
@@ -419,7 +338,7 @@
             z-index: 1001;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(-15px) scale(0.95);
+            transform: translateY(-10px) scale(0.95);
             transition: all var(--transition);
         }
 
@@ -429,26 +348,8 @@
             transform: translateY(0) scale(1);
         }
 
-        @media (max-width: 768px) {
-            .menu-panel {
-                top: calc(60px + 8px);
-                right: 16px;
-                left: 16px;
-                width: auto;
-                max-width: 400px;
-                margin: 0 auto;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .menu-panel {
-                top: calc(56px + 8px);
-                border-radius: var(--radius-md);
-            }
-        }
-
         .menu-section {
-            padding: 16px 0;
+            padding: 12px 0;
         }
 
         .menu-section + .menu-section {
@@ -456,95 +357,57 @@
         }
 
         .menu-item {
-            padding: 12px 20px;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             cursor: pointer;
-            transition: all var(--transition-fast);
+            transition: background-color var(--transition-fast);
             color: var(--text-primary);
             text-decoration: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: var(--gradient-primary);
-            transform: translateX(-100%);
-            transition: transform var(--transition);
         }
 
         .menu-item:hover {
             background: var(--bg-tertiary);
         }
 
-        .menu-item:hover::before {
-            transform: translateX(0);
-        }
-
         .menu-item-icon {
-            width: 20px;
+            width: 18px;
             color: var(--text-secondary);
-            text-align: center;
-            position: relative;
-            z-index: 1;
         }
 
         .menu-item-text {
             flex: 1;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            position: relative;
-            z-index: 1;
         }
 
         .menu-item-badge {
             background: var(--gradient-primary);
             color: var(--text-white);
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: var(--radius-full);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            letter-spacing: 0.02em;
-            position: relative;
-            z-index: 1;
-            box-shadow: var(--shadow-sm);
         }
 
         /* ===== CHAT CONTAINER ===== */
         .chat-container {
             height: 100vh;
-            padding-top: 0;
+            padding-top: var(--header-height);
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
         }
 
-        @media (max-width: 768px) {
-            .chat-container {
-                padding-top: 0px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .chat-container {
-                padding-top: 0px;
-            }
-        }
-
         /* ===== QUICK ACTIONS ===== */
         .quick-actions {
-            padding: 16px 20px;
+            flex-shrink: 0;
+            padding: 12px 16px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
-            gap: 10px;
+            gap: 8px;
             overflow-x: auto;
             overflow-y: hidden;
             scrollbar-width: none;
@@ -552,228 +415,144 @@
             background: var(--bg-surface);
             backdrop-filter: var(--blur-sm);
             -webkit-backdrop-filter: var(--blur-sm);
-            position: sticky;
-            top: var(--header-height);
-            z-index: 100;
-            min-height: 70px;
-            align-items: center;
         }
 
         .quick-actions::-webkit-scrollbar {
             display: none;
         }
 
-        @media (max-width: 768px) {
-            .quick-actions {
-                padding: 14px 16px;
-                top: 60px;
-                min-height: 66px;
-                gap: 8px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .quick-actions {
-                padding: 12px 16px;
-                top: 56px;
-                min-height: 62px;
-            }
-        }
-
         .quick-btn {
-            padding: 10px 18px;
+            padding: 8px 14px;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-full);
             color: var(--text-primary);
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 500;
             cursor: pointer;
             transition: all var(--transition-fast);
             white-space: nowrap;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quick-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--gradient-primary);
-            opacity: 0;
-            transition: opacity var(--transition-fast);
         }
 
         .quick-btn:hover {
             background: var(--bg-tertiary);
             border-color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .quick-btn:hover::before {
-            opacity: 0.1;
-        }
-
-        .quick-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
         .quick-btn i {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--primary-color);
-            position: relative;
-            z-index: 1;
         }
 
-        .quick-btn span {
-            position: relative;
-            z-index: 1;
-        }
-
-        @media (max-width: 640px) {
-            .quick-btn {
-                padding: 9px 16px;
-                font-size: 0.85rem;
-            }
-            
-            .quick-btn span {
-                display: none;
-            }
-            
-            .quick-btn i {
-                margin: 0;
-            }
-        }
-
-        /* ===== CHAT MESSAGES ===== */
+        /* ===== CHAT MESSAGES AREA ===== */
         .chat-messages {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 24px 20px 140px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
-            scroll-behavior: smooth;
+            gap: 16px;
+            -webkit-overflow-scrolling: touch;
         }
 
+        /* Mobile optimizations */
         @media (max-width: 768px) {
             .chat-messages {
-                padding: 20px 16px 130px;
-                gap: 20px;
+                padding: 12px;
+                gap: 12px;
             }
         }
 
-        @media (max-width: 480px) {
-            .chat-messages {
-                padding: 16px 12px 120px;
-                gap: 16px;
-            }
-        }
-
+        /* ===== MESSAGE BUBBLES ===== */
         .message {
-            max-width: 85%;
-            min-width: 120px;
-            animation: messageSlide 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
+            max-width: 88%;
+            min-width: 60px;
+            animation: messageSlide 300ms ease-out;
         }
 
         @keyframes messageSlide {
             from {
                 opacity: 0;
-                transform: translateY(20px) scale(0.95);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
 
         .message.user {
             margin-left: auto;
-            animation-name: messageSlideUser;
-        }
-
-        @keyframes messageSlideUser {
-            from {
-                opacity: 0;
-                transform: translateY(20px) translateX(20px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) translateX(0) scale(1);
-            }
         }
 
         .message.bot {
             margin-right: auto;
-            animation-name: messageSlideBot;
-        }
-
-        @keyframes messageSlideBot {
-            from {
-                opacity: 0;
-                transform: translateY(20px) translateX(-20px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) translateX(0) scale(1);
-            }
         }
 
         .message-bubble {
-            padding: 16px 20px;
-            border-radius: var(--radius-lg);
+            padding: 12px 16px;
+            border-radius: var(--radius-xl);
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             position: relative;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            box-shadow: var(--shadow-sm);
-            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
         }
 
         .message.user .message-bubble {
             background: var(--primary-color);
             border-color: var(--primary-color);
             color: var(--text-white);
-            box-shadow: var(--shadow-primary);
+            border-bottom-right-radius: var(--radius-sm);
         }
 
         .message.bot .message-bubble {
             background: var(--bg-secondary);
+            border-bottom-left-radius: var(--radius-sm);
         }
 
-        .message:hover .message-bubble {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
+        /* Mobile message width optimization */
+        @media (max-width: 640px) {
+            .message {
+                max-width: 92%;
+            }
+            
+            .message-bubble {
+                padding: 10px 14px;
+            }
         }
 
-        .message.user:hover .message-bubble {
-            box-shadow: var(--shadow-primary), 0 5px 20px rgba(0, 0, 0, 0.3);
+        @media (max-width: 480px) {
+            .message {
+                max-width: 95%;
+            }
         }
 
         .message-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
+            margin-bottom: 6px;
+            padding-bottom: 6px;
             border-bottom: 1px solid var(--border-light);
+        }
+
+        .message.user .message-header {
+            border-bottom-color: rgba(255, 255, 255, 0.2);
         }
 
         .message-sender {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
+            gap: 6px;
+            font-size: 0.8rem;
             font-weight: 600;
-            color: var(--text-secondary);
         }
 
         .message.bot .message-sender {
@@ -786,18 +565,12 @@
 
         .message-actions {
             display: flex;
-            gap: 6px;
-            opacity: 0;
-            transition: opacity var(--transition-fast);
-        }
-
-        .message:hover .message-actions {
-            opacity: 1;
+            gap: 4px;
         }
 
         .message-action-btn {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             border-radius: var(--radius-sm);
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
@@ -807,29 +580,33 @@
             justify-content: center;
             cursor: pointer;
             transition: all var(--transition-fast);
-            font-size: 0.8rem;
+            font-size: 0.7rem;
+        }
+
+        .message.user .message-action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .message-action-btn:hover {
             background: var(--primary-color);
             border-color: var(--primary-color);
             color: var(--text-white);
-            transform: scale(1.1);
         }
 
         .message-content {
-            line-height: 1.7;
+            line-height: 1.6;
             font-size: 0.95rem;
         }
 
         .message-time {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-tertiary);
-            margin-top: 8px;
-            padding: 0 4px;
+            margin-top: 6px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
         .message.user .message-time {
@@ -838,101 +615,63 @@
         }
 
         .time-icon {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
         }
 
-        /* Enhanced markdown styling */
+        /* Markdown styling */
         .message-content strong {
             color: var(--primary-color);
-            font-weight: 700;
+            font-weight: 600;
         }
 
         .message.user .message-content strong {
             color: rgba(255, 255, 255, 0.95);
         }
 
-        .message-content em {
-            color: var(--text-secondary);
-            font-style: italic;
-        }
-
         .message-content code:not(.code-font) {
             background: var(--bg-tertiary);
-            padding: 2px 6px;
+            padding: 2px 5px;
             border-radius: var(--radius-sm);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--primary-color);
         }
 
-        .message-content ul, 
-        .message-content ol {
-            padding-left: 20px;
-            margin: 8px 0;
-        }
-
-        .message-content li {
-            margin: 4px 0;
-        }
-
-        .message-content a {
-            color: var(--accent-color);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: border-color var(--transition-fast);
-        }
-
-        .message-content a:hover {
-            border-bottom-color: var(--accent-color);
+        .message.user .message-content code:not(.code-font) {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
         }
 
         /* ===== TYPING INDICATOR ===== */
         .typing-indicator {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 16px 20px;
+            gap: 10px;
+            padding: 12px 16px;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-xl);
             width: fit-content;
-            animation: slideIn 300ms ease-out;
-            box-shadow: var(--shadow-sm);
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            border-bottom-left-radius: var(--radius-sm);
         }
 
         .typing-text {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
             color: var(--text-secondary);
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .typing-dots {
             display: flex;
-            gap: 6px;
+            gap: 4px;
         }
 
         .typing-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: var(--primary-color);
             border-radius: 50%;
-            animation: typingPulse 1.6s infinite;
-            animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            animation: typingPulse 1.4s infinite;
         }
 
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
@@ -944,29 +683,22 @@
                 opacity: 0.3; 
             }
             30% { 
-                transform: translateY(-6px); 
+                transform: translateY(-4px); 
                 opacity: 1; 
             }
         }
 
         /* ===== CODE BLOCKS ===== */
         .code-block {
-            margin: 16px 0;
+            margin: 12px 0;
             background: var(--bg-primary);
             border-radius: var(--radius-md);
             overflow: hidden;
             border: 1px solid var(--border-heavy);
-            box-shadow: var(--shadow-sm);
-            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-        }
-
-        .code-block:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
         }
 
         .code-header {
-            padding: 10px 16px;
+            padding: 8px 12px;
             background: var(--bg-tertiary);
             border-bottom: 1px solid var(--border-color);
             display: flex;
@@ -975,43 +707,35 @@
         }
 
         .code-lang {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--primary-color);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
 
         .code-copy {
-            padding: 6px 12px;
+            padding: 4px 8px;
             background: transparent;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
             color: var(--text-secondary);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
             cursor: pointer;
             transition: all var(--transition-fast);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
         .code-copy:hover {
             background: var(--primary-color);
             border-color: var(--primary-color);
             color: var(--text-white);
-            transform: translateY(-1px);
-        }
-
-        .code-copy.copied {
-            background: var(--success-color);
-            border-color: var(--success-color);
-            color: var(--text-white);
         }
 
         .code-content {
-            padding: 16px;
+            padding: 12px;
             overflow-x: auto;
             background: var(--bg-primary);
         }
@@ -1019,8 +743,8 @@
         .code-content pre {
             margin: 0;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            line-height: 1.5;
+            font-size: 0.8rem;
+            line-height: 1.4;
             color: var(--text-primary);
             white-space: pre;
             tab-size: 2;
@@ -1028,44 +752,19 @@
 
         /* ===== INPUT AREA ===== */
         .input-area {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--bg-glass);
-            backdrop-filter: var(--blur-lg);
-            -webkit-backdrop-filter: var(--blur-lg);
+            flex-shrink: 0;
+            padding: 16px;
+            padding-bottom: calc(16px + var(--safe-area-inset-bottom));
+            background: var(--bg-surface);
+            backdrop-filter: var(--blur-md);
+            -webkit-backdrop-filter: var(--blur-md);
             border-top: 1px solid var(--border-color);
-            padding: 20px;
-            z-index: 100;
-            box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.3);
-            transition: transform var(--transition);
-        }
-
-        @media (max-width: 768px) {
-            .input-area {
-                padding: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .input-area {
-                padding: 14px 12px;
-            }
         }
 
         .input-wrapper {
-            max-width: 900px;
-            margin: 0 auto;
             display: flex;
-            gap: 16px;
+            gap: 12px;
             align-items: flex-end;
-        }
-
-        @media (max-width: 768px) {
-            .input-wrapper {
-                gap: 12px;
-            }
         }
 
         .input-container {
@@ -1075,46 +774,44 @@
 
         #messageInput {
             width: 100%;
-            min-height: 56px;
-            max-height: 150px;
-            padding: 16px 20px;
-            padding-right: 50px;
-            background: var(--bg-surface);
+            min-height: 44px;
+            max-height: 120px;
+            padding: 12px 16px;
+            padding-right: 40px;
+            background: var(--bg-secondary);
             border: 2px solid var(--border-color);
             border-radius: var(--radius-lg);
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             resize: none;
             outline: none;
             transition: all var(--transition);
-            line-height: 1.6;
+            line-height: 1.5;
             scrollbar-width: thin;
         }
 
         #messageInput:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
-            background: var(--bg-secondary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
         #messageInput::placeholder {
             color: var(--text-tertiary);
-            font-weight: 400;
         }
 
         .input-actions {
             position: absolute;
-            right: 12px;
-            bottom: 12px;
+            right: 8px;
+            bottom: 8px;
             display: flex;
-            gap: 6px;
+            gap: 4px;
         }
 
         .input-action {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius-md);
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-sm);
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
@@ -1123,18 +820,18 @@
             align-items: center;
             justify-content: center;
             transition: all var(--transition-fast);
+            font-size: 0.8rem;
         }
 
         .input-action:hover {
             background: var(--primary-color);
             border-color: var(--primary-color);
             color: var(--text-white);
-            transform: translateY(-1px);
         }
 
         .send-btn {
-            width: 56px;
-            height: 56px;
+            width: 44px;
+            height: 44px;
             border-radius: var(--radius-lg);
             background: var(--gradient-primary);
             border: none;
@@ -1144,97 +841,33 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-primary);
-        }
-
-        .send-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--gradient-dark);
-            opacity: 0;
-            transition: opacity var(--transition);
+            flex-shrink: 0;
         }
 
         .send-btn:hover:not(:disabled) {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .send-btn:hover:not(:disabled)::before {
-            opacity: 1;
-        }
-
-        .send-btn:active:not(:disabled) {
             transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .send-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none !important;
         }
 
         .send-btn i {
-            font-size: 1.2rem;
-            position: relative;
-            z-index: 1;
-            transition: transform var(--transition);
-        }
-
-        .send-btn:hover:not(:disabled) i {
-            transform: translateX(2px);
-        }
-
-        @media (max-width: 768px) {
-            #messageInput {
-                min-height: 52px;
-                padding: 14px 18px;
-                padding-right: 46px;
-            }
-            
-            .send-btn {
-                width: 52px;
-                height: 52px;
-            }
-            
-            .input-action {
-                width: 34px;
-                height: 34px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #messageInput {
-                min-height: 48px;
-                padding: 12px 16px;
-                padding-right: 42px;
-                font-size: 0.95rem;
-            }
-            
-            .send-btn {
-                width: 48px;
-                height: 48px;
-            }
-            
-            .input-action {
-                width: 32px;
-                height: 32px;
-            }
+            font-size: 1rem;
         }
 
         /* ===== SHORTCUTS BAR ===== */
         .shortcuts-bar {
             position: fixed;
-            bottom: 90px;
+            bottom: 80px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
             display: flex;
-            gap: 10px;
-            padding: 10px;
-            background: var(--bg-glass);
+            gap: 8px;
+            padding: 8px;
+            background: var(--bg-surface);
             backdrop-filter: var(--blur-lg);
             -webkit-backdrop-filter: var(--blur-lg);
             border: 1px solid var(--border-color);
@@ -1252,23 +885,9 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        @media (max-width: 768px) {
-            .shortcuts-bar {
-                bottom: 85px;
-                padding: 8px;
-                gap: 8px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .shortcuts-bar {
-                bottom: 80px;
-            }
-        }
-
         .shortcut-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: var(--radius-md);
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
@@ -1278,213 +897,264 @@
             align-items: center;
             justify-content: center;
             transition: all var(--transition-fast);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .shortcut-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--gradient-primary);
-            opacity: 0;
-            transition: opacity var(--transition-fast);
         }
 
         .shortcut-btn:hover {
             background: var(--bg-tertiary);
             border-color: var(--primary-color);
             color: var(--primary-color);
-            transform: translateY(-3px) scale(1.1);
-        }
-
-        .shortcut-btn:hover::before {
-            opacity: 0.1;
-        }
-
-        .shortcut-btn:active {
-            transform: translateY(-1px) scale(1.05);
         }
 
         .shortcut-btn i {
-            position: relative;
-            z-index: 1;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         /* ===== NOTIFICATION ===== */
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            max-width: 360px;
-            padding: 16px 20px;
-            background: var(--bg-glass);
+            top: 16px;
+            right: 16px;
+            max-width: 320px;
+            padding: 12px 16px;
+            background: var(--bg-surface);
             backdrop-filter: var(--blur-lg);
             -webkit-backdrop-filter: var(--blur-lg);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-xl);
-            transform: translateX(120%) translateY(0);
+            transform: translateX(120%);
             transition: transform var(--transition);
             z-index: 2000;
-            animation: notificationSlide var(--transition) forwards;
-        }
-
-        @keyframes notificationSlide {
-            to {
-                transform: translateX(0) translateY(0);
-            }
         }
 
         .notification.show {
-            animation: notificationSlide var(--transition) forwards;
+            transform: translateX(0);
         }
 
         .notification.hide {
-            animation: notificationSlideOut var(--transition) forwards;
-        }
-
-        @keyframes notificationSlideOut {
-            from {
-                transform: translateX(0) translateY(0);
-            }
-            to {
-                transform: translateX(120%) translateY(0);
-            }
+            transform: translateX(120%);
         }
 
         .notification-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 6px;
+            gap: 8px;
+            margin-bottom: 4px;
         }
 
         .notification-icon {
             color: var(--primary-color);
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .notification-title {
             font-weight: 700;
-            font-size: 0.95rem;
-            color: var(--text-primary);
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .notification-message {
             font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        /* ===== WELCOME MESSAGE STYLES ===== */
-        .welcome-message .message-bubble {
-            background: var(--gradient-surface);
-            border: 1px solid var(--border-heavy);
-            box-shadow: var(--shadow-md);
-        }
-
-        .welcome-message .message-content {
-            font-size: 1rem;
-        }
-
-        .welcome-message .message-content strong {
-            font-size: 1.1rem;
             color: var(--primary-color);
         }
 
-        /* ===== RESPONSIVE ADJUSTMENTS ===== */
-        @media (max-width: 1024px) {
-            .message {
-                max-width: 90%;
-            }
+        .notification-message {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
 
+        /* ===== WELCOME MESSAGE ===== */
+        .welcome-message .message-bubble {
+            background: var(--gradient-surface);
+            border: 1px solid var(--border-heavy);
+        }
+
+        .welcome-message .message-content {
+            font-size: 0.95rem;
+        }
+
+        .welcome-message .message-content strong {
+            font-size: 1rem;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 768px) {
-            .message {
-                max-width: 92%;
+            :root {
+                --header-height: 56px;
+                --input-height: 48px;
             }
-            
-            .message-bubble {
-                padding: 14px 18px;
-            }
-            
-            .message-content {
-                font-size: 0.92rem;
-            }
-        }
 
-        @media (max-width: 640px) {
-            .message {
-                max-width: 95%;
+            .navbar {
+                padding: 0 12px;
+                height: 56px;
             }
-            
-            .message-bubble {
-                padding: 12px 16px;
+
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
             }
-            
-            .message-actions {
-                opacity: 1; /* Always show on mobile */
+
+            .logo-title {
+                font-size: 1rem;
             }
-            
-            .quick-btn span {
-                display: none;
+
+            .nav-btn {
+                width: 36px;
+                height: 36px;
             }
-            
+
+            .chat-container {
+                padding-top: 56px;
+            }
+
+            .quick-actions {
+                padding: 10px 12px;
+            }
+
             .quick-btn {
-                padding: 10px;
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            #messageInput {
+                min-height: 40px;
+                padding: 10px 14px;
+                font-size: 0.9rem;
+            }
+
+            .send-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .input-action {
+                width: 26px;
+                height: 26px;
+            }
+
+            .shortcuts-bar {
+                bottom: 70px;
             }
         }
 
         @media (max-width: 480px) {
-            .message {
-                max-width: 96%;
+            :root {
+                --header-height: 52px;
             }
-            
+
+            .navbar {
+                height: 52px;
+                padding: 0 10px;
+                gap: 8px;
+            }
+
+            .logo-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9rem;
+            }
+
+            .logo-title {
+                font-size: 0.9rem;
+            }
+
+            .logo-subtitle {
+                font-size: 0.7rem;
+            }
+
+            .nav-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .nav-btn i {
+                font-size: 0.9rem;
+            }
+
+            .chat-container {
+                padding-top: 52px;
+            }
+
+            .quick-actions {
+                padding: 8px 10px;
+            }
+
+            .quick-btn {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+            }
+
+            .quick-btn span {
+                display: none;
+            }
+
+            .quick-btn i {
+                margin: 0;
+            }
+
+            .chat-messages {
+                padding: 10px;
+                gap: 10px;
+            }
+
             .message-bubble {
                 padding: 10px 14px;
             }
-            
+
             .message-content {
                 font-size: 0.9rem;
             }
-            
+
+            .input-area {
+                padding: 12px;
+                padding-bottom: calc(12px + var(--safe-area-inset-bottom));
+            }
+
+            #messageInput {
+                min-height: 38px;
+                padding: 9px 12px;
+                font-size: 0.85rem;
+            }
+
+            .send-btn {
+                width: 38px;
+                height: 38px;
+            }
+
+            .input-action {
+                width: 24px;
+                height: 24px;
+            }
+
             .shortcuts-bar {
-                bottom: 75px;
+                bottom: 65px;
                 padding: 6px;
                 gap: 6px;
             }
-            
+
             .shortcut-btn {
-                width: 36px;
-                height: 36px;
+                width: 32px;
+                height: 32px;
+            }
+
+            .shortcut-btn i {
+                font-size: 0.8rem;
             }
         }
 
         @media (max-width: 360px) {
-            .navbar {
-                padding: 0 12px;
+            .message-bubble {
+                padding: 8px 12px;
             }
             
-            .logo-title {
-                font-size: 1.1rem;
-            }
-            
-            .quick-actions {
-                padding: 10px 12px;
-            }
-            
-            .chat-messages {
-                padding: 12px 8px 110px;
+            .message-content {
+                font-size: 0.85rem;
             }
             
             .input-area {
-                padding: 12px 8px;
+                padding: 10px;
+                padding-bottom: calc(10px + var(--safe-area-inset-bottom));
+            }
+            
+            .shortcuts-bar {
+                bottom: 60px;
             }
         }
 
@@ -1512,51 +1182,6 @@
             background-clip: text;
         }
 
-        .glass-effect {
-            background: var(--bg-glass);
-            backdrop-filter: var(--blur-md);
-            -webkit-backdrop-filter: var(--blur-md);
-        }
-
-        .fade-in {
-            animation: fadeIn 500ms ease-out;
-        }
-
-        .slide-up {
-            animation: slideUp 400ms ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ===== PULSE ANIMATION FOR NEW MESSAGES ===== */
-        @keyframes pulse-glow {
-            0%, 100% {
-                box-shadow: var(--shadow-primary);
-            }
-            50% {
-                box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
-            }
-        }
-
-        .message.new {
-            animation: pulse-glow 2s ease-in-out;
-        }
-
-        /* ===== SMOOTH SCROLLING ===== */
-        .chat-messages {
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-
         /* ===== TOUCH OPTIMIZATIONS ===== */
         @media (hover: none) and (pointer: coarse) {
             .nav-btn:hover,
@@ -1569,8 +1194,9 @@
                 transform: none !important;
             }
             
-            .message:hover .message-actions {
-                opacity: 1;
+            .message-action-btn {
+                width: 28px;
+                height: 28px;
             }
             
             .input-action,
@@ -1599,7 +1225,7 @@
     <div id="loader">
         <div class="loader-content">
             <div class="loader-spinner"></div>
-            <div class="text-secondary" style="margin-top: 16px; font-weight: 500;">Initializing Quantum AI...</div>
+            <div style="margin-top: 16px; color: var(--text-secondary); font-weight: 500;">Initializing Quantum AI...</div>
         </div>
     </div>
 
@@ -1783,6 +1409,7 @@
         let menuVisible = false;
         let shortcutsVisible = true;
         let currentTheme = localStorage.getItem('quantum-theme') || 'dark';
+        let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', () => {
@@ -1800,7 +1427,10 @@
             // Setup event listeners
             setupEventListeners();
             
-            // Hide loader with animation
+            // Setup scroll handling
+            setupScrollHandling();
+            
+            // Hide loader
             setTimeout(() => {
                 const loader = document.getElementById('loader');
                 loader.classList.add('hidden');
@@ -1808,16 +1438,13 @@
                     document.getElementById('messageInput').focus();
                     showNotification('Ready!', 'Quantum AI Assistant is ready to help you! 🚀');
                 }, 300);
-            }, 1200);
+            }, 1000);
             
             // Show shortcuts bar after delay
             setTimeout(() => {
                 const shortcutsBar = document.getElementById('shortcutsBar');
                 shortcutsBar.classList.add('show');
-            }, 1500);
-            
-            // Setup scroll effects
-            setupScrollEffects();
+            }, 1200);
             
             // Initialize PWA features
             if ('serviceWorker' in navigator) {
@@ -1825,12 +1452,65 @@
             }
         }
 
+        // ===== SCROLL HANDLING =====
+        function setupScrollHandling() {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Improved mobile scrolling
+            chatMessages.style.WebkitOverflowScrolling = 'touch';
+            
+            // Prevent pull-to-refresh on mobile
+            let startY = 0;
+            
+            chatMessages.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+                // Reset scroll position if at top
+                if (chatMessages.scrollTop === 0) {
+                    chatMessages.style.overflow = 'hidden';
+                }
+            }, { passive: true });
+            
+            chatMessages.addEventListener('touchmove', (e) => {
+                if (chatMessages.scrollTop === 0) {
+                    const currentY = e.touches[0].clientY;
+                    if (currentY > startY) {
+                        e.preventDefault();
+                    }
+                }
+            }, { passive: false });
+            
+            chatMessages.addEventListener('touchend', () => {
+                chatMessages.style.overflow = 'auto';
+            }, { passive: true });
+            
+            // Show/hide shortcuts bar on scroll
+            let scrollTimeout;
+            chatMessages.addEventListener('scroll', () => {
+                const shortcutsBar = document.getElementById('shortcutsBar');
+                const scrollBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight;
+                
+                clearTimeout(scrollTimeout);
+                
+                if (scrollBottom > 100) {
+                    shortcutsBar.classList.add('show');
+                } else {
+                    shortcutsBar.classList.remove('show');
+                }
+                
+                // Auto-hide shortcuts after scrolling stops
+                scrollTimeout = setTimeout(() => {
+                    if (scrollBottom < 50) {
+                        shortcutsBar.classList.remove('show');
+                    }
+                }, 500);
+            });
+        }
+
         // ===== THEME MANAGEMENT =====
         function toggleTheme() {
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             currentTheme = newTheme;
             
-            document.documentElement.style.transition = 'background-color 0.5s ease, color 0.5s ease';
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('quantum-theme', newTheme);
             updateThemeIcon(newTheme);
@@ -1839,20 +1519,11 @@
                 'Theme Changed',
                 `Switched to ${newTheme === 'dark' ? 'Dark' : 'Light'} Mode 🌓`
             );
-            
-            setTimeout(() => {
-                document.documentElement.style.transition = '';
-            }, 500);
         }
 
         function updateThemeIcon(theme) {
             const themeBtn = document.querySelector('.nav-btn[title="Toggle Theme"] i');
             themeBtn.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
-            themeBtn.style.transition = 'transform 0.3s ease';
-            themeBtn.style.transform = 'rotate(360deg)';
-            setTimeout(() => {
-                themeBtn.style.transform = 'rotate(0deg)';
-            }, 300);
         }
 
         // ===== MENU MANAGEMENT =====
@@ -1863,13 +1534,7 @@
             
             // Animate menu button
             const menuBtn = document.querySelector('.nav-btn[title="Menu"] i');
-            if (menuVisible) {
-                menuBtn.className = 'fas fa-times';
-                menuBtn.style.transform = 'rotate(180deg)';
-            } else {
-                menuBtn.className = 'fas fa-ellipsis-v';
-                menuBtn.style.transform = 'rotate(0deg)';
-            }
+            menuBtn.className = menuVisible ? 'fas fa-times' : 'fas fa-ellipsis-v';
             
             // Close menu when clicking outside
             if (menuVisible) {
@@ -1890,35 +1555,9 @@
                 menu.classList.remove('show');
                 document.removeEventListener('click', closeMenuOnClickOutside);
                 
-                // Reset menu button icon
                 const menuBtnIcon = menuBtn.querySelector('i');
                 menuBtnIcon.className = 'fas fa-ellipsis-v';
-                menuBtnIcon.style.transform = 'rotate(0deg)';
             }
-        }
-
-        // ===== SCROLL EFFECTS =====
-        function setupScrollEffects() {
-            const navbar = document.getElementById('navbar');
-            const chatMessages = document.getElementById('chatMessages');
-            
-            chatMessages.addEventListener('scroll', () => {
-                if (chatMessages.scrollTop > 50) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-                
-                // Show/hide shortcuts bar based on scroll position
-                const shortcutsBar = document.getElementById('shortcutsBar');
-                const scrollBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight;
-                
-                if (scrollBottom > 100) {
-                    shortcutsBar.classList.add('show');
-                } else {
-                    shortcutsBar.classList.remove('show');
-                }
-            });
         }
 
         // ===== CHAT FUNCTIONS =====
@@ -1938,12 +1577,12 @@
         function addMessage(text, sender, animate = true, isNew = true) {
             const chatContainer = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender} ${isNew ? 'new' : ''}`;
+            messageDiv.className = `message ${sender}`;
             
-            // Format text with enhanced markdown
+            // Format text
             const formattedText = formatText(text);
             
-            // Get sender display name
+            // Get sender info
             const senderName = sender === 'user' ? 'You' : 'Quantum AI';
             const senderIcon = sender === 'user' ? 'fas fa-user' : 'fas fa-robot';
             
@@ -1973,21 +1612,15 @@
                 </div>
             `;
             
-            if (animate) {
-                messageDiv.style.animation = 'messageSlide 400ms cubic-bezier(0.34, 1.56, 0.64, 1)';
-            }
-            
             chatContainer.appendChild(messageDiv);
             
             if (animate) {
-                setTimeout(() => {
-                    scrollToBottom();
-                    messageDiv.classList.remove('new');
-                }, 100);
+                messageDiv.style.animation = 'messageSlide 300ms ease-out';
             }
             
-            // Initialize code blocks
+            // Scroll to new message
             setTimeout(() => {
+                scrollToBottom();
                 initializeCodeBlocks(messageDiv);
             }, 50);
             
@@ -1995,15 +1628,11 @@
         }
 
         function formatText(text) {
-            // Enhanced markdown formatting
             return text
-                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
                 .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
                 .replace(/\n/g, '<br>')
                 .replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => `
                     <div class="code-block">
@@ -2017,12 +1646,7 @@
                             <pre>${code.trim()}</pre>
                         </div>
                     </div>
-                `)
-                .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-                .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
-                .replace(/\n- (.*)/g, '\n<li>$1</li>')
-                .replace(/\n\d+\. (.*)/g, '\n<li>$1</li>')
-                .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+                `);
         }
 
         function addTypingIndicator() {
@@ -2031,7 +1655,7 @@
             typingDiv.className = 'typing-indicator';
             typingDiv.id = 'typingIndicator';
             typingDiv.innerHTML = `
-                <div class="typing-text">Quantum AI is thinking...</div>
+                <div class="typing-text">Thinking...</div>
                 <div class="typing-dots">
                     <div class="typing-dot"></div>
                     <div class="typing-dot"></div>
@@ -2045,12 +1669,7 @@
         function removeTypingIndicator() {
             const typingIndicator = document.getElementById('typingIndicator');
             if (typingIndicator) {
-                typingIndicator.style.animation = 'slideOut 300ms ease-out forwards';
-                setTimeout(() => {
-                    if (typingIndicator.parentNode) {
-                        typingIndicator.remove();
-                    }
-                }, 300);
+                typingIndicator.remove();
             }
         }
 
@@ -2070,19 +1689,19 @@
                 return;
             }
             
-            // Add user message with animation
+            // Add user message
             addMessage(message, 'user');
             saveMessage(message, 'user');
             
-            // Clear input with animation
+            // Clear input
             input.value = '';
             autoResize(input);
             focusInput();
             
-            // Show typing indicator with delay
-            setTimeout(() => addTypingIndicator(), 300);
+            // Show typing indicator
+            setTimeout(() => addTypingIndicator(), 200);
             
-            // Disable send button with visual feedback
+            // Disable send button
             isProcessing = true;
             const sendBtn = document.getElementById('sendBtn');
             sendBtn.disabled = true;
@@ -2107,19 +1726,14 @@
                 // Remove typing indicator
                 removeTypingIndicator();
                 
-                // Add bot response with slight delay for natural feel
+                // Add bot response
                 setTimeout(() => {
                     const botMessage = addMessage(data.reply, 'bot');
                     saveMessage(data.reply, 'bot');
                     
-                    // Play subtle notification sound if enabled
-                    if (localStorage.getItem('quantum-sound') !== 'false') {
-                        playNotificationSound();
-                    }
-                    
-                    // Show notification for new response
-                    showNotification('Response Received', 'Quantum AI has replied to your message!');
-                }, 500);
+                    // Show notification
+                    showNotification('Response Received', 'Quantum AI has replied!');
+                }, 300);
                 
             } catch (error) {
                 console.error('Chat error:', error);
@@ -2127,20 +1741,20 @@
                 // Remove typing indicator
                 removeTypingIndicator();
                 
-                // Show elegant fallback response
+                // Show fallback response
                 setTimeout(() => {
                     const fallbackResponses = [
-                        "I'm currently experiencing connectivity issues. QuantumCoders specializes in AI and web development. Contact us at quantumcoderstechlab@gmail.com for assistance.",
+                        "I'm experiencing connectivity issues. QuantumCoders specializes in AI and web development. Contact us at quantumcoderstechlab@gmail.com for assistance.",
                         "Network connection interrupted. We work on cutting-edge AI projects. Email quantumcoderstechlab@gmail.com for immediate help.",
-                        "Temporary connection problem. I can tell you about QuantumCoders: We're a student tech team focused on hands-on learning and real projects. For help, email quantumcoderstechlab@gmail.com"
+                        "Temporary connection problem. I can tell you about QuantumCoders: We're a student tech team focused on hands-on learning and real projects."
                     ];
                     
                     const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
                     const botMessage = addMessage(randomResponse, 'bot');
                     saveMessage(randomResponse, 'bot');
                     
-                    showNotification('Connection Issue', 'Please check your internet connection or contact us via email.');
-                }, 500);
+                    showNotification('Connection Issue', 'Please check your internet connection.');
+                }, 300);
                 
             } finally {
                 // Re-enable send button
@@ -2154,13 +1768,6 @@
             const input = document.getElementById('messageInput');
             input.value = question;
             autoResize(input);
-            
-            // Add visual feedback for quick question
-            input.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.3)';
-            setTimeout(() => {
-                input.style.boxShadow = '';
-            }, 1000);
-            
             sendMessage();
         }
 
@@ -2171,16 +1778,16 @@
                 timestamp: new Date().toISOString()
             });
             
-            // Keep only last 100 messages for performance
-            if (chatHistory.length > 100) {
-                chatHistory = chatHistory.slice(-100);
+            // Keep only last 50 messages
+            if (chatHistory.length > 50) {
+                chatHistory = chatHistory.slice(-50);
             }
             
             localStorage.setItem('quantum-chat-history', JSON.stringify(chatHistory));
         }
 
         function clearChat() {
-            if (confirm('Are you sure you want to clear the entire conversation history? This action cannot be undone.')) {
+            if (confirm('Clear entire conversation history?')) {
                 chatHistory = [];
                 localStorage.removeItem('quantum-chat-history');
                 
@@ -2201,12 +1808,7 @@
                             </div>
                             <div class="message-content">
                                 <strong>🔄 Conversation Cleared</strong><br><br>
-                                I've cleared our chat history. What would you like to know about today?<br><br>
-                                You can ask me about:
-                                • QuantumCoders team and projects<br>
-                                • Web development and programming<br>
-                                • AI and machine learning concepts<br>
-                                • Technology guidance and best practices
+                                I've cleared our chat history. What would you like to know about today?
                             </div>
                             <div class="message-time">
                                 <i class="fas fa-clock time-icon"></i>
@@ -2216,7 +1818,7 @@
                     </div>
                 `;
                 
-                showNotification('Chat Cleared', 'Conversation history has been successfully cleared. 🗑️');
+                showNotification('Chat Cleared', 'Conversation history cleared. 🗑️');
                 scrollToBottom();
             }
         }
@@ -2224,8 +1826,7 @@
         function exportChat() {
             const chatData = {
                 exportDate: new Date().toISOString(),
-                source: "Quantum AI Assistant Chat Export",
-                version: "1.0",
+                source: "Quantum AI Assistant",
                 messages: chatHistory
             };
             
@@ -2241,37 +1842,28 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            showNotification('Chat Exported', 'Conversation has been exported as JSON file. 📥');
+            showNotification('Chat Exported', 'Conversation exported as JSON. 📥');
         }
 
         // ===== MESSAGE ACTIONS =====
         function copyMessage(button) {
             const messageBubble = button.closest('.message-bubble');
             const messageContent = messageBubble.querySelector('.message-content');
-            const messageTime = messageBubble.querySelector('.message-time');
-            
-            // Get clean text without HTML tags
-            const text = messageContent.textContent + '\n\n' + messageTime.textContent;
+            const text = messageContent.textContent;
             
             navigator.clipboard.writeText(text)
                 .then(() => {
-                    // Visual feedback
                     const originalHTML = button.innerHTML;
                     button.innerHTML = '<i class="fas fa-check"></i>';
-                    button.classList.add('copied');
-                    button.style.transform = 'scale(1.2)';
-                    
-                    showNotification('Copied!', 'Message copied to clipboard 📋');
+                    button.style.color = 'var(--success-color)';
                     
                     setTimeout(() => {
                         button.innerHTML = originalHTML;
-                        button.classList.remove('copied');
-                        button.style.transform = '';
-                    }, 2000);
+                        button.style.color = '';
+                    }, 1500);
                 })
                 .catch(err => {
                     console.error('Copy failed:', err);
-                    showNotification('Error', 'Failed to copy message. Please try again.');
                 });
         }
 
@@ -2280,26 +1872,12 @@
             if (lastBotMessage) {
                 const copyBtn = lastBotMessage.querySelector('.message-action-btn');
                 copyMessage(copyBtn);
-            } else {
-                showNotification('No Messages', 'No messages to copy yet.');
+                showNotification('Copied!', 'Last message copied. 📋');
             }
         }
 
         function regenerateMessage(button) {
-            const messageElement = button.closest('.message');
-            const messageContent = messageElement.querySelector('.message-content');
-            const messageText = messageContent.textContent;
-            
-            // Add regenerating animation
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            button.disabled = true;
-            
-            // Simulate regeneration (in a real app, this would call the API)
-            setTimeout(() => {
-                button.innerHTML = '<i class="fas fa-redo"></i>';
-                button.disabled = false;
-                showNotification('Regenerate', 'This feature requires API integration for full functionality.');
-            }, 1500);
+            showNotification('Coming Soon', 'Regenerate feature will be available soon! 🔄');
         }
 
         function copyCode(button) {
@@ -2310,18 +1888,12 @@
                 .then(() => {
                     const originalText = button.innerHTML;
                     button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    button.classList.add('copied');
-                    
-                    showNotification('Code Copied', 'Code snippet copied to clipboard 💻');
+                    button.style.background = 'var(--success-color)';
                     
                     setTimeout(() => {
                         button.innerHTML = originalText;
-                        button.classList.remove('copied');
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('Copy failed:', err);
-                    showNotification('Error', 'Failed to copy code. Please try again.');
+                        button.style.background = '';
+                    }, 1500);
                 });
         }
 
@@ -2335,62 +1907,33 @@
                         copyCode(copyBtn);
                     });
                 }
-                
-                // Add syntax highlighting if needed
-                const code = block.querySelector('pre');
-                if (code) {
-                    // Basic syntax highlighting for common languages
-                    const lang = block.querySelector('.code-lang').textContent.toLowerCase();
-                    if (['javascript', 'js'].includes(lang)) {
-                        code.classList.add('language-javascript');
-                    } else if (['python', 'py'].includes(lang)) {
-                        code.classList.add('language-python');
-                    } else if (['html'].includes(lang)) {
-                        code.classList.add('language-html');
-                    } else if (['css'].includes(lang)) {
-                        code.classList.add('language-css');
-                    }
-                }
             });
         }
 
         // ===== INPUT HANDLING =====
         function autoResize(textarea) {
             textarea.style.height = 'auto';
-            const newHeight = Math.min(textarea.scrollHeight, 150);
+            const newHeight = Math.min(textarea.scrollHeight, 120);
             textarea.style.height = newHeight + 'px';
-            
-            // Adjust input area position
-            const inputArea = document.querySelector('.input-area');
-            if (newHeight > 56) {
-                inputArea.style.transform = 'translateY(0)';
-            }
         }
 
         function clearInput() {
             const input = document.getElementById('messageInput');
             input.value = '';
             autoResize(input);
-            
-            // Add visual feedback
-            input.style.borderColor = 'var(--primary-color)';
-            setTimeout(() => {
-                input.style.borderColor = '';
-            }, 500);
-            
             focusInput();
-            showNotification('Input Cleared', 'Ready for your next message! ✨');
         }
 
         function focusInput() {
             const input = document.getElementById('messageInput');
             input.focus();
             
-            // Add focus animation
-            input.style.transform = 'scale(1.01)';
-            setTimeout(() => {
-                input.style.transform = '';
-            }, 300);
+            // On mobile, ensure keyboard doesn't hide input
+            if (isMobile) {
+                setTimeout(() => {
+                    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
         }
 
         function handleKeyDown(event) {
@@ -2407,12 +1950,6 @@
             if (event.key === 'Escape') {
                 clearInput();
             }
-            
-            // Slash key to focus input
-            if (event.key === '/' && !event.ctrlKey && !event.metaKey) {
-                event.preventDefault();
-                focusInput();
-            }
         }
 
         // ===== UTILITY FUNCTIONS =====
@@ -2422,17 +1959,21 @@
                 hour: '2-digit', 
                 minute: '2-digit',
                 hour12: true 
-            });
+            }).toLowerCase();
         }
 
         function scrollToBottom() {
             const chatContainer = document.getElementById('chatMessages');
+            
+            // Use smooth scroll on desktop, instant on mobile for better performance
+            const behavior = isMobile ? 'auto' : 'smooth';
+            
             chatContainer.scrollTo({
                 top: chatContainer.scrollHeight,
-                behavior: 'smooth'
+                behavior: behavior
             });
             
-            // Hide shortcuts bar when at bottom
+            // Hide shortcuts when at bottom
             setTimeout(() => {
                 const shortcutsBar = document.getElementById('shortcutsBar');
                 const scrollBottom = chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight;
@@ -2442,36 +1983,11 @@
             }, 300);
         }
 
-        function playNotificationSound() {
-            // Create a subtle notification sound
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = 800;
-                oscillator.type = 'sine';
-                
-                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.1);
-                gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.3);
-            } catch (e) {
-                console.log('Audio not supported');
-            }
-        }
-
         function setupEventListeners() {
-            // Auto-focus input when clicking outside menu
+            // Auto-focus input
             document.addEventListener('click', (event) => {
                 if (!event.target.closest('.menu-panel') && 
-                    !event.target.closest('.nav-btn[title="Menu"]') &&
-                    !event.target.closest('.message-action-btn')) {
+                    !event.target.closest('.nav-btn[title="Menu"]')) {
                     focusInput();
                 }
             });
@@ -2484,66 +2000,49 @@
                     sendMessage();
                 }
                 
-                // Ctrl/Cmd + K to clear chat
+                // Ctrl/Cmd + K to clear
                 if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
                     event.preventDefault();
                     clearChat();
                 }
-                
-                // Ctrl/Cmd + E to export
-                if ((event.ctrlKey || event.metaKey) && event.key === 'e') {
-                    event.preventDefault();
-                    exportChat();
-                }
             });
             
-            // Handle window resize
-            let resizeTimer;
+            // Handle resize
             window.addEventListener('resize', () => {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(() => {
-                    autoResize(document.getElementById('messageInput'));
-                    scrollToBottom();
-                }, 250);
+                autoResize(document.getElementById('messageInput'));
+                setTimeout(scrollToBottom, 100);
             });
             
-            // Handle orientation change
-            window.addEventListener('orientationchange', () => {
-                setTimeout(() => {
-                    autoResize(document.getElementById('messageInput'));
-                    scrollToBottom();
-                }, 300);
-            });
-            
-            // Prevent pull-to-refresh on mobile
-            document.addEventListener('touchmove', (e) => {
-                if (e.touches.length > 1) return;
-                const chatMessages = document.getElementById('chatMessages');
-                if (chatMessages.scrollTop === 0) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
+            // Handle virtual keyboard on mobile
+            if (isMobile) {
+                const input = document.getElementById('messageInput');
+                let originalHeight = window.innerHeight;
+                
+                input.addEventListener('focus', () => {
+                    originalHeight = window.innerHeight;
+                });
+                
+                input.addEventListener('blur', () => {
+                    setTimeout(() => {
+                        if (window.innerHeight !== originalHeight) {
+                            scrollToBottom();
+                        }
+                    }, 300);
+                });
+            }
         }
 
         function handleCommand(command) {
             const cmd = command.toLowerCase().trim();
             
-            const commands = {
-                '/help': 'Show all available commands',
-                '/clear': 'Clear the current chat',
-                '/theme': 'Toggle between dark/light themes',
-                '/export': 'Export chat history as JSON',
-                '/sound': 'Toggle notification sounds',
-                '/about': 'Learn about Quantum AI Assistant'
-            };
-            
-            if (cmd === '/help' || cmd === '/commands') {
-                let helpText = 'Available commands:\n\n';
-                for (const [cmd, desc] of Object.entries(commands)) {
-                    helpText += `${cmd} - ${desc}\n`;
-                }
-                helpText += '\nType your question after the command.';
-                showNotification('Commands', helpText);
+            if (cmd === '/help') {
+                showNotification('Commands', 
+                    '/help - Show commands\n' +
+                    '/clear - Clear chat\n' +
+                    '/theme - Toggle theme\n' +
+                    '/export - Export chat\n' +
+                    '/about - About this assistant'
+                );
             } 
             else if (cmd === '/clear') {
                 clearChat();
@@ -2554,16 +2053,11 @@
             else if (cmd === '/export') {
                 exportChat();
             }
-            else if (cmd === '/sound') {
-                const soundEnabled = localStorage.getItem('quantum-sound') !== 'false';
-                localStorage.setItem('quantum-sound', !soundEnabled);
-                showNotification('Sound', `Notification sounds ${!soundEnabled ? 'enabled' : 'disabled'} 🔊`);
-            }
             else if (cmd === '/about') {
-                showNotification('About', 'Quantum AI Assistant v1.0 • Built by QuantumCoders Tech Lab • Powered by advanced AI');
+                showNotification('About', 'Quantum AI Assistant v1.0 • Built by QuantumCoders Tech Lab');
             }
             else {
-                showNotification('Unknown Command', `Type /help to see available commands\n\nYou typed: ${command}`);
+                showNotification('Unknown Command', 'Type /help for available commands');
             }
         }
 
@@ -2575,7 +2069,7 @@
             const titleElement = document.getElementById('notificationTitle');
             const messageElement = document.getElementById('notificationMessage');
             
-            // Clear any existing notification
+            // Clear existing
             notification.classList.remove('show');
             clearTimeout(notificationTimeout);
             
@@ -2583,71 +2077,43 @@
             titleElement.textContent = title;
             messageElement.textContent = message;
             
-            // Show with animation
+            // Show
             setTimeout(() => {
                 notification.classList.remove('hide');
                 notification.classList.add('show');
             }, 50);
             
-            // Auto-hide after delay
+            // Auto-hide
             notificationTimeout = setTimeout(() => {
                 notification.classList.remove('show');
                 notification.classList.add('hide');
-            }, 5000);
-            
-            // Play sound if enabled
-            if (localStorage.getItem('quantum-sound') !== 'false') {
-                playNotificationSound();
-            }
+            }, 3000);
         }
-
-        // ===== TOUCH OPTIMIZATIONS =====
-        let touchStartY = 0;
-        
-        document.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-        
-        document.addEventListener('touchmove', (e) => {
-            const touchY = e.touches[0].clientY;
-            const diff = touchStartY - touchY;
-            
-            // If scrolling up from top, prevent default to avoid pull-to-refresh
-            if (window.scrollY === 0 && diff < 0) {
-                e.preventDefault();
-            }
-        }, { passive: false });
 
         // ===== PWA OFFLINE SUPPORT =====
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(() => {
-                    console.log('ServiceWorker registered');
-                }).catch(err => {
-                    console.log('ServiceWorker registration failed:', err);
-                });
+                navigator.serviceWorker.register('/sw.js').catch(console.error);
             });
         }
 
-        // ===== INITIALIZE ON LOAD =====
+        // ===== INITIALIZE =====
         window.addEventListener('load', () => {
             // Check for saved preferences
-            const savedSound = localStorage.getItem('quantum-sound');
-            if (savedSound === null) {
+            if (!localStorage.getItem('quantum-sound')) {
                 localStorage.setItem('quantum-sound', 'true');
             }
             
-            // Initialize with a slight delay for better UX
-            setTimeout(initializeApp, 100);
+            initializeApp();
         });
 
         // ===== OFFLINE DETECTION =====
         window.addEventListener('online', () => {
-            showNotification('Back Online', 'Connection restored! Quantum AI is ready. 🌐');
+            showNotification('Back Online', 'Connection restored! 🌐');
         });
 
         window.addEventListener('offline', () => {
-            showNotification('Offline', 'You are currently offline. Some features may be limited. 📶');
+            showNotification('Offline', 'You are currently offline. 📶');
         });
     </script>
 </body>
