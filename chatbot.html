@@ -51,15 +51,15 @@
             -webkit-tap-highlight-color: transparent;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            touch-action: manipulation; /* Prevent pull-to-refresh */
         }
 
         html, body {
             height: 100%;
             width: 100%;
-            overscroll-behavior: none;
-            touch-action: manipulation;
             overflow: hidden;
             position: fixed; /* Prevent browser scrolling */
+            overscroll-behavior: none; /* Prevent pull-to-refresh */
         }
 
         body {
@@ -67,6 +67,7 @@
             line-height: 1.6;
             font-weight: 400;
             font-size: 16px;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* ===== CSS VARIABLES ===== */
@@ -466,10 +467,10 @@
             color: var(--primary-color);
         }
 
-        /* ===== CHAT MESSAGES AREA ===== */
+        /* ===== CHAT MESSAGES AREA - OPTIMIZED FOR MOBILE ===== */
         .chat-messages {
             flex: 1;
-            overflow-y: scroll;
+            overflow-y: auto;
             overflow-x: hidden;
             padding: 16px;
             display: flex;
@@ -478,6 +479,21 @@
             -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
             overscroll-behavior: contain; /* Prevent scroll chaining */
             will-change: transform; /* Optimize scrolling */
+            transform: translateZ(0); /* Hardware acceleration */
+            -webkit-transform: translateZ(0);
+            backface-visibility: hidden; /* Further hardware acceleration */
+            -webkit-backface-visibility: hidden;
+            scroll-behavior: smooth; /* Smooth scrolling */
+            padding-bottom: 80px; /* Space for shortcuts */
+        }
+
+        /* Performance optimizations for chat messages */
+        .message {
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            contain: content; /* Performance optimization */
         }
 
         /* Fix for Android scrolling */
@@ -490,6 +506,7 @@
             .chat-messages {
                 padding: 12px;
                 gap: 12px;
+                padding-bottom: 70px;
             }
         }
 
@@ -530,6 +547,8 @@
             word-wrap: break-word;
             overflow-wrap: break-word;
             word-break: break-word; /* Prevent long words from breaking layout */
+            transform: translateZ(0); /* Hardware acceleration */
+            -webkit-transform: translateZ(0);
         }
 
         .message.user .message-bubble {
@@ -780,7 +799,7 @@
             tab-size: 2;
         }
 
-        /* ===== INPUT AREA ===== */
+        /* ===== INPUT AREA - FIXED ===== */
         .input-area {
             flex-shrink: 0;
             padding: 16px;
@@ -789,6 +808,8 @@
             backdrop-filter: var(--blur-md);
             -webkit-backdrop-filter: var(--blur-md);
             border-top: 1px solid var(--border-color);
+            position: relative;
+            z-index: 10;
         }
 
         .input-wrapper {
@@ -800,6 +821,7 @@
         .input-container {
             flex: 1;
             position: relative;
+            min-height: 44px;
         }
 
         #messageInput {
@@ -821,6 +843,7 @@
             -webkit-appearance: none; /* Remove default iOS styling */
             -moz-appearance: none;
             appearance: none;
+            box-sizing: border-box;
         }
 
         #messageInput:focus {
@@ -832,12 +855,15 @@
             color: var(--text-tertiary);
         }
 
+        /* FIXED: Input actions positioning */
         .input-actions {
             position: absolute;
             right: 8px;
-            bottom: 8px;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
             gap: 4px;
+            pointer-events: auto;
         }
 
         .input-action {
@@ -854,6 +880,7 @@
             transition: all var(--transition-fast);
             font-size: 0.8rem;
             -webkit-tap-highlight-color: transparent;
+            pointer-events: auto;
         }
 
         .input-action:hover {
@@ -876,6 +903,7 @@
             justify-content: center;
             flex-shrink: 0;
             -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
         }
 
         .send-btn:hover:not(:disabled) {
@@ -1008,6 +1036,111 @@
             font-size: 1rem;
         }
 
+        /* ===== CUSTOM CONFIRMATION MODAL ===== */
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-overlay);
+            backdrop-filter: var(--blur-lg);
+            -webkit-backdrop-filter: var(--blur-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition);
+            padding: 20px;
+        }
+
+        .confirmation-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--bg-surface);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-xl);
+            max-width: 400px;
+            width: 100%;
+            transform: translateY(20px);
+            transition: transform var(--transition);
+        }
+
+        .confirmation-modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-title i {
+            color: var(--warning-color);
+        }
+
+        .modal-body {
+            padding: 20px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: 2px solid transparent;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .modal-btn-cancel {
+            background: var(--bg-secondary);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .modal-btn-cancel:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .modal-btn-confirm {
+            background: var(--error-color);
+            color: var(--text-white);
+            border-color: var(--error-color);
+        }
+
+        .modal-btn-confirm:hover {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+
         /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 768px) {
             :root {
@@ -1066,6 +1199,10 @@
 
             .shortcuts-bar {
                 bottom: 70px;
+            }
+            
+            .modal-content {
+                max-width: 320px;
             }
         }
 
@@ -1127,6 +1264,7 @@
             .chat-messages {
                 padding: 10px;
                 gap: 10px;
+                padding-bottom: 60px;
             }
 
             .message-bubble {
@@ -1156,6 +1294,7 @@
             .input-action {
                 width: 24px;
                 height: 24px;
+                right: 6px;
             }
 
             .shortcuts-bar {
@@ -1171,6 +1310,20 @@
 
             .shortcut-btn i {
                 font-size: 0.8rem;
+            }
+            
+            .modal-content {
+                max-width: 280px;
+                margin: 0 16px;
+            }
+            
+            .modal-footer {
+                flex-direction: column;
+            }
+            
+            .modal-btn {
+                width: 100%;
+                min-width: auto;
             }
         }
 
@@ -1241,6 +1394,22 @@
                 min-height: 44px;
                 min-width: 44px;
             }
+            
+            /* Better tap targets on mobile */
+            .quick-btn, .nav-btn, .shortcut-btn, .input-action {
+                touch-action: manipulation;
+            }
+            
+            /* Prevent text selection on tap */
+            .message-bubble {
+                -webkit-user-select: none;
+                user-select: none;
+            }
+            
+            .message-content {
+                -webkit-user-select: text;
+                user-select: text;
+            }
         }
 
         /* ===== REDUCED MOTION ===== */
@@ -1261,6 +1430,25 @@
         <div class="loader-content">
             <div class="loader-spinner"></div>
             <div style="margin-top: 16px; color: var(--text-secondary); font-weight: 500;">Initializing Quantum AI...</div>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="confirmationModal" class="confirmation-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Clear Chat History
+                </div>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to clear the entire conversation history? This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" onclick="hideConfirmationModal()">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" onclick="confirmClearChat()">Clear</button>
+            </div>
         </div>
     </div>
 
@@ -1308,7 +1496,7 @@
                 <span class="menu-item-text">Export Chat</span>
                 <span class="menu-item-badge">JSON</span>
             </div>
-            <div class="menu-item" onclick="clearChat()">
+            <div class="menu-item" onclick="showConfirmationModal()">
                 <i class="fas fa-trash menu-item-icon"></i>
                 <span class="menu-item-text">Clear Chat</span>
             </div>
@@ -1445,12 +1633,10 @@
         let currentTheme = localStorage.getItem('quantum-theme') || 'dark';
         let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         let isAndroid = /Android/i.test(navigator.userAgent);
-        
-        // Android-specific fixes
-        if (isAndroid) {
-            document.body.style.height = '100%';
-            document.body.style.overflow = 'hidden';
-        }
+        let isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        let scrollAnimationFrame;
+        let touchStartY = 0;
+        let isScrolling = false;
 
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', () => {
@@ -1468,7 +1654,7 @@
             // Setup event listeners
             setupEventListeners();
             
-            // Setup scroll handling - FIXED FOR ANDROID
+            // Setup optimized scroll handling
             setupScrollHandling();
             
             // Hide loader
@@ -1486,83 +1672,130 @@
                 const shortcutsBar = document.getElementById('shortcutsBar');
                 shortcutsBar.classList.add('show');
             }, 1000);
-            
-            // REMOVED PWA Service Worker registration to prevent 404 errors
-            // The manifest and sw.js files don't exist, so we'll skip PWA features
         }
 
-        // ===== SCROLL HANDLING - FIXED FOR ANDROID =====
+        // ===== OPTIMIZED SCROLL HANDLING =====
         function setupScrollHandling() {
             const chatMessages = document.getElementById('chatMessages');
             
-            // CRITICAL FIX: Force proper scroll behavior on Android
-            if (isAndroid) {
-                // Android needs specific fixes
-                chatMessages.style.overflowY = 'scroll';
-                chatMessages.style.WebkitOverflowScrolling = 'touch';
-                chatMessages.style.overscrollBehavior = 'contain';
+            // Force hardware acceleration for smooth scrolling
+            chatMessages.style.transform = 'translateZ(0)';
+            chatMessages.style.webkitTransform = 'translateZ(0)';
+            
+            // Optimize for mobile
+            if (isMobile) {
+                // Use passive event listeners for better performance
+                let touchStartY = 0;
+                let isTouchMoving = false;
                 
-                // Prevent body scrolling
-                document.body.style.overflow = 'hidden';
-                document.body.style.position = 'fixed';
-                document.body.style.width = '100%';
-                document.body.style.height = '100%';
-            } else {
-                // iOS and desktop
-                chatMessages.style.WebkitOverflowScrolling = 'touch';
-                chatMessages.style.overscrollBehavior = 'contain';
+                chatMessages.addEventListener('touchstart', (e) => {
+                    touchStartY = e.touches[0].clientY;
+                    isTouchMoving = false;
+                }, { passive: true });
+                
+                chatMessages.addEventListener('touchmove', (e) => {
+                    isTouchMoving = true;
+                    // Prevent rubber band effect on iOS
+                    if (chatMessages.scrollTop === 0 && e.touches[0].clientY > touchStartY) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                chatMessages.addEventListener('touchend', () => {
+                    isTouchMoving = false;
+                }, { passive: true });
+                
+                // iOS specific optimizations
+                if (isIOS) {
+                    // Disable elastic scrolling
+                    document.body.style.overflow = 'hidden';
+                    document.documentElement.style.overflow = 'hidden';
+                    
+                    // Fix for iOS keyboard issues
+                    window.addEventListener('resize', () => {
+                        setTimeout(scrollToBottom, 300);
+                    });
+                }
+                
+                // Android specific optimizations
+                if (isAndroid) {
+                    // Prevent default touch behaviors
+                    chatMessages.addEventListener('touchmove', (e) => {
+                        if (e.touches.length > 1) {
+                            e.preventDefault();
+                        }
+                    }, { passive: false });
+                }
             }
             
-            // Enhanced touch handling for all devices
-            let touchStartY = 0;
-            let isScrolling = false;
-            
-            chatMessages.addEventListener('touchstart', (e) => {
-                touchStartY = e.touches[0].clientY;
-                isScrolling = false;
-            }, { passive: true });
-            
-            chatMessages.addEventListener('touchmove', (e) => {
-                isScrolling = true;
-            }, { passive: true });
-            
-            chatMessages.addEventListener('touchend', (e) => {
-                if (!isScrolling) {
-                    // User tapped, not scrolled
-                    const chatContainer = document.querySelector('.chat-container');
-                    if (chatContainer) {
-                        chatContainer.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-                isScrolling = false;
-            }, { passive: true });
-            
-            // Show/hide shortcuts bar on scroll
+            // Throttle scroll events for better performance
             let scrollTimeout;
             chatMessages.addEventListener('scroll', () => {
-                const shortcutsBar = document.getElementById('shortcutsBar');
-                const scrollBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight;
-                
-                clearTimeout(scrollTimeout);
-                
-                if (scrollBottom > 100) {
-                    shortcutsBar.classList.add('show');
-                } else {
-                    shortcutsBar.classList.remove('show');
+                if (!scrollTimeout) {
+                    scrollTimeout = requestAnimationFrame(() => {
+                        const shortcutsBar = document.getElementById('shortcutsBar');
+                        const scrollBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight;
+                        
+                        if (scrollBottom > 100) {
+                            shortcutsBar.classList.add('show');
+                        } else {
+                            shortcutsBar.classList.remove('show');
+                        }
+                        
+                        scrollTimeout = null;
+                    });
                 }
-                
-                // Auto-hide shortcuts after scrolling stops
-                scrollTimeout = setTimeout(() => {
-                    if (scrollBottom < 50) {
-                        shortcutsBar.classList.remove('show');
-                    }
-                }, 500);
-            });
+            }, { passive: true });
+        }
+
+        function smoothScrollToBottom() {
+            const chatMessages = document.getElementById('chatMessages');
+            const targetScrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
+            const currentScrollTop = chatMessages.scrollTop;
+            const distance = targetScrollTop - currentScrollTop;
             
-            // Ensure messages are visible after load
-            setTimeout(() => {
-                scrollToBottom();
-            }, 100);
+            if (Math.abs(distance) < 1) return;
+            
+            // Use requestAnimationFrame for smooth scrolling
+            const duration = 300;
+            const startTime = performance.now();
+            
+            function animateScroll(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeProgress = easeOutCubic(progress);
+                
+                chatMessages.scrollTop = currentScrollTop + (distance * easeProgress);
+                
+                if (progress < 1) {
+                    scrollAnimationFrame = requestAnimationFrame(animateScroll);
+                }
+            }
+            
+            cancelAnimationFrame(scrollAnimationFrame);
+            scrollAnimationFrame = requestAnimationFrame(animateScroll);
+        }
+
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+
+        function scrollToBottom() {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Use different methods based on device for optimal performance
+            if (isMobile) {
+                // On mobile, use instant scroll for better performance
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Force a reflow to ensure scroll position is updated
+                setTimeout(() => {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 10);
+            } else {
+                // On desktop, use smooth scroll
+                smoothScrollToBottom();
+            }
         }
 
         // ===== THEME MANAGEMENT =====
@@ -1619,6 +1852,63 @@
             }
         }
 
+        // ===== CUSTOM CONFIRMATION MODAL =====
+        function showConfirmationModal() {
+            const modal = document.getElementById('confirmationModal');
+            modal.classList.add('show');
+            menuVisible = false;
+            document.getElementById('menuPanel').classList.remove('show');
+            
+            // Update menu button
+            const menuBtn = document.querySelector('.nav-btn[title="Menu"] i');
+            menuBtn.className = 'fas fa-ellipsis-v';
+        }
+
+        function hideConfirmationModal() {
+            const modal = document.getElementById('confirmationModal');
+            modal.classList.remove('show');
+        }
+
+        function confirmClearChat() {
+            hideConfirmationModal();
+            performClearChat();
+        }
+
+        function performClearChat() {
+            chatHistory = [];
+            localStorage.removeItem('quantum-chat-history');
+            
+            const chatContainer = document.getElementById('chatMessages');
+            chatContainer.innerHTML = `
+                <div class="message bot welcome-message">
+                    <div class="message-bubble">
+                        <div class="message-header">
+                            <div class="message-sender">
+                                <i class="fas fa-robot"></i>
+                                Quantum AI Assistant
+                            </div>
+                            <div class="message-actions">
+                                <button class="message-action-btn" onclick="copyMessage(this)" title="Copy Message">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            <strong>🔄 Conversation Cleared</strong><br><br>
+                            I've cleared our chat history. What would you like to know about today?
+                        </div>
+                        <div class="message-time">
+                            <i class="fas fa-clock time-icon"></i>
+                            Just now
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            showNotification('Chat Cleared', 'Conversation history cleared. 🗑️');
+            setTimeout(scrollToBottom, 50);
+        }
+
         // ===== CHAT FUNCTIONS =====
         function loadChatHistory() {
             const chatContainer = document.getElementById('chatMessages');
@@ -1626,14 +1916,15 @@
             chatContainer.innerHTML = '';
             chatContainer.appendChild(welcomeMsg);
             
+            // Load messages with performance optimization
             chatHistory.forEach(msg => {
                 addMessage(msg.text, msg.sender, false, false);
             });
             
-            // CRITICAL: Force scroll after loading history
+            // Scroll to bottom after loading
             setTimeout(() => {
                 scrollToBottom();
-            }, 50);
+            }, 100);
         }
 
         function addMessage(text, sender, animate = true, isNew = true) {
@@ -1674,13 +1965,16 @@
                 </div>
             `;
             
-            chatContainer.appendChild(messageDiv);
+            // Use DocumentFragment for better performance
+            const fragment = document.createDocumentFragment();
+            fragment.appendChild(messageDiv);
+            chatContainer.appendChild(fragment);
             
             if (animate) {
                 messageDiv.style.animation = 'messageSlide 300ms ease-out';
             }
             
-            // Scroll to new message with Android fix
+            // Scroll to new message
             setTimeout(() => {
                 scrollToBottom();
                 initializeCodeBlocks(messageDiv);
@@ -1885,65 +2179,6 @@
             localStorage.setItem('quantum-chat-history', JSON.stringify(chatHistory));
         }
 
-        function clearChat() {
-            if (confirm('Clear entire conversation history? This cannot be undone.')) {
-                chatHistory = [];
-                localStorage.removeItem('quantum-chat-history');
-                
-                const chatContainer = document.getElementById('chatMessages');
-                chatContainer.innerHTML = `
-                    <div class="message bot welcome-message">
-                        <div class="message-bubble">
-                            <div class="message-header">
-                                <div class="message-sender">
-                                    <i class="fas fa-robot"></i>
-                                    Quantum AI Assistant
-                                </div>
-                                <div class="message-actions">
-                                    <button class="message-action-btn" onclick="copyMessage(this)" title="Copy Message">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="message-content">
-                                <strong>🔄 Conversation Cleared</strong><br><br>
-                                I've cleared our chat history. What would you like to know about today?
-                            </div>
-                            <div class="message-time">
-                                <i class="fas fa-clock time-icon"></i>
-                                Just now
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                showNotification('Chat Cleared', 'Conversation history cleared. 🗑️');
-                scrollToBottom();
-            }
-        }
-
-        function exportChat() {
-            const chatData = {
-                exportDate: new Date().toISOString(),
-                source: "Quantum AI Assistant",
-                messages: chatHistory
-            };
-            
-            const dataStr = JSON.stringify(chatData, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `quantum-chat-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showNotification('Chat Exported', 'Conversation exported as JSON. 📥');
-        }
-
         // ===== MESSAGE ACTIONS =====
         function copyMessage(button) {
             const messageBubble = button.closest('.message-bubble');
@@ -2071,60 +2306,13 @@
             }).toLowerCase().replace(' ', '');
         }
 
-        function scrollToBottom() {
-            const chatContainer = document.getElementById('chatMessages');
-            
-            // Use smooth scroll on desktop, instant on mobile for better performance
-            const behavior = isMobile ? 'auto' : 'smooth';
-            
-            // CRITICAL FIX: Multiple methods to ensure scrolling works
-            try {
-                // Method 1: Standard scroll
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-                
-                // Method 2: ScrollIntoView for better mobile support
-                setTimeout(() => {
-                    const lastMessage = chatContainer.lastElementChild;
-                    if (lastMessage) {
-                        lastMessage.scrollIntoView({
-                            behavior: behavior,
-                            block: 'end',
-                            inline: 'nearest'
-                        });
-                    }
-                }, 50);
-                
-                // Method 3: For Android specifically
-                if (isAndroid) {
-                    setTimeout(() => {
-                        chatContainer.scrollTo({
-                            top: chatContainer.scrollHeight,
-                            behavior: 'smooth'
-                        });
-                    }, 100);
-                }
-            } catch (error) {
-                console.error('Scroll error:', error);
-                // Fallback
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            }
-            
-            // Hide shortcuts when at bottom
-            setTimeout(() => {
-                const shortcutsBar = document.getElementById('shortcutsBar');
-                const scrollBottom = chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight;
-                if (scrollBottom < 50) {
-                    shortcutsBar.classList.remove('show');
-                }
-            }, 300);
-        }
-
         function setupEventListeners() {
             // Auto-focus input
             document.addEventListener('click', (event) => {
                 if (!event.target.closest('.menu-panel') && 
                     !event.target.closest('.nav-btn[title="Menu"]') &&
-                    !event.target.closest('.message-action-btn')) {
+                    !event.target.closest('.message-action-btn') &&
+                    !event.target.closest('.confirmation-modal')) {
                     focusInput();
                 }
             });
@@ -2140,14 +2328,31 @@
                 // Ctrl/Cmd + K to clear
                 if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
                     event.preventDefault();
-                    clearChat();
+                    showConfirmationModal();
+                }
+                
+                // Escape to close modals
+                if (event.key === 'Escape') {
+                    const modal = document.getElementById('confirmationModal');
+                    if (modal.classList.contains('show')) {
+                        hideConfirmationModal();
+                    }
+                    
+                    const menu = document.getElementById('menuPanel');
+                    if (menu.classList.contains('show')) {
+                        toggleMenu();
+                    }
                 }
             });
             
             // Handle resize
+            let resizeTimeout;
             window.addEventListener('resize', () => {
-                autoResize(document.getElementById('messageInput'));
-                setTimeout(scrollToBottom, 100);
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    autoResize(document.getElementById('messageInput'));
+                    setTimeout(scrollToBottom, 100);
+                }, 250);
             });
             
             // Handle virtual keyboard on mobile
@@ -2178,6 +2383,14 @@
                     e.preventDefault();
                 }
             }, { passive: false });
+            
+            // Close modal when clicking outside
+            document.addEventListener('click', (event) => {
+                const modal = document.getElementById('confirmationModal');
+                if (modal.classList.contains('show') && event.target === modal) {
+                    hideConfirmationModal();
+                }
+            });
         }
 
         function handleCommand(command) {
@@ -2193,7 +2406,7 @@
                 );
             } 
             else if (cmd === '/clear') {
-                clearChat();
+                showConfirmationModal();
             } 
             else if (cmd === '/theme') {
                 toggleTheme();
@@ -2207,6 +2420,28 @@
             else {
                 showNotification('Unknown Command', 'Type /help for available commands');
             }
+        }
+
+        function exportChat() {
+            const chatData = {
+                exportDate: new Date().toISOString(),
+                source: "Quantum AI Assistant",
+                messages: chatHistory
+            };
+            
+            const dataStr = JSON.stringify(chatData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `quantum-chat-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Chat Exported', 'Conversation exported as JSON. 📥');
         }
 
         // ===== NOTIFICATION SYSTEM =====
@@ -2245,20 +2480,26 @@
                 localStorage.setItem('quantum-sound', 'true');
             }
             
-            // Fix for Android viewport height
-            if (isAndroid) {
+            // Fix for mobile viewport height
+            if (isMobile) {
                 // Set viewport height to prevent scrolling issues
-                const vh = window.innerHeight * 0.01;
-                document.documentElement.style.setProperty('--vh', `${vh}px`);
+                const setVH = () => {
+                    const vh = window.innerHeight * 0.01;
+                    document.documentElement.style.setProperty('--vh', `${vh}px`);
+                };
+                
+                setVH();
                 
                 // Listen for orientation changes
                 window.addEventListener('orientationchange', () => {
                     setTimeout(() => {
-                        const vh = window.innerHeight * 0.01;
-                        document.documentElement.style.setProperty('--vh', `${vh}px`);
+                        setVH();
                         scrollToBottom();
                     }, 300);
                 });
+                
+                // Listen for resize (for devices that don't fire orientationchange)
+                window.addEventListener('resize', setVH);
             }
             
             initializeApp();
