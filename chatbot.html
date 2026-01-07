@@ -32,7 +32,7 @@
     <meta name="twitter:image" content="https://quantumcoders.vercel.app/assets/icons/Quantumcoder_logo.png">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="https://quantumcoders.vercel.app/assets/icons/favicon.ico">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,9 +42,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json">
-    
     <style>
         /* ===== CSS RESET & BASE ===== */
         * {
@@ -58,8 +55,11 @@
 
         html, body {
             height: 100%;
-            overflow: hidden;
+            width: 100%;
             overscroll-behavior: none;
+            touch-action: manipulation;
+            overflow: hidden;
+            position: fixed; /* Prevent browser scrolling */
         }
 
         body {
@@ -67,7 +67,6 @@
             line-height: 1.6;
             font-weight: 400;
             font-size: 16px;
-            touch-action: pan-y;
         }
 
         /* ===== CSS VARIABLES ===== */
@@ -190,6 +189,17 @@
             background: var(--primary-color);
         }
 
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .scrollbar-hide {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
         /* ===== LOADER ===== */
         #loader {
             position: fixed;
@@ -251,6 +261,8 @@
             z-index: 1000;
             gap: 12px;
             transition: all var(--transition);
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         .logo {
@@ -309,6 +321,7 @@
             justify-content: center;
             cursor: pointer;
             transition: all var(--transition-fast);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .nav-btn:hover {
@@ -365,6 +378,7 @@
             transition: background-color var(--transition-fast);
             color: var(--text-primary);
             text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .menu-item:hover {
@@ -394,6 +408,7 @@
         /* ===== CHAT CONTAINER ===== */
         .chat-container {
             height: 100vh;
+            height: -webkit-fill-available; /* For mobile browsers */
             padding-top: var(--header-height);
             display: flex;
             flex-direction: column;
@@ -410,11 +425,12 @@
             gap: 8px;
             overflow-x: auto;
             overflow-y: hidden;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
             background: var(--bg-surface);
             backdrop-filter: var(--blur-sm);
             -webkit-backdrop-filter: var(--blur-sm);
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         .quick-actions::-webkit-scrollbar {
@@ -436,6 +452,7 @@
             align-items: center;
             gap: 6px;
             flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .quick-btn:hover {
@@ -452,13 +469,20 @@
         /* ===== CHAT MESSAGES AREA ===== */
         .chat-messages {
             flex: 1;
-            overflow-y: auto;
+            overflow-y: scroll;
             overflow-x: hidden;
             padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            overscroll-behavior: contain; /* Prevent scroll chaining */
+            will-change: transform; /* Optimize scrolling */
+        }
+
+        /* Fix for Android scrolling */
+        .chat-messages {
+            scroll-behavior: smooth;
         }
 
         /* Mobile optimizations */
@@ -474,6 +498,8 @@
             max-width: 88%;
             min-width: 60px;
             animation: messageSlide 300ms ease-out;
+            -webkit-user-select: text;
+            user-select: text;
         }
 
         @keyframes messageSlide {
@@ -503,6 +529,7 @@
             position: relative;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            word-break: break-word; /* Prevent long words from breaking layout */
         }
 
         .message.user .message-bubble {
@@ -581,6 +608,7 @@
             cursor: pointer;
             transition: all var(--transition-fast);
             font-size: 0.7rem;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .message.user .message-action-btn {
@@ -726,6 +754,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .code-copy:hover {
@@ -738,6 +767,7 @@
             padding: 12px;
             overflow-x: auto;
             background: var(--bg-primary);
+            -webkit-overflow-scrolling: touch;
         }
 
         .code-content pre {
@@ -788,7 +818,9 @@
             outline: none;
             transition: all var(--transition);
             line-height: 1.5;
-            scrollbar-width: thin;
+            -webkit-appearance: none; /* Remove default iOS styling */
+            -moz-appearance: none;
+            appearance: none;
         }
 
         #messageInput:focus {
@@ -821,6 +853,7 @@
             justify-content: center;
             transition: all var(--transition-fast);
             font-size: 0.8rem;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .input-action:hover {
@@ -842,6 +875,7 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .send-btn:hover:not(:disabled) {
@@ -897,6 +931,7 @@
             align-items: center;
             justify-content: center;
             transition: all var(--transition-fast);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .shortcut-btn:hover {
@@ -1407,16 +1442,22 @@
         let chatHistory = JSON.parse(localStorage.getItem('quantum-chat-history')) || [];
         let isProcessing = false;
         let menuVisible = false;
-        let shortcutsVisible = true;
         let currentTheme = localStorage.getItem('quantum-theme') || 'dark';
         let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        let isAndroid = /Android/i.test(navigator.userAgent);
+        
+        // Android-specific fixes
+        if (isAndroid) {
+            document.body.style.height = '100%';
+            document.body.style.overflow = 'hidden';
+        }
 
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', () => {
             initializeApp();
         });
 
-        async function initializeApp() {
+        function initializeApp() {
             // Initialize theme
             document.documentElement.setAttribute('data-theme', currentTheme);
             updateThemeIcon(currentTheme);
@@ -1427,7 +1468,7 @@
             // Setup event listeners
             setupEventListeners();
             
-            // Setup scroll handling
+            // Setup scroll handling - FIXED FOR ANDROID
             setupScrollHandling();
             
             // Hide loader
@@ -1438,49 +1479,62 @@
                     document.getElementById('messageInput').focus();
                     showNotification('Ready!', 'Quantum AI Assistant is ready to help you! 🚀');
                 }, 300);
-            }, 1000);
+            }, 800);
             
             // Show shortcuts bar after delay
             setTimeout(() => {
                 const shortcutsBar = document.getElementById('shortcutsBar');
                 shortcutsBar.classList.add('show');
-            }, 1200);
+            }, 1000);
             
-            // Initialize PWA features
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js').catch(console.error);
-            }
+            // REMOVED PWA Service Worker registration to prevent 404 errors
+            // The manifest and sw.js files don't exist, so we'll skip PWA features
         }
 
-        // ===== SCROLL HANDLING =====
+        // ===== SCROLL HANDLING - FIXED FOR ANDROID =====
         function setupScrollHandling() {
             const chatMessages = document.getElementById('chatMessages');
             
-            // Improved mobile scrolling
-            chatMessages.style.WebkitOverflowScrolling = 'touch';
+            // CRITICAL FIX: Force proper scroll behavior on Android
+            if (isAndroid) {
+                // Android needs specific fixes
+                chatMessages.style.overflowY = 'scroll';
+                chatMessages.style.WebkitOverflowScrolling = 'touch';
+                chatMessages.style.overscrollBehavior = 'contain';
+                
+                // Prevent body scrolling
+                document.body.style.overflow = 'hidden';
+                document.body.style.position = 'fixed';
+                document.body.style.width = '100%';
+                document.body.style.height = '100%';
+            } else {
+                // iOS and desktop
+                chatMessages.style.WebkitOverflowScrolling = 'touch';
+                chatMessages.style.overscrollBehavior = 'contain';
+            }
             
-            // Prevent pull-to-refresh on mobile
-            let startY = 0;
+            // Enhanced touch handling for all devices
+            let touchStartY = 0;
+            let isScrolling = false;
             
             chatMessages.addEventListener('touchstart', (e) => {
-                startY = e.touches[0].clientY;
-                // Reset scroll position if at top
-                if (chatMessages.scrollTop === 0) {
-                    chatMessages.style.overflow = 'hidden';
-                }
+                touchStartY = e.touches[0].clientY;
+                isScrolling = false;
             }, { passive: true });
             
             chatMessages.addEventListener('touchmove', (e) => {
-                if (chatMessages.scrollTop === 0) {
-                    const currentY = e.touches[0].clientY;
-                    if (currentY > startY) {
-                        e.preventDefault();
+                isScrolling = true;
+            }, { passive: true });
+            
+            chatMessages.addEventListener('touchend', (e) => {
+                if (!isScrolling) {
+                    // User tapped, not scrolled
+                    const chatContainer = document.querySelector('.chat-container');
+                    if (chatContainer) {
+                        chatContainer.scrollIntoView({ behavior: 'smooth' });
                     }
                 }
-            }, { passive: false });
-            
-            chatMessages.addEventListener('touchend', () => {
-                chatMessages.style.overflow = 'auto';
+                isScrolling = false;
             }, { passive: true });
             
             // Show/hide shortcuts bar on scroll
@@ -1504,6 +1558,11 @@
                     }
                 }, 500);
             });
+            
+            // Ensure messages are visible after load
+            setTimeout(() => {
+                scrollToBottom();
+            }, 100);
         }
 
         // ===== THEME MANAGEMENT =====
@@ -1571,7 +1630,10 @@
                 addMessage(msg.text, msg.sender, false, false);
             });
             
-            scrollToBottom();
+            // CRITICAL: Force scroll after loading history
+            setTimeout(() => {
+                scrollToBottom();
+            }, 50);
         }
 
         function addMessage(text, sender, animate = true, isNew = true) {
@@ -1618,35 +1680,52 @@
                 messageDiv.style.animation = 'messageSlide 300ms ease-out';
             }
             
-            // Scroll to new message
+            // Scroll to new message with Android fix
             setTimeout(() => {
                 scrollToBottom();
                 initializeCodeBlocks(messageDiv);
-            }, 50);
+            }, 10);
             
             return messageDiv;
         }
 
         function formatText(text) {
-            return text
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/\n/g, '<br>')
-                .replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => `
+            // Simple text formatting - no complex regex that might break on mobile
+            let formatted = text;
+            
+            // Handle code blocks
+            const codeBlockRegex = /```([\s\S]*?)```/g;
+            formatted = formatted.replace(codeBlockRegex, (match, code) => {
+                const cleanCode = code.trim();
+                const firstLine = cleanCode.split('\n')[0];
+                const langMatch = firstLine.match(/^(\w+)/);
+                const lang = langMatch ? langMatch[1] : 'code';
+                const codeContent = cleanCode.replace(firstLine, '').trim();
+                
+                return `
                     <div class="code-block">
                         <div class="code-header">
-                            <span class="code-lang">${lang || 'code'}</span>
+                            <span class="code-lang">${lang}</span>
                             <button class="code-copy" onclick="copyCode(this)">
                                 <i class="fas fa-copy"></i> Copy
                             </button>
                         </div>
                         <div class="code-content">
-                            <pre>${code.trim()}</pre>
+                            <pre>${codeContent}</pre>
                         </div>
                     </div>
-                `);
+                `;
+            });
+            
+            // Simple markdown
+            formatted = formatted
+                .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>');
+            
+            return formatted;
         }
 
         function addTypingIndicator() {
@@ -1679,7 +1758,10 @@
             const input = document.getElementById('messageInput');
             const message = input.value.trim();
             
-            if (!message) return;
+            if (!message) {
+                showNotification('Empty Message', 'Please type a message first.');
+                return;
+            }
             
             // Check for commands
             if (message.startsWith('/')) {
@@ -1696,7 +1778,6 @@
             // Clear input
             input.value = '';
             autoResize(input);
-            focusInput();
             
             // Show typing indicator
             setTimeout(() => addTypingIndicator(), 200);
@@ -1708,28 +1789,16 @@
             sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             
             try {
-                // Send to backend
-                const response = await fetch('/api/chatbot', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ message })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.status}`);
-                }
-                
-                const data = await response.json();
+                // Simulate API call (replace with actual API endpoint)
+                const botResponse = await simulateAIResponse(message);
                 
                 // Remove typing indicator
                 removeTypingIndicator();
                 
                 // Add bot response
                 setTimeout(() => {
-                    const botMessage = addMessage(data.reply, 'bot');
-                    saveMessage(data.reply, 'bot');
+                    const botMessage = addMessage(botResponse, 'bot');
+                    saveMessage(botResponse, 'bot');
                     
                     // Show notification
                     showNotification('Response Received', 'Quantum AI has replied!');
@@ -1744,9 +1813,9 @@
                 // Show fallback response
                 setTimeout(() => {
                     const fallbackResponses = [
-                        "I'm experiencing connectivity issues. QuantumCoders specializes in AI and web development. Contact us at quantumcoderstechlab@gmail.com for assistance.",
-                        "Network connection interrupted. We work on cutting-edge AI projects. Email quantumcoderstechlab@gmail.com for immediate help.",
-                        "Temporary connection problem. I can tell you about QuantumCoders: We're a student tech team focused on hands-on learning and real projects."
+                        "I'm experiencing some technical difficulties. QuantumCoders specializes in AI and web development. You can contact us at quantumcoderstechlab@gmail.com for assistance.",
+                        "I apologize for the inconvenience. As QuantumCoders' AI assistant, I can tell you that we focus on hands-on learning and real-world projects. For immediate help, email quantumcoderstechlab@gmail.com.",
+                        "There seems to be a connection issue. Let me tell you about QuantumCoders: We're a student tech team creating innovative solutions. Feel free to reach out to us!"
                     ];
                     
                     const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
@@ -1761,7 +1830,37 @@
                 isProcessing = false;
                 sendBtn.disabled = false;
                 sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                focusInput();
             }
+        }
+
+        // Simulated AI response function (replace with actual API call)
+        async function simulateAIResponse(message) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const responses = {
+                        "hello": "Hello! I'm Quantum AI Assistant from QuantumCoders. How can I help you today?",
+                        "what is quantumcoders": "QuantumCoders is a student tech team focused on hands-on learning in AI, web development, and emerging technologies. We build real-world projects and foster innovation.",
+                        "projects": "QuantumCoders works on various projects including AI chatbots, web applications, machine learning models, and innovative tech solutions. Check our website for current projects!",
+                        "join": "To join QuantumCoders, you can reach out to us via email at quantumcoderstechlab@gmail.com or visit our website for more information about openings!",
+                        "web development": "For web development, QuantumCoders recommends: HTML5, CSS3, JavaScript (ES6+), React.js, Node.js, and modern frameworks. We focus on responsive design and performance optimization.",
+                        "ai/ml": "In AI/ML, we work with Python, TensorFlow, PyTorch, and scikit-learn. We're exploring neural networks, computer vision, natural language processing, and reinforcement learning.",
+                        "default": "Thanks for your message! QuantumCoders is excited about technology innovation. Can you tell me more about what you're interested in?"
+                    };
+                    
+                    const lowerMessage = message.toLowerCase();
+                    let response = responses.default;
+                    
+                    for (const [key, value] of Object.entries(responses)) {
+                        if (lowerMessage.includes(key)) {
+                            response = value;
+                            break;
+                        }
+                    }
+                    
+                    resolve(response);
+                }, 1500);
+            });
         }
 
         function sendQuickQuestion(question) {
@@ -1787,7 +1886,7 @@
         }
 
         function clearChat() {
-            if (confirm('Clear entire conversation history?')) {
+            if (confirm('Clear entire conversation history? This cannot be undone.')) {
                 chatHistory = [];
                 localStorage.removeItem('quantum-chat-history');
                 
@@ -1857,6 +1956,8 @@
                     button.innerHTML = '<i class="fas fa-check"></i>';
                     button.style.color = 'var(--success-color)';
                     
+                    showNotification('Copied!', 'Message copied to clipboard 📋');
+                    
                     setTimeout(() => {
                         button.innerHTML = originalHTML;
                         button.style.color = '';
@@ -1864,6 +1965,7 @@
                 })
                 .catch(err => {
                     console.error('Copy failed:', err);
+                    showNotification('Error', 'Failed to copy message');
                 });
         }
 
@@ -1872,7 +1974,8 @@
             if (lastBotMessage) {
                 const copyBtn = lastBotMessage.querySelector('.message-action-btn');
                 copyMessage(copyBtn);
-                showNotification('Copied!', 'Last message copied. 📋');
+            } else {
+                showNotification('No Messages', 'No messages to copy yet.');
             }
         }
 
@@ -1889,6 +1992,8 @@
                     const originalText = button.innerHTML;
                     button.innerHTML = '<i class="fas fa-check"></i> Copied!';
                     button.style.background = 'var(--success-color)';
+                    
+                    showNotification('Code Copied', 'Code snippet copied to clipboard 💻');
                     
                     setTimeout(() => {
                         button.innerHTML = originalText;
@@ -1915,6 +2020,9 @@
             textarea.style.height = 'auto';
             const newHeight = Math.min(textarea.scrollHeight, 120);
             textarea.style.height = newHeight + 'px';
+            
+            // Ensure chat messages scroll when input expands
+            setTimeout(scrollToBottom, 50);
         }
 
         function clearInput() {
@@ -1931,6 +2039,7 @@
             // On mobile, ensure keyboard doesn't hide input
             if (isMobile) {
                 setTimeout(() => {
+                    // Scroll input into view
                     input.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 300);
             }
@@ -1959,7 +2068,7 @@
                 hour: '2-digit', 
                 minute: '2-digit',
                 hour12: true 
-            }).toLowerCase();
+            }).toLowerCase().replace(' ', '');
         }
 
         function scrollToBottom() {
@@ -1968,10 +2077,37 @@
             // Use smooth scroll on desktop, instant on mobile for better performance
             const behavior = isMobile ? 'auto' : 'smooth';
             
-            chatContainer.scrollTo({
-                top: chatContainer.scrollHeight,
-                behavior: behavior
-            });
+            // CRITICAL FIX: Multiple methods to ensure scrolling works
+            try {
+                // Method 1: Standard scroll
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // Method 2: ScrollIntoView for better mobile support
+                setTimeout(() => {
+                    const lastMessage = chatContainer.lastElementChild;
+                    if (lastMessage) {
+                        lastMessage.scrollIntoView({
+                            behavior: behavior,
+                            block: 'end',
+                            inline: 'nearest'
+                        });
+                    }
+                }, 50);
+                
+                // Method 3: For Android specifically
+                if (isAndroid) {
+                    setTimeout(() => {
+                        chatContainer.scrollTo({
+                            top: chatContainer.scrollHeight,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                }
+            } catch (error) {
+                console.error('Scroll error:', error);
+                // Fallback
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
             
             // Hide shortcuts when at bottom
             setTimeout(() => {
@@ -1987,7 +2123,8 @@
             // Auto-focus input
             document.addEventListener('click', (event) => {
                 if (!event.target.closest('.menu-panel') && 
-                    !event.target.closest('.nav-btn[title="Menu"]')) {
+                    !event.target.closest('.nav-btn[title="Menu"]') &&
+                    !event.target.closest('.message-action-btn')) {
                     focusInput();
                 }
             });
@@ -2020,6 +2157,10 @@
                 
                 input.addEventListener('focus', () => {
                     originalHeight = window.innerHeight;
+                    // Scroll input into view when keyboard appears
+                    setTimeout(() => {
+                        scrollToBottom();
+                    }, 300);
                 });
                 
                 input.addEventListener('blur', () => {
@@ -2030,6 +2171,13 @@
                     }, 300);
                 });
             }
+            
+            // Prevent default touch behaviors that interfere with scrolling
+            document.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
         }
 
         function handleCommand(command) {
@@ -2090,18 +2238,27 @@
             }, 3000);
         }
 
-        // ===== PWA OFFLINE SUPPORT =====
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch(console.error);
-            });
-        }
-
         // ===== INITIALIZE =====
         window.addEventListener('load', () => {
             // Check for saved preferences
             if (!localStorage.getItem('quantum-sound')) {
                 localStorage.setItem('quantum-sound', 'true');
+            }
+            
+            // Fix for Android viewport height
+            if (isAndroid) {
+                // Set viewport height to prevent scrolling issues
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+                
+                // Listen for orientation changes
+                window.addEventListener('orientationchange', () => {
+                    setTimeout(() => {
+                        const vh = window.innerHeight * 0.01;
+                        document.documentElement.style.setProperty('--vh', `${vh}px`);
+                        scrollToBottom();
+                    }, 300);
+                });
             }
             
             initializeApp();
