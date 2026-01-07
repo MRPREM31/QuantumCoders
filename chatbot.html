@@ -2083,50 +2083,48 @@
             sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             
             try {
-                // Simulate API call (replace with actual API endpoint)
-                const botResponse = await simulateAIResponse(message);
-                
-                // Remove typing indicator
-                removeTypingIndicator();
-                
-                // Add bot response
-                setTimeout(() => {
-                    const botMessage = addMessage(botResponse, 'bot');
-                    saveMessage(botResponse, 'bot');
-                    
-                    // Show notification
-                    showNotification('Response Received', 'Quantum AI has replied!');
-                }, 300);
-                
+            // ✅ CALL REAL AI API
+            const response = await fetch("/api/quantum-chatbot", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message })
+            });
+
+            const data = await response.json();
+
+            // ✅ REMOVE typing indicator
+            removeTypingIndicator();
+
+            // ✅ GET AI reply
+            const botResponse = data.reply || "⚠️ No response from AI.";
+
+            // ✅ SHOW AI reply in chat
+            addMessage(botResponse, 'bot');
+            saveMessage(botResponse, 'bot');
+
             } catch (error) {
-                console.error('Chat error:', error);
-                
-                // Remove typing indicator
-                removeTypingIndicator();
-                
-                // Show fallback response
-                setTimeout(() => {
-                    const fallbackResponses = [
-                        "I'm experiencing some technical difficulties. QuantumCoders specializes in AI and web development. You can contact us at quantumcoderstechlab@gmail.com for assistance.",
-                        "I apologize for the inconvenience. As QuantumCoders' AI assistant, I can tell you that we focus on hands-on learning and real-world projects. For immediate help, email quantumcoderstechlab@gmail.com.",
-                        "There seems to be a connection issue. Let me tell you about QuantumCoders: We're a student tech team creating innovative solutions. Feel free to reach out to us!"
-                    ];
-                    
-                    const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-                    const botMessage = addMessage(randomResponse, 'bot');
-                    saveMessage(randomResponse, 'bot');
-                    
-                    showNotification('Connection Issue', 'Please check your internet connection.');
-                }, 300);
-                
+            console.error('Chat error:', error);
+
+            // ✅ REMOVE typing indicator
+            removeTypingIndicator();
+
+            // ✅ FALLBACK RESPONSE
+            const fallbackResponse =
+                "⚠️ Quantum AI is temporarily unavailable. Please try again later or contact quantumcoderstechlab@gmail.com.";
+
+            addMessage(fallbackResponse, 'bot');
+            saveMessage(fallbackResponse, 'bot');
+
             } finally {
-                // Re-enable send button
-                isProcessing = false;
-                sendBtn.disabled = false;
-                sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
-                focusInput();
+            // ✅ RE-ENABLE SEND BUTTON
+            isProcessing = false;
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+            focusInput();
             }
-        }
+  }
 
         // Simulated AI response function (replace with actual API call)
         async function simulateAIResponse(message) {
