@@ -22,5 +22,14 @@
         { "key": "Cache-Control", "value": "public, max-age=3600" }
       ]
     }
+  ],
+  "functions": {
+    "api/quantum-chatbot.js": {
+      "maxDuration": 15,
+      "memory": 1024
+    }
+  },
+  "rewrites": [
+    { "source": "/api/chatbot", "destination": "/api/quantum-chatbot.js" }
   ]
 }

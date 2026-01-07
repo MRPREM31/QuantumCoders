@@ -1237,8 +1237,8 @@
             sendBtn.disabled = true;
             
             try {
-                // Send to backend
-                const response = await fetch('/api/quantum-chatbot', {
+                // Send to backend - UPDATED URL HERE
+                const response = await fetch('/api/chatbot', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1266,11 +1266,11 @@
                 // Remove typing indicator
                 removeTypingIndicator();
                 
-                // Show fallback response
+                // Show fallback response - UPDATED FALLBACK MESSAGES HERE
                 const fallbackResponses = [
-                    "I'm having trouble connecting right now. QuantumCoders is a premier tech team specializing in AI, web development, and quantum computing.",
-                    "Network issue detected. Let me tell you about QuantumCoders: We work on cutting-edge projects using modern technologies.",
-                    "Connection interrupted. I can help with web development, AI concepts, and information about QuantumCoders team and projects."
+                    "I'm having trouble connecting to our Quantum AI. QuantumCoders is a premier tech team specializing in AI and web development. Please contact quantumcoderstechlab@gmail.com for assistance.",
+                    "Network issue detected. QuantumCoders works on cutting-edge projects. You can email us at quantumcoderstechlab@gmail.com for help.",
+                    "Connection interrupted. I can help with information about QuantumCoders team and projects. For immediate help, email quantumcoderstechlab@gmail.com"
                 ];
                 
                 const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
