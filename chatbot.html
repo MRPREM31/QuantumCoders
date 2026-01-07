@@ -1637,13 +1637,19 @@
         let scrollAnimationFrame;
         let touchStartY = 0;
         let isScrolling = false;
+        let appInitialized = false; // Prevent double initialization
 
-        // ===== INITIALIZATION =====
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeApp();
+        // ===== CRITICAL: INITIALIZE APP ONLY ONCE =====
+        window.addEventListener('load', () => {
+            if (!appInitialized) {
+                appInitialized = true;
+                initializeApp();
+            }
         });
 
         function initializeApp() {
+            console.log('🚀 Initializing Quantum AI...');
+            
             // Initialize theme
             document.documentElement.setAttribute('data-theme', currentTheme);
             updateThemeIcon(currentTheme);
@@ -1662,7 +1668,11 @@
                 const loader = document.getElementById('loader');
                 loader.classList.add('hidden');
                 setTimeout(() => {
-                    document.getElementById('messageInput').focus();
+                    try {
+                        document.getElementById('messageInput').focus();
+                    } catch (e) {
+                        console.log('Focus failed:', e);
+                    }
                     showNotification('Ready!', 'Quantum AI Assistant is ready to help you! 🚀');
                 }, 300);
             }, 800);
@@ -1672,6 +1682,11 @@
                 const shortcutsBar = document.getElementById('shortcutsBar');
                 shortcutsBar.classList.add('show');
             }, 1000);
+            
+            // Force mobile viewport fix
+            if (isMobile) {
+                fixMobileViewport();
+            }
         }
 
         // ===== OPTIMIZED SCROLL HANDLING =====
@@ -1695,11 +1710,7 @@
                 
                 chatMessages.addEventListener('touchmove', (e) => {
                     isTouchMoving = true;
-                    // Prevent rubber band effect on iOS
-                    if (chatMessages.scrollTop === 0 && e.touches[0].clientY > touchStartY) {
-                        e.preventDefault();
-                    }
-                }, { passive: false });
+                }, { passive: true });
                 
                 chatMessages.addEventListener('touchend', () => {
                     isTouchMoving = false;
@@ -1707,24 +1718,10 @@
                 
                 // iOS specific optimizations
                 if (isIOS) {
-                    // Disable elastic scrolling
-                    document.body.style.overflow = 'hidden';
-                    document.documentElement.style.overflow = 'hidden';
-                    
                     // Fix for iOS keyboard issues
                     window.addEventListener('resize', () => {
                         setTimeout(scrollToBottom, 300);
                     });
-                }
-                
-                // Android specific optimizations
-                if (isAndroid) {
-                    // Prevent default touch behaviors
-                    chatMessages.addEventListener('touchmove', (e) => {
-                        if (e.touches.length > 1) {
-                            e.preventDefault();
-                        }
-                    }, { passive: false });
                 }
             }
             
@@ -1796,6 +1793,34 @@
                 // On desktop, use smooth scroll
                 smoothScrollToBottom();
             }
+        }
+
+        // ===== MOBILE VIEWPORT FIX =====
+        function fixMobileViewport() {
+            // Set viewport height to prevent scrolling issues
+            const setVH = () => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+                
+                // Update input area padding for safe areas
+                const inputArea = document.querySelector('.input-area');
+                if (inputArea) {
+                    inputArea.style.paddingBottom = `calc(16px + ${window.innerHeight * 0.05}px)`;
+                }
+            };
+            
+            setVH();
+            
+            // Listen for orientation changes
+            window.addEventListener('orientationchange', () => {
+                setTimeout(() => {
+                    setVH();
+                    setTimeout(scrollToBottom, 100);
+                }, 300);
+            });
+            
+            // Listen for resize (for devices that don't fire orientationchange)
+            window.addEventListener('resize', setVH);
         }
 
         // ===== THEME MANAGEMENT =====
@@ -2046,6 +2071,7 @@
             }
         }
 
+        // ===== CRITICAL FIX: REAL AI API CALL WITH MOBILE OPTIMIZATION =====
         async function sendMessage() {
             if (isProcessing) return;
             
@@ -2083,78 +2109,98 @@
             sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             
             try {
-            // ✅ CALL REAL AI API
-            const response = await fetch("/api/quantum-chatbot", {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ message })
-            });
-
-            const data = await response.json();
-
-            // ✅ REMOVE typing indicator
-            removeTypingIndicator();
-
-            // ✅ GET AI reply
-            const botResponse = data.reply || "⚠️ No response from AI.";
-
-            // ✅ SHOW AI reply in chat
-            addMessage(botResponse, 'bot');
-            saveMessage(botResponse, 'bot');
-
-            } catch (error) {
-            console.error('Chat error:', error);
-
-            // ✅ REMOVE typing indicator
-            removeTypingIndicator();
-
-            // ✅ FALLBACK RESPONSE
-            const fallbackResponse =
-                "⚠️ Quantum AI is temporarily unavailable. Please try again later or contact quantumcoderstechlab@gmail.com.";
-
-            addMessage(fallbackResponse, 'bot');
-            saveMessage(fallbackResponse, 'bot');
-
-            } finally {
-            // ✅ RE-ENABLE SEND BUTTON
-            isProcessing = false;
-            sendBtn.disabled = false;
-            sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
-            focusInput();
-            }
-  }
-
-        // Simulated AI response function (replace with actual API call)
-        async function simulateAIResponse(message) {
-            return new Promise((resolve) => {
+                // ===== CRITICAL: MOBILE-SAFE FETCH WITH TIMEOUT =====
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => {
+                    controller.abort();
+                    console.log('⏱️ Fetch timeout on mobile');
+                }, 15000); // 15 second timeout for mobile
+                
+                // Add cache busting for mobile
+                const timestamp = Date.now();
+                const apiUrl = `/api/quantum-chatbot?_=${timestamp}`;
+                
+                console.log('📱 Mobile: Sending request to API...');
+                
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Cache-Control": "no-cache",
+                        "Pragma": "no-cache"
+                    },
+                    body: JSON.stringify({ 
+                        message,
+                        timestamp,
+                        mobile: isMobile 
+                    }),
+                    signal: controller.signal,
+                    mode: 'cors',
+                    credentials: 'same-origin'
+                });
+                
+                clearTimeout(timeoutId);
+                
+                // Check response
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('✅ Mobile: API response received');
+                
+                // Remove typing indicator
+                removeTypingIndicator();
+                
+                // Get AI reply
+                const botResponse = data.reply || "I'm here to help! Can you tell me more about what you're looking for?";
+                
+                // Show AI reply in chat
                 setTimeout(() => {
-                    const responses = {
-                        "hello": "Hello! I'm Quantum AI Assistant from QuantumCoders. How can I help you today?",
-                        "what is quantumcoders": "QuantumCoders is a student tech team focused on hands-on learning in AI, web development, and emerging technologies. We build real-world projects and foster innovation.",
-                        "projects": "QuantumCoders works on various projects including AI chatbots, web applications, machine learning models, and innovative tech solutions. Check our website for current projects!",
-                        "join": "To join QuantumCoders, you can reach out to us via email at quantumcoderstechlab@gmail.com or visit our website for more information about openings!",
-                        "web development": "For web development, QuantumCoders recommends: HTML5, CSS3, JavaScript (ES6+), React.js, Node.js, and modern frameworks. We focus on responsive design and performance optimization.",
-                        "ai/ml": "In AI/ML, we work with Python, TensorFlow, PyTorch, and scikit-learn. We're exploring neural networks, computer vision, natural language processing, and reinforcement learning.",
-                        "default": "Thanks for your message! QuantumCoders is excited about technology innovation. Can you tell me more about what you're interested in?"
-                    };
+                    addMessage(botResponse, 'bot');
+                    saveMessage(botResponse, 'bot');
                     
-                    const lowerMessage = message.toLowerCase();
-                    let response = responses.default;
+                    // Show notification
+                    showNotification('Response Received', 'Quantum AI has replied!');
+                }, 300);
+                
+            } catch (error) {
+                console.error('❌ Mobile Chat error:', error);
+                
+                // Remove typing indicator
+                removeTypingIndicator();
+                
+                // Show fallback response (NOT the default simulation text)
+                setTimeout(() => {
+                    const fallbackResponses = [
+                        "I'm currently experiencing connectivity issues. As QuantumCoders' AI assistant, I can still tell you that we're passionate about technology innovation. For immediate help, please email quantumcoderstechlab@gmail.com.",
+                        "Connection interrupted. Let me share about QuantumCoders: We're a student-led tech team working on exciting projects in AI and web development. Feel free to reach out to us!",
+                        "Temporary network issue detected. QuantumCoders focuses on practical tech skills and real-world projects. You can learn more about us at quantumcoders.vercel.app"
+                    ];
                     
-                    for (const [key, value] of Object.entries(responses)) {
-                        if (lowerMessage.includes(key)) {
-                            response = value;
-                            break;
-                        }
+                    const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+                    addMessage(randomResponse, 'bot');
+                    saveMessage(randomResponse, 'bot');
+                    
+                    if (error.name === 'AbortError') {
+                        showNotification('Slow Connection', 'Request timed out. Please check your internet connection.');
+                    } else {
+                        showNotification('Connection Issue', 'Please check your internet connection.');
                     }
-                    
-                    resolve(response);
-                }, 1500);
-            });
+                }, 300);
+                
+            } finally {
+                // Re-enable send button
+                isProcessing = false;
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                focusInput();
+            }
         }
 
+        // ===== REMOVED: simulateAIResponse() COMPLETELY =====
+        // This was causing the default "Thanks for your message!" response on mobile
+        
         function sendQuickQuestion(question) {
             const input = document.getElementById('messageInput');
             input.value = question;
@@ -2272,8 +2318,12 @@
             // On mobile, ensure keyboard doesn't hide input
             if (isMobile) {
                 setTimeout(() => {
-                    // Scroll input into view
-                    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    try {
+                        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } catch (e) {
+                        // Fallback for older browsers
+                        input.scrollIntoView();
+                    }
                 }, 300);
             }
         }
@@ -2305,7 +2355,7 @@
         }
 
         function setupEventListeners() {
-            // Auto-focus input
+            // Auto-focus input on click
             document.addEventListener('click', (event) => {
                 if (!event.target.closest('.menu-panel') && 
                     !event.target.closest('.nav-btn[title="Menu"]') &&
@@ -2343,7 +2393,7 @@
                 }
             });
             
-            // Handle resize
+            // Handle resize with debounce
             let resizeTimeout;
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimeout);
@@ -2353,7 +2403,7 @@
                 }, 250);
             });
             
-            // Handle virtual keyboard on mobile
+            // Handle virtual keyboard on mobile (optimized)
             if (isMobile) {
                 const input = document.getElementById('messageInput');
                 let originalHeight = window.innerHeight;
@@ -2363,24 +2413,25 @@
                     // Scroll input into view when keyboard appears
                     setTimeout(() => {
                         scrollToBottom();
-                    }, 300);
+                    }, 350); // Increased for mobile keyboard animation
                 });
                 
                 input.addEventListener('blur', () => {
                     setTimeout(() => {
-                        if (window.innerHeight !== originalHeight) {
+                        if (Math.abs(window.innerHeight - originalHeight) > 100) {
                             scrollToBottom();
                         }
-                    }, 300);
+                    }, 350);
                 });
             }
             
-            // Prevent default touch behaviors that interfere with scrolling
+            // ===== CRITICAL FIX: Relax touchmove prevention =====
             document.addEventListener('touchmove', (e) => {
                 if (e.touches.length > 1) {
-                    e.preventDefault();
+                    // Just return, don't prevent default
+                    return;
                 }
-            }, { passive: false });
+            }, { passive: true }); // Always passive on mobile
             
             // Close modal when clicking outside
             document.addEventListener('click', (event) => {
@@ -2388,6 +2439,15 @@
                 if (modal.classList.contains('show') && event.target === modal) {
                     hideConfirmationModal();
                 }
+            });
+            
+            // Handle offline/online events
+            window.addEventListener('online', () => {
+                showNotification('Back Online', 'Connection restored! 🌐');
+            });
+
+            window.addEventListener('offline', () => {
+                showNotification('Offline', 'You are currently offline. 📶');
             });
         }
 
@@ -2470,47 +2530,6 @@
                 notification.classList.add('hide');
             }, 3000);
         }
-
-        // ===== INITIALIZE =====
-        window.addEventListener('load', () => {
-            // Check for saved preferences
-            if (!localStorage.getItem('quantum-sound')) {
-                localStorage.setItem('quantum-sound', 'true');
-            }
-            
-            // Fix for mobile viewport height
-            if (isMobile) {
-                // Set viewport height to prevent scrolling issues
-                const setVH = () => {
-                    const vh = window.innerHeight * 0.01;
-                    document.documentElement.style.setProperty('--vh', `${vh}px`);
-                };
-                
-                setVH();
-                
-                // Listen for orientation changes
-                window.addEventListener('orientationchange', () => {
-                    setTimeout(() => {
-                        setVH();
-                        scrollToBottom();
-                    }, 300);
-                });
-                
-                // Listen for resize (for devices that don't fire orientationchange)
-                window.addEventListener('resize', setVH);
-            }
-            
-            initializeApp();
-        });
-
-        // ===== OFFLINE DETECTION =====
-        window.addEventListener('online', () => {
-            showNotification('Back Online', 'Connection restored! 🌐');
-        });
-
-        window.addEventListener('offline', () => {
-            showNotification('Offline', 'You are currently offline. 📶');
-        });
     </script>
 </body>
 </html>
