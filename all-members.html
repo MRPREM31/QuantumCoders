@@ -1719,6 +1719,41 @@
             position: relative;
             z-index: 1;
         }
+
+        /* ===== FIX CTA BUTTON MOBILE ISSUE ===== */
+        @media (max-width: 480px) {
+
+            .join-team-cta .btn {
+                width: 100%;
+                max-width: 100%;
+                padding: 14px 18px;
+                font-size: 0.95rem;
+                gap: 8px;
+                text-align: center;
+                justify-content: center;
+                white-space: normal;
+            }
+
+            .join-team-cta .btn i {
+                font-size: 1rem;
+            }
+
+            .join-team-cta .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .join-team-cta h2 {
+                font-size: 1.6rem;
+                line-height: 1.3;
+            }
+
+            .join-team-cta p {
+                font-size: 0.95rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2227,7 +2262,8 @@
                         </p>
                         
                         <a href="./join-quantumcoders.html" class="btn">
-                            <i class="fas fa-user-plus"></i> Apply to Join QuantumCoders
+                            <i class="fas fa-user-plus"></i>
+                            <span>Apply to Join QuantumCoders</span>
                         </a>
                         
                         <div class="join-team-stats">
