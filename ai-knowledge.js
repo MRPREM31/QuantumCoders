@@ -20,7 +20,7 @@ QUANTUMCODERS TECH LAB - CORE INFORMATION:
 • Official Name: QuantumCoders Tech Lab
 • Tagline: "Building next-generation digital solutions that redefine innovation"
 • Founded: 2025 by Prem Prasad Pradhan
-• Team Size: 8 dedicated core members
+• Team Size: 9 dedicated core members
 • Website: https://quantumcoders.vercel.app
 • Primary Email: quantumcoderstechlab@gmail.com
 • Secondary Email: quantumcoders@zohomail.in
@@ -40,7 +40,7 @@ QuantumCoders Tech Lab is a forward-thinking technology team founded by students
 `;
 
 export const TEAM_INFO = `
-OUR 8 CORE TEAM MEMBERS:
+OUR 9 CORE TEAM MEMBERS:
 
 1. PREM PRASAD PRADHAN - Team Lead & Founder
    • Expertise: Full-stack development, project architecture, team coordination
@@ -98,6 +98,15 @@ OUR 8 CORE TEAM MEMBERS:
    • LinkedIn: barsarani-tripathy-3a8b57376
    • WhatsApp: +91 9937494633
    • Creates engaging and professional presentations
+
+9. SANDIP KUMAR MOHANTY - Social Media Lead
+   • Expertise: Social media management, public relations, communication strategy
+   • Email: mohantysandip705@gmail.com
+   • LinkedIn: sandip-kumar-mohanty-a60737374
+   • GitHub: Sandip-80
+   • WhatsApp: +91 9938859707
+   • Manages social media presence and public relations
+   • Passionate about communication, outreach, and presenting technology to the world
 `;
 
 export const PROJECT_INFO = `
@@ -193,7 +202,7 @@ QUANTUMCODERS WEBSITE DETAILS:
 MAIN SECTIONS:
 1. Home - Team introduction and community philosophy
 2. About - Mission statement and focus areas
-3. Team - Complete details of all 8 core members
+3. Team - Complete details of all 9 core members
 4. Projects - Current active projects with tech stacks
 5. Memories - Hackathon photos and team moments
 6. Achievements - Progress and recognition
@@ -205,6 +214,8 @@ ADDITIONAL PAGES:
 • /learning-resources.html - Learning guides and resources
 • /get-help.html - Support and troubleshooting
 • /ourmission.html - Detailed mission and vision
+• /all-members.html – Complete list of QuantumCoders team members
+• /certificates.html – Hackathon and competition certificates & achievements
 
 WEBSITE FEATURES:
 • AI Assistant Button (Floating robot icon to chatbot)

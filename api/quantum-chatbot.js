@@ -32,9 +32,11 @@ function buildSystemPrompt(message) {
       msg.includes("aradhana") || msg.includes("srikant") ||
       msg.includes("samir") || msg.includes("sankar") ||
       msg.includes("alibha") || msg.includes("asish") ||
-      msg.includes("barsarani") || msg.includes("lead") ||
-      msg.includes("developer") || msg.includes("designer") ||
-      msg.includes("who is") || msg.includes("members")) {
+      msg.includes("barsarani") || msg.includes("sandeep") ||
+      msg.includes("sandip") || msg.includes("social media") ||
+      msg.includes("lead") || msg.includes("developer") ||
+      msg.includes("designer") || msg.includes("who is") || 
+      msg.includes("members")) {
     prompt += TEAM_INFO;
   }
   
@@ -227,7 +229,7 @@ export default async function handler(req, res) {
     
     if (msg.includes("team") || msg.includes("founder") || msg.includes("member")) {
       return res.json({
-        reply: "We have 8 core team members led by Prem Prasad Pradhan (Founder & Team Lead). Other members include Aradhana (Presenter), Srikant (Backend), Samir (AI), Sankar (Frontend), Alibha (Python), Asish (Community), and Barsarani (Design). Email quantumcoderstechlab@gmail.com for details."
+        reply: "We have 9 core team members led by Prem Prasad Pradhan (Founder & Team Lead). Other members include Aradhana (Presenter), Srikant (Backend), Samir (AI), Sankar (Frontend), Alibha (Python), Asish (Community), Barsarani (Design), and Sandip (Social Media). Email quantumcoderstechlab@gmail.com for details."
       });
     }
     
@@ -239,7 +241,7 @@ export default async function handler(req, res) {
     
     if (msg.includes("achievement") || msg.includes("hackathon") || msg.includes("accomplish")) {
       return res.json({
-        reply: "We've participated in SIH 2025, national hackathons, and were finalists in NATH 2025. Built 10+ projects, mentored 8+ students, and have a growing community. Visit Achievements section on our website."
+        reply: "We've participated in SIH 2025, national hackathons, and were finalists in NATH 2025. Built 10+ projects, mentored 9+ students, and have a growing community. Visit Achievements section on our website."
       });
     }
     

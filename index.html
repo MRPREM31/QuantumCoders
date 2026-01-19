@@ -1499,6 +1499,113 @@
             animation-duration: 30s;
         }
 
+        /* View All Team Members Button */
+        .view-all-btn-container {
+            text-align: center;
+            margin: 40px 0;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .view-all-btn-container.view-all-bottom {
+            margin: 60px 0 20px;
+        }
+
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, 
+                rgba(99, 102, 241, 0.1),
+                rgba(139, 92, 246, 0.1),
+                rgba(6, 182, 212, 0.1));
+            color: var(--primary-color);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+        }
+
+        .view-all-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: 0.6s;
+        }
+
+        .view-all-btn:hover::before {
+            left: 100%;
+        }
+
+        .view-all-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: linear-gradient(135deg, 
+                var(--primary-color),
+                var(--secondary-color),
+                var(--accent-color));
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3),
+                        0 0 30px var(--primary-glow);
+        }
+
+        .view-all-btn i:first-child {
+            font-size: 1.2rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .view-all-btn i:last-child {
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .view-all-btn:hover i:last-child {
+            transform: translateX(5px);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .view-all-btn {
+                padding: 14px 28px;
+                font-size: 1rem;
+            }
+            
+            .view-all-btn-container {
+                margin: 30px 0;
+            }
+            
+            .view-all-btn-container.view-all-bottom {
+                margin: 40px 0 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .view-all-btn {
+                padding: 12px 24px;
+                font-size: 0.95rem;
+                gap: 8px;
+            }
+        }
+
         /* Responsive Design */
         @media (max-width: 1200px) {
             .footer-grid {
@@ -1557,7 +1664,7 @@
                 border-image: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color)) 1;
                 flex-direction: column;
                 align-items: stretch;
-                padding: 20px 0;
+                padding: 0px 0;
                 transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 z-index: 999;
                 gap: 0;
@@ -2387,41 +2494,48 @@
                         </div>
                     </div>
 
-                    <!-- Team Member - UI/UX Designer -->
+                    <!-- Team Member – Social Media Lead -->
                     <div class="team-card">
                         <div class="team-img-container">
-                            <img src="./assets/images/Team Member/Aliva.jpeg" 
-                                alt="Alibha Bisoyi - UI/UX Designer, QuantumCoders" 
+                            <img src="./assets/images/Team Member/SANDIP KUMAR MOHANTY.jpeg" 
+                                alt="Sandip Kumar Mohanty – Social Media Lead, QuantumCoders Tech Lab" 
                                 class="team-img">
                         </div>
 
                         <div class="team-info">
-                            <h3>Alibha<br> Bisoyi</h3>
-                            <div class="team-role">Python & SQL Developer, QuantumCoders</div>
+                            <h3>Sandip<br> Kumar Mohanty</h3>
+                            <div class="team-role">Social Media Lead, QuantumCoders</div>
 
                             <p>
-                                Focuses on data analysis, modeling, and insights using Python and SQL
-                                to support data-driven decision making.
+                                 Transforms data into insights using AI, modern web technologies, and effective social media management.
                             </p>
 
                             <div class="team-contact">
                                 <!-- Email -->
-                                <a href="mailto:alibha.bisoyi.ece.2023@nist.edu"
+                                <a href="mailto:mohantysandip705@gmail.com"
                                 class="contact-icon"
                                 title="Email">
                                     <i class="fas fa-envelope"></i>
                                 </a>
 
                                 <!-- LinkedIn -->
-                                <a href="https://www.linkedin.com/in/alibha-bisoyi-48a519319/"
+                                <a href="https://www.linkedin.com/in/sandip-kumar-mohanty-a60737374"
                                 class="contact-icon"
                                 title="LinkedIn"
                                 target="_blank">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
 
+                                <!-- GitHub -->
+                                <a href="https://github.com/Sandip-80"
+                                class="contact-icon"
+                                title="GitHub"
+                                target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+
                                 <!-- WhatsApp -->
-                                <a href="https://wa.me/918249518376?text=Hello%2C%20this%20is%20%5BYour%20Name%5D.%20I%20am%20contacting%20you%20from%20the%20QuantumCoders%20website."
+                                <a href="https://wa.me/919938859707?text=Hello%2C%20this%20is%20%5BYour%20Name%5D.%20I%20am%20contacting%20you%20from%20the%20QuantumCoders%20website."
                                 class="contact-icon"
                                 title="WhatsApp"
                                 target="_blank">
@@ -2430,7 +2544,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <!-- Team Member - Contributor Head -->
                     <div class="team-card">
@@ -2512,6 +2625,13 @@
                             </div>
                         </div>
                     </div>
+                    </div>
+                    <!-- All Members Button -->
+                    <div class="view-all-btn-container" target="_blank">
+                        <a href="./all-members.html" class="view-all-btn">
+                            <i class="fas fa-people-group"></i> View All Team Members
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -2637,6 +2757,12 @@
                                 <p>Our team QuantumCoders selected as finalists in National Agritech Hackathon with our AI farming solution</p>
                             </div>
                     </div>
+                </div>
+                <div class="view-all-btn-container">
+                    <a href="./certificates.html" class="view-all-btn" target="_blank">
+                        <i class="fas fas fa-award"></i> Quantum Certificates
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
         </section>
