@@ -76,52 +76,47 @@ function initializeParticles() {
         
         particlesJS('particles-js', {
             particles: {
-                number: { 
-                    value: particleCount, 
-                    density: { 
-                        enable: true, 
-                        value_area: isMobile ? 1400 : 800
-                    } 
+                number: {
+                    value: 70,
+                    density: {
+                        enable: true,
+                        value_area: 900
+                    }
                 },
                 color: { value: particleColor },
                 shape: { type: "circle" },
-                opacity: { 
-                    value: 0.35, 
-                    random: true,
-                    anim: { enable: true, speed: 0.8, opacity_min: 0.1, sync: false }
+                opacity: {
+                    value: 0.5,
+                    random: false
                 },
-                size: { 
-                    value: 2.2, 
-                    random: true,
-                    anim: { enable: true, speed: 1.5, size_min: 0.1, sync: false }
+                size: {
+                    value: 2.5,
+                    random: true
                 },
                 line_linked: {
                     enable: true,
-                    distance: 100,
+                    distance: 120,
                     color: particleColor,
-                    opacity: 0.12,
+                    opacity: 0.2,
                     width: 1
                 },
                 move: {
                     enable: true,
-                    speed: isMobile ? 0.8 : 1.5,
+                    speed: 2.5,          // 🔥 visible motion
                     direction: "none",
-                    random: true,
+                    random: false,
                     straight: false,
-                    out_mode: "out",
-                    bounce: false,
-                    attract: { enable: false }
+                    out_mode: "out"
                 }
             },
             interactivity: {
                 detect_on: "canvas",
                 events: {
-                    onhover: { enable: enableHoverRepulse, mode: "repulse" },
-                    onclick: { enable: false, mode: "push" },
+                    onhover: { enable: true, mode: "repulse" },
                     resize: true
                 }
             },
-            retina_detect: isMobile ? false : true
+            retina_detect: false
         });
     }
 }
