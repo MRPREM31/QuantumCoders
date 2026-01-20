@@ -31,26 +31,28 @@ function initializeTheme() {
     updateThemeIcon(currentTheme, themeIcon);
     
     // Theme toggle handler
-    themeToggle.addEventListener('click', () => {
-        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        localStorage.setItem('quantum-theme', currentTheme);
-        updateThemeIcon(currentTheme, themeIcon);
-        
-        // Update particles for theme
-        updateParticlesColor();
-        
-        // Add transition effect
-        document.documentElement.style.transition = 'all 0.8s ease';
-        
-        // Theme toggle animation
-        themeIcon.style.transition = 'transform 0.5s ease';
-        themeIcon.style.transform = 'rotate(180deg) scale(1.2)';
-        
-        setTimeout(() => {
-            themeIcon.style.transform = 'rotate(0deg) scale(1)';
-        }, 300);
-    });
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('quantum-theme', currentTheme);
+            updateThemeIcon(currentTheme, themeIcon);
+            
+            // Update particles for theme
+            updateParticlesColor();
+            
+            // Add transition effect
+            document.documentElement.style.transition = 'all 0.8s ease';
+            
+            // Theme toggle animation
+            themeIcon.style.transition = 'transform 0.5s ease';
+            themeIcon.style.transform = 'rotate(180deg) scale(1.2)';
+            
+            setTimeout(() => {
+                themeIcon.style.transform = 'rotate(0deg) scale(1)';
+            }, 300);
+        });
+    }
 }
 
 function updateThemeIcon(theme, icon) {
@@ -77,7 +79,7 @@ function initializeParticles() {
         particlesJS('particles-js', {
             particles: {
                 number: {
-                    value: 70,
+                    value: particleCount,
                     density: {
                         enable: true,
                         value_area: 900
@@ -139,30 +141,32 @@ function initializeMobileMenu() {
     const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
     
-    mobileToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        const icon = mobileToggle.querySelector('i');
-        
-        if (navMenu.classList.contains('active')) {
-            icon.className = 'fas fa-times';
-            mobileToggle.style.transform = 'rotate(90deg)';
-            document.body.style.overflow = 'hidden';
+    if (mobileToggle && navMenu) {
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
             
-            // Animate menu items
-            navLinks.forEach((link, index) => {
-                link.style.animationDelay = `${index * 0.1}s`;
-                link.classList.add('animate-in');
-            });
-        } else {
-            icon.className = 'fas fa-bars';
-            mobileToggle.style.transform = 'rotate(0deg)';
-            document.body.style.overflow = '';
-            
-            navLinks.forEach(link => {
-                link.classList.remove('animate-in');
-            });
-        }
-    });
+            if (navMenu.classList.contains('active')) {
+                icon.className = 'fas fa-times';
+                mobileToggle.style.transform = 'rotate(90deg)';
+                document.body.style.overflow = 'hidden';
+                
+                // Animate menu items
+                navLinks.forEach((link, index) => {
+                    link.style.animationDelay = `${index * 0.1}s`;
+                    link.classList.add('animate-in');
+                });
+            } else {
+                icon.className = 'fas fa-bars';
+                mobileToggle.style.transform = 'rotate(0deg)';
+                document.body.style.overflow = '';
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('animate-in');
+                });
+            }
+        });
+    }
     
     // Close menu when clicking on links
     navLinks.forEach(link => {
@@ -305,6 +309,19 @@ function initializeCertificateModal() {
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         });
+    });
+
+    downloadBtn.addEventListener('click', (e) => {
+        if (downloadBtn.href === '#') return;
+
+        e.preventDefault();
+
+        const a = document.createElement('a');
+        a.href = downloadBtn.href;
+        a.download = downloadBtn.download || 'certificate.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     });
     
     // Close modal
