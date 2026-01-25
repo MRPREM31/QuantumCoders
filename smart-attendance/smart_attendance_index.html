@@ -1581,7 +1581,7 @@
                     <i class="fas fa-envelope"></i> Contact
                 </a>
                 <div class="mobile-theme-toggle">
-                    <button class="theme-toggle" id="themeToggleMobile"></button>
+                    <button class="theme-toggle theme-btn id="themeToggleMobile"></button>
                 </div>
             </nav>
 
@@ -1622,7 +1622,7 @@
             </a>
             <div class="mobile-theme-toggle">
                 <span>Theme</span>
-                <button class="theme-toggle" id="themeToggleMobile"></button>
+                <button class="theme-toggle theme-btn id="themeToggleMobile"></button>
             </div>
         </div>
     </div>
@@ -2497,9 +2497,10 @@
                     document.getElementById('loadingScreen').classList.add('hidden');
                 }, 1500);
                 
-                // Theme Management
-                const themeToggle = document.getElementById('themeToggle');
-                const themeToggleMobile = document.getElementById('themeToggleMobile');
+                document.querySelectorAll('.theme-btn').forEach(btn => {
+                    btn.addEventListener('click', toggleTheme);
+                });
+
                 
                 function initTheme() {
                     const savedTheme = localStorage.getItem('theme');
@@ -2515,8 +2516,6 @@
                     localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
                 }
                 
-                themeToggle?.addEventListener('click', toggleTheme);
-                themeToggleMobile?.addEventListener('click', toggleTheme);
                 
                 initTheme();
                 
