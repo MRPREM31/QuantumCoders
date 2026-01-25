@@ -6,10 +6,26 @@
   <!-- HOME -->
   <url>
     <loc>https://quantumcoders.vercel.app/</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-01-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- SMART ATTENDANCE SYSTEM (PRODUCT PAGE) -->
+  <url>
+    <loc>https://quantumcoders.vercel.app/smart-attendance/smart_attendance_index.html</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+
+    <!-- Product Poster for Google Images -->
+    <image:image>
+      <image:loc>https://quantumcoders.vercel.app/smart-attendance/assets/poster/Smart-Attendance-System.png</image:loc>
+      <image:title>Smart Attendance System - QR Code Attendance App</image:title>
+      <image:caption>QR Code based Smart Attendance System for schools and colleges</image:caption>
+    </image:image>
+  </url>
+
 
   <!-- CORE FEATURES -->
   <url>
@@ -67,5 +83,19 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <url>
+    <loc>https://quantumcoders.vercel.app/smart-attendance/privacy-policy-smart-attendance.html</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+  <loc>https://quantumcoders.vercel.app/smart-attendance/terms-of-service.html</loc>
+  <lastmod>2026-01-25</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.5</priority>
+</url>
 
 </urlset>
