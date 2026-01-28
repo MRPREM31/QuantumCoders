@@ -1693,7 +1693,7 @@
                         <a href="#contact" class="btn btn-secondary">
                             <i class="fas fa-envelope"></i> Contact Us
                         </a>
-                        <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v2.0.apk" class="btn btn-primary" style="background: linear-gradient(135deg, var(--success), var(--primary));">
+                        <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v3.1.apk" class="btn btn-primary" style="background: linear-gradient(135deg, var(--success), var(--primary));">
                             <i class="fas fa-download"></i> Direct Download
                         </a>
                     </div>
@@ -2125,7 +2125,7 @@
                     <h3>Direct APK Download</h3>
                     <p style="font-size: 0.95rem;">Download APK file directly for manual installation. Suitable for devices without access to app stores.</p>
                     <!-- Replace the button with this direct link -->
-                    <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v2.0.apk" class="store-btn" id="downloadApkBtn">
+                    <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v3.1.apk" class="store-btn" id="downloadApkBtn">
                         <i class="fas fa-download"></i> Download APK
                     </a>
                     <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--gray);">
@@ -2640,7 +2640,7 @@
                                 mode: 'no-cors',
                                 body: JSON.stringify({
                                     action: 'download',
-                                    file: 'smart-attendance-v2.0.apk',
+                                    file: 'smart-attendance-v3.1.apk',
                                     timestamp: new Date().toISOString(),
                                     userAgent: navigator.userAgent
                                 })
@@ -2648,7 +2648,7 @@
                             
                             // Simulate download
                             setTimeout(() => {
-                                alert('📱 APK download started! Please check your downloads folder.\n\nFor now, this is a demo. In the real version, the actual APK would be downloaded.');
+                                alert('📱 APK download started! Please check your downloads folder.');
                             }, 1000);
                             
                         } catch (error) {
@@ -2768,7 +2768,7 @@
             });
         </script>
         <div class="floating-download-btn" id="floatingDownload">
-        <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v2.0.apk">
+        <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v3.1.apk">
             <i class="fas fa-download"></i>
             <span>Download APK</span>
         </a>
