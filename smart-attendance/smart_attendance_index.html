@@ -1200,6 +1200,157 @@
             transform: translateX(6px);
         }
 
+        /* ===== Download Progress Bar Styles ===== */
+        .download-progress-container {
+            display: none; /* Hidden by default */
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .download-progress {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .download-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-progress-bar:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            animation: progress-shimmer 1.5s infinite;
+        }
+
+        @keyframes progress-shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .download-progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .download-status {
+            font-size: 0.8rem;
+            color: var(--primary);
+            text-align: center;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Modal for download progress */
+        .download-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .download-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .download-modal-content {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-xl);
+            text-align: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .download-modal-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .download-modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .download-modal-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .download-modal-btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .download-modal-btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .download-modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
         /* Mobile tweak */
         @media (max-width: 768px) {
             .footer-links a {
@@ -1693,9 +1844,14 @@
                         <a href="#contact" class="btn btn-secondary">
                             <i class="fas fa-envelope"></i> Contact Us
                         </a>
-                        <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v3.1.apk" class="btn btn-primary" style="background: linear-gradient(135deg, var(--success), var(--primary));">
+                        
+                        <!-- Download button with inline animation -->
+                        <button class="btn btn-primary" 
+                                style="background: linear-gradient(135deg, var(--success), var(--primary)); position: relative; overflow: hidden;"
+                                onclick="downloadAPK(this)">
                             <i class="fas fa-download"></i> Direct Download
-                        </a>
+                            <span class="download-progress" style="position: absolute; bottom: 0; left: 0; width: 0%; height: 3px; background: rgba(255,255,255,0.8); transition: width 0.3s;"></span>
+                        </button>
                     </div>
 
                     <div class="hero-stats">
@@ -2099,45 +2255,73 @@
             </div>
             
             <div class="download-grid">
+                <!-- Amazon Appstore Card (Updated) -->
                 <div class="download-card">
                     <div class="platform-icon">
                         <i class="fab fa-amazon"></i>
                     </div>
                     <h3>Amazon Appstore</h3>
                     <p style="font-size: 0.95rem;">Download from official Amazon Appstore for Fire OS and Android devices. Perfect for schools using Amazon tablets.</p>
-                    <a href="https://www.amazon.com/gp/product/B0GJ2QJK8R" target="_blank" class="store-btn">
+                    <a href="https://www.amazon.com/gp/product/B0GJ2QJK8R" target="_blank" class="store-btn" data-download-type="amazon">
                         <i class="fab fa-amazon"></i> Get on Amazon
                     </a>
+                    
+                    <!-- Progress Container -->
+                    <div class="download-progress-container" id="amazonProgress">
+                        <div class="download-progress">
+                            <div class="download-progress-bar" id="amazonProgressBar"></div>
+                        </div>
+                        <div class="download-progress-info">
+                            <span id="amazonProgressPercent">0%</span>
+                            <span id="amazonSpeed">0 KB/s</span>
+                            <span id="amazonTimeRemaining">Estimating...</span>
+                        </div>
+                        <div class="download-status" id="amazonStatus">Ready to download</div>
+                    </div>
+                    
                     <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--gray);">
                         <i class="fas fa-info-circle"></i> Version 2.2.2 | 8.9 MB | Android 8.0+
                     </div>
-                    <!-- Add this near download buttons -->
                     <div style="margin-top: 0.5rem; padding: 0.75rem; background: rgba(255, 209, 102, 0.1); border-radius: var(--radius); border: 1px solid var(--warning); font-size: 0.8rem;">
                         <i class="fas fa-info-circle" style="color: var(--warning);"></i>
                         <strong>Recommended:</strong> Download the app from the <strong>Amazon Appstore</strong> for a secure and verified installation, especially on Amazon Fire devices.
                     </div>
                 </div>
-                
+
+                <!-- Direct APK Download Card (Updated) -->
                 <div class="download-card">
                     <div class="platform-icon">
                         <i class="fas fa-download"></i>
                     </div>
                     <h3>Direct APK Download</h3>
                     <p style="font-size: 0.95rem;">Download APK file directly for manual installation. Suitable for devices without access to app stores.</p>
-                    <!-- Replace the button with this direct link -->
-                    <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v3.1.apk" class="store-btn" id="downloadApkBtn">
+                    <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v3.1.apk" class="store-btn" data-download-type="apk" id="downloadApkBtn">
                         <i class="fas fa-download"></i> Download APK
                     </a>
+                    
+                    <!-- Progress Container -->
+                    <div class="download-progress-container" id="apkProgress">
+                        <div class="download-progress">
+                            <div class="download-progress-bar" id="apkProgressBar"></div>
+                        </div>
+                        <div class="download-progress-info">
+                            <span id="apkProgressPercent">0%</span>
+                            <span id="apkSpeed">0 KB/s</span>
+                            <span id="apkTimeRemaining">Estimating...</span>
+                        </div>
+                        <div class="download-status" id="apkStatus">Ready to download</div>
+                    </div>
+                    
                     <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--gray);">
                         <i class="fas fa-shield-alt"></i> Verified & Secure | No Ads
                     </div>
-                    <!-- Add this near download buttons -->
                     <div style="margin-top: 0.5rem; padding: 0.75rem; background: rgba(255, 209, 102, 0.1); border-radius: var(--radius); border: 1px solid var(--warning); font-size: 0.8rem;">
                         <i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i>
                         <strong>Important:</strong> Enable "Install from unknown sources" in Android Settings > Security before installation.
                     </div>
                 </div>
-                
+
+                <!-- Coming Soon Card (Updated) -->
                 <div class="download-card">
                     <div class="platform-icon">
                         <i class="fas fa-cloud-download-alt"></i>
@@ -2145,12 +2329,25 @@
                     <h3>Coming Soon</h3>
                     <p style="font-size: 0.95rem;">We're expanding to more platforms to reach every educational institution worldwide.</p>
                     <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem;">
-                        <div class="store-btn" style="opacity: 0.7; cursor: not-allowed;">
+                        <div class="store-btn coming-soon-btn" style="opacity: 0.7; cursor: not-allowed;" data-download-type="playstore">
                             <i class="fab fa-google-play"></i> Google Play (Soon)
                         </div>
-                        <div class="store-btn" style="opacity: 0.7; cursor: not-allowed;">
+                        <div class="store-btn coming-soon-btn" style="opacity: 0.7; cursor: not-allowed;" data-download-type="appstore">
                             <i class="fab fa-app-store"></i> App Store (Soon)
                         </div>
+                    </div>
+                    
+                    <!-- Progress Container -->
+                    <div class="download-progress-container" id="soonProgress">
+                        <div class="download-progress">
+                            <div class="download-progress-bar" id="soonProgressBar"></div>
+                        </div>
+                        <div class="download-progress-info">
+                            <span id="soonProgressPercent">0%</span>
+                            <span id="soonSpeed">0 KB/s</span>
+                            <span id="soonTimeRemaining">Estimating...</span>
+                        </div>
+                        <div class="download-status" id="soonStatus">Platform coming soon</div>
                     </div>
                 </div>
             </div>
@@ -2527,6 +2724,443 @@
                     }
                 });
             }
+    
+            function downloadAPK(btn) {
+                const progress = btn.querySelector('.download-progress');
+                const originalText = btn.innerHTML;
+                
+                // Disable button and show loading
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing...';
+                
+                // Simulate progress
+                let width = 0;
+                const interval = setInterval(() => {
+                    width += 2;
+                    progress.style.width = `${width}%`;
+                    
+                    if (width >= 100) {
+                        clearInterval(interval);
+                        
+                        // Change to downloading
+                        btn.innerHTML = '<i class="fas fa-check"></i> Starting Download...';
+                        
+                        // Trigger actual download
+                        setTimeout(() => {
+                            const link = document.createElement('a');
+                            link.href = './assets/app/smart-attendance.apk';
+                            link.download = 'Smart-Attendance-System-v3.1.apk';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            
+                            // Reset button
+                            setTimeout(() => {
+                                btn.innerHTML = originalText;
+                                progress.style.width = '0%';
+                                btn.disabled = false;
+                            }, 2000);
+                        }, 800);
+                    }
+                }, 40);
+            }
+
+            // Download Manager with Progress Bar
+            class DownloadManager {
+                constructor() {
+                    this.currentDownload = null;
+                    this.downloads = {
+                        amazon: {
+                            url: 'https://www.amazon.com/gp/product/B0GJ2QJK8R',
+                            fileSize: 8900000, // 8.9 MB
+                            title: 'Smart Attendance System - Amazon',
+                            description: 'Downloading from Amazon Appstore'
+                        },
+                        apk: {
+                            url: './assets/app/smart-attendance.apk',
+                            fileSize: 10000000, // 10 MB
+                            title: 'Smart Attendance System APK',
+                            description: 'Downloading APK file'
+                        },
+                        playstore: {
+                            url: '#',
+                            fileSize: 0,
+                            title: 'Google Play Store',
+                            description: 'Platform coming soon'
+                        },
+                        appstore: {
+                            url: '#',
+                            fileSize: 0,
+                            title: 'Apple App Store',
+                            description: 'Platform coming soon'
+                        }
+                    };
+                }
+
+                // Initialize download buttons
+                initDownloadButtons() {
+                    // Handle Amazon download - DON'T prevent default for external links
+                    const amazonBtn = document.querySelector('a[data-download-type="amazon"]');
+                    if (amazonBtn) {
+                        amazonBtn.addEventListener('click', (e) => {
+                            // Show progress before opening external link
+                            e.preventDefault();
+                            this.startAmazonDownload();
+                        });
+                    }
+
+                    // Handle APK download - Use a different approach
+                    const apkBtn = document.getElementById('downloadApkBtn');
+                    if (apkBtn) {
+                        apkBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            this.startAPKDownload();
+                        });
+                    }
+
+                    // Handle coming soon buttons
+                    document.querySelectorAll('.coming-soon-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const type = btn.dataset.downloadType;
+                            this.showComingSoonMessage(type);
+                        });
+                    });
+
+                    // Modal buttons
+                    document.getElementById('cancelDownloadBtn')?.addEventListener('click', () => {
+                        this.cancelDownload();
+                    });
+
+                    document.getElementById('viewDownloadBtn')?.addEventListener('click', () => {
+                        this.closeModal();
+                    });
+                }
+
+                // Special handling for Amazon (external link with progress simulation)
+                startAmazonDownload() {
+                    if (this.currentDownload) {
+                        this.showNotification('Another download is in progress', 'warning');
+                        return;
+                    }
+
+                    const downloadInfo = this.downloads.amazon;
+                    this.currentDownload = {
+                        type: 'amazon',
+                        startTime: Date.now(),
+                        downloaded: 0,
+                        totalSize: downloadInfo.fileSize,
+                        interval: null
+                    };
+
+                    // Show modal
+                    this.showModal(downloadInfo.title, downloadInfo.description);
+
+                    // Initialize progress UI
+                    this.updateProgress('amazon', 0);
+                    this.updateStatus('amazon', 'Preparing download...');
+
+                    // Simulate progress then open Amazon
+                    this.simulateAmazonProgress();
+                }
+
+                // Simulate progress for Amazon, then redirect
+                simulateAmazonProgress() {
+                    let progress = 0;
+                    const interval = 50; // Update every 50ms
+                    const totalTime = 3000; // 3 seconds total
+                    const increment = (interval / totalTime) * 100;
+
+                    this.currentDownload.interval = setInterval(() => {
+                        progress += increment;
+                        if (progress >= 100) {
+                            progress = 100;
+                            clearInterval(this.currentDownload.interval);
+                            
+                            // Show completion message
+                            this.updateProgress('amazon', progress);
+                            this.updateStatus('amazon', 'Redirecting to Amazon...');
+                            
+                            // Open Amazon after 1 second
+                            setTimeout(() => {
+                                // Open Amazon in new tab
+                                window.open(this.downloads.amazon.url, '_blank');
+                                
+                                // Show completion modal
+                                this.showModalComplete('amazon', 'Opening Amazon Appstore...');
+                            }, 1000);
+                            return;
+                        }
+                        
+                        this.updateProgress('amazon', progress);
+                        this.calculateSpeed('amazon', progress);
+                        
+                        // Update status messages based on progress
+                        if (progress > 80) {
+                            this.updateStatus('amazon', 'Finalizing...');
+                        } else if (progress > 50) {
+                            this.updateStatus('amazon', 'Downloading...');
+                        } else if (progress > 20) {
+                            this.updateStatus('amazon', 'Connecting to Amazon...');
+                        }
+                    }, interval);
+                }
+
+                // Special handling for APK (trigger actual download)
+                startAPKDownload() {
+                    if (this.currentDownload) {
+                        this.showNotification('Another download is in progress', 'warning');
+                        return;
+                    }
+
+                    const downloadInfo = this.downloads.apk;
+                    this.currentDownload = {
+                        type: 'apk',
+                        startTime: Date.now(),
+                        downloaded: 0,
+                        totalSize: downloadInfo.fileSize,
+                        interval: null
+                    };
+
+                    // Show modal
+                    this.showModal(downloadInfo.title, downloadInfo.description);
+
+                    // Initialize progress UI
+                    this.updateProgress('apk', 0);
+                    this.updateStatus('apk', 'Starting download...');
+
+                    // Try actual download first, fall back to simulation
+                    this.attemptAPKDownload();
+                }
+
+                // Attempt actual APK download
+                attemptAPKDownload() {
+                    const apkUrl = this.downloads.apk.url;
+                    
+                    // Create a hidden iframe to trigger download
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = apkUrl;
+                    
+                    // Simulate progress while waiting for download
+                    this.simulateAPKProgress();
+                    
+                    // Add iframe to trigger download
+                    document.body.appendChild(iframe);
+                    
+                    // Clean up after 5 seconds
+                    setTimeout(() => {
+                        if (iframe.parentNode) {
+                            document.body.removeChild(iframe);
+                        }
+                    }, 5000);
+                }
+
+                // Simulate APK download progress
+                simulateAPKProgress() {
+                    let progress = 0;
+                    const interval = 50; // Update every 50ms
+                    const totalTime = 4000; // 4 seconds total
+                    const increment = (interval / totalTime) * 100;
+
+                    this.currentDownload.interval = setInterval(() => {
+                        progress += increment;
+                        if (progress >= 100) {
+                            progress = 100;
+                            clearInterval(this.currentDownload.interval);
+                            
+                            // Show completion
+                            this.updateProgress('apk', progress);
+                            this.updateStatus('apk', 'Download complete!');
+                            
+                            // Show completion modal
+                            setTimeout(() => {
+                                this.showModalComplete('apk', 'APK download started! Check your downloads folder.');
+                            }, 500);
+                            return;
+                        }
+                        
+                        this.updateProgress('apk', progress);
+                        this.calculateSpeed('apk', progress);
+                        
+                        // Update status messages based on progress
+                        if (progress > 80) {
+                            this.updateStatus('apk', 'Finalizing download...');
+                        } else if (progress > 50) {
+                            this.updateStatus('apk', 'Downloading APK file...');
+                        } else if (progress > 20) {
+                            this.updateStatus('apk', 'Preparing file...');
+                        }
+                    }, interval);
+                }
+
+                // Update progress bar
+                updateProgress(type, progress) {
+                    // Update card progress
+                    const progressBar = document.getElementById(`${type}ProgressBar`);
+                    const progressPercent = document.getElementById(`${type}ProgressPercent`);
+                    
+                    if (progressBar) {
+                        progressBar.style.width = `${progress}%`;
+                        progressBar.parentElement.parentElement.style.display = 'block';
+                    }
+                    
+                    if (progressPercent) {
+                        progressPercent.textContent = `${Math.round(progress)}%`;
+                    }
+
+                    // Update modal progress
+                    const modalBar = document.getElementById('modalProgressBar');
+                    const modalPercent = document.getElementById('modalProgressPercent');
+                    
+                    if (modalBar) {
+                        modalBar.style.width = `${progress}%`;
+                    }
+                    
+                    if (modalPercent) {
+                        modalPercent.textContent = `${Math.round(progress)}%`;
+                    }
+                }
+
+                // Calculate and display speed
+                calculateSpeed(type, progress) {
+                    if (!this.currentDownload) return;
+                    
+                    const elapsed = (Date.now() - this.currentDownload.startTime) / 1000; // in seconds
+                    const downloaded = (progress / 100) * this.currentDownload.totalSize;
+                    
+                    const speed = elapsed > 0 ? downloaded / elapsed : 0;
+                    const speedText = speed > 1024 * 1024 ? 
+                        `${(speed / (1024 * 1024)).toFixed(1)} MB/s` : 
+                        `${(speed / 1024).toFixed(1)} KB/s`;
+                    
+                    // Calculate time remaining
+                    const remaining = 100 - progress;
+                    const timeRemaining = remaining > 0 && speed > 0 ? 
+                        `${Math.round((remaining / 100 * this.currentDownload.totalSize) / speed)}s` : 
+                        'Estimating...';
+                    
+                    // Update card
+                    const speedEl = document.getElementById(`${type}Speed`);
+                    const timeEl = document.getElementById(`${type}TimeRemaining`);
+                    
+                    if (speedEl) speedEl.textContent = speedText;
+                    if (timeEl) timeEl.textContent = timeRemaining;
+                    
+                    // Update modal
+                    const modalSpeed = document.getElementById('modalSpeed');
+                    const modalTime = document.getElementById('modalTimeRemaining');
+                    
+                    if (modalSpeed) modalSpeed.textContent = speedText;
+                    if (modalTime) modalTime.textContent = timeRemaining;
+                }
+
+                // Update status message
+                updateStatus(type, message) {
+                    const statusEl = document.getElementById(`${type}Status`);
+                    if (statusEl) {
+                        statusEl.textContent = message;
+                        statusEl.style.color = message.includes('fail') ? 'var(--danger)' : 
+                                            message.includes('complete') ? 'var(--success)' : 
+                                            'var(--primary)';
+                    }
+
+                    const modalStatus = document.getElementById('modalStatus');
+                    if (modalStatus) {
+                        modalStatus.textContent = message;
+                        modalStatus.style.color = message.includes('fail') ? 'var(--danger)' : 
+                                                message.includes('complete') ? 'var(--success)' : 
+                                                'var(--primary)';
+                    }
+                }
+
+                // Show modal
+                showModal(title, description) {
+                    const modal = document.getElementById('downloadModal');
+                    const modalTitle = document.getElementById('modalTitle');
+                    const modalDesc = document.getElementById('modalDescription');
+                    const cancelBtn = document.getElementById('cancelDownloadBtn');
+                    const viewBtn = document.getElementById('viewDownloadBtn');
+                    
+                    if (modal && modalTitle && modalDesc) {
+                        modalTitle.textContent = title;
+                        modalDesc.textContent = description;
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                        
+                        // Show/hide buttons
+                        cancelBtn.style.display = 'block';
+                        viewBtn.style.display = 'none';
+                    }
+                }
+
+                // Show modal with completion state
+                showModalComplete(type, message) {
+                    const modalTitle = document.getElementById('modalTitle');
+                    const modalDesc = document.getElementById('modalDescription');
+                    const modalIcon = document.querySelector('.download-modal-icon i');
+                    const cancelBtn = document.getElementById('cancelDownloadBtn');
+                    const viewBtn = document.getElementById('viewDownloadBtn');
+                    
+                    if (modalTitle && modalDesc && modalIcon) {
+                        modalTitle.textContent = 'Download Complete!';
+                        modalDesc.textContent = message;
+                        modalIcon.className = 'fas fa-check-circle';
+                        modalIcon.parentElement.style.background = 'var(--gradient-primary)';
+                        
+                        // Update buttons
+                        cancelBtn.style.display = 'none';
+                        viewBtn.style.display = 'block';
+                        viewBtn.textContent = type === 'amazon' ? 'View in Amazon' : 'View Download';
+                        
+                        // Close modal after 3 seconds automatically
+                        setTimeout(() => {
+                            if (document.getElementById('downloadModal').classList.contains('active')) {
+                                this.closeModal();
+                            }
+                        }, 3000);
+                    }
+                }
+
+                // Close modal
+                closeModal() {
+                    const modal = document.getElementById('downloadModal');
+                    if (modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = '';
+                        this.resetCurrentDownload();
+                    }
+                }
+
+                // Cancel download
+                cancelDownload() {
+                    if (this.currentDownload?.interval) {
+                        clearInterval(this.currentDownload.interval);
+                    }
+                    
+                    this.updateStatus(this.currentDownload?.type, 'Download cancelled');
+                    this.showNotification('Download cancelled', 'warning');
+                    this.closeModal();
+                }
+
+                // Reset current download
+                resetCurrentDownload() {
+                    this.currentDownload = null;
+                }
+
+                // Show coming soon message
+                showComingSoonMessage(type) {
+                    const platform = type === 'playstore' ? 'Google Play Store' : 'Apple App Store';
+                    this.showNotification(`${platform} version coming soon!`, 'info');
+                }
+
+                // Show notification
+                showNotification(message, type = 'info') {
+                    showNotification(message, type);
+                }
+            }
+            // Create global instance
+            const downloadManager = new DownloadManager();
             
             // Wait for DOM to load
             document.addEventListener('DOMContentLoaded', function() {
@@ -2622,43 +3256,8 @@
                 // Initialize the form
                 initializeForm();
                 
-                // APK Download
-                // APK Download - MODIFIED version
-                const downloadApkBtn = document.getElementById('downloadApkBtn');
-                if (downloadApkBtn) {
-                    downloadApkBtn.addEventListener('click', async function(e) {
-                        // Allow the download to start immediately
-                        // Don't call e.preventDefault();
-                        
-                        // Show downloading state
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
-                        this.disabled = true;
-                        
-                        // Track download in background
-                        try {
-                            await fetch(GOOGLE_SCRIPT_URL, {
-                                method: 'POST',
-                                mode: 'no-cors',
-                                body: JSON.stringify({
-                                    action: 'download',
-                                    file: 'smart-attendance-v3.1.apk',
-                                    timestamp: new Date().toISOString(),
-                                    userAgent: navigator.userAgent
-                                })
-                            });
-                        } catch (error) {
-                            console.error('Analytics error:', error);
-                            // Continue with download anyway
-                        }
-                        
-                        // Reset button after 3 seconds
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                            this.disabled = false;
-                        }, 3000);
-                    });
-                }
+                // Initialize download manager with progress bars
+                downloadManager.initDownloadButtons();
                 
                 // Update active section on scroll
                 function updateActiveSection() {
@@ -2763,11 +3362,44 @@
                 }, false);
             });
         </script>
+        
         <div class="floating-download-btn" id="floatingDownload">
-        <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v3.1.apk">
-            <i class="fas fa-download"></i>
-            <span>Download APK</span>
-        </a>
-    </div>
+            <a href="./assets/app/smart-attendance.apk" download="Smart-Attendance-System-v3.1.apk">
+                <i class="fas fa-download"></i>
+                <span>Download APK</span>
+            </a>
+        </div>
+
+        <!-- Download Progress Modal -->
+        <div class="download-modal" id="downloadModal">
+            <div class="download-modal-content">
+                <div class="download-modal-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <h3 id="modalTitle">Downloading...</h3>
+                <p id="modalDescription">Please wait while we prepare your download</p>
+                
+                <div class="download-progress-container" style="display: block; margin: 1.5rem 0;">
+                    <div class="download-progress">
+                        <div class="download-progress-bar" id="modalProgressBar"></div>
+                    </div>
+                    <div class="download-progress-info">
+                        <span id="modalProgressPercent">0%</span>
+                        <span id="modalSpeed">0 KB/s</span>
+                        <span id="modalTimeRemaining">Estimating...</span>
+                    </div>
+                    <div class="download-status" id="modalStatus">Initializing download...</div>
+                </div>
+                
+                <div class="download-modal-actions">
+                    <button class="download-modal-btn download-modal-btn-secondary" id="cancelDownloadBtn">
+                        Cancel Download
+                    </button>
+                    <button class="download-modal-btn download-modal-btn-primary" id="viewDownloadBtn" style="display: none;">
+                        View Download
+                    </button>
+                </div>
+            </div>
+        </div>
 </body>
 </html>
