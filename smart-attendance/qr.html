@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Live Attendance QR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 5px 0;
+    }
+
+    #qrBox {
+      margin: 20px auto;
+      padding: 15px;
+      background: #111;
+      display: inline-block;
+      border-radius: 12px;
+    }
+
+    img {
+      width: 320px;
+      height: 320px;
+    }
+
+    #present {
+      font-size: 26px;
+      margin-top: 15px;
+      color: #00e676;
+    }
+
+    #countdown {
+      font-size: 20px;
+      color: #ffab00;
+    }
+
+    #ended {
+      color: #ff5252;
+      font-size: 26px;
+      display: none;
+      margin-top: 30px;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 id="teacherName">Loading…</h1>
+  <h2 id="subject"></h2>
+
+  <p id="timeSlot"></p>
+  <p id="countdown"></p>
+
+  <div id="qrBox">
+    <img id="qrImg" alt="QR Code"/>
+  </div>
+
+  <div id="present">Present: 0</div>
+
+  <div id="ended">⛔ Session Ended</div>
+
+  <footer>
+    Smart Attendance System
+  </footer>
+
+  <!-- 🔥 Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- 🔳 QR Generator -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+  <script>
+    // ================= GET SESSION ID =================
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("sessionId");
+
+    if (!sessionId) {
+      document.body.innerHTML = "<h1>Invalid QR Link</h1>";
+      throw new Error("Session ID missing");
+    }
+
+    // ================= FIREBASE CONFIG =================
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvOsbdPqY57dhsn4KsBOr_IIy94ULp0S0",
+      authDomain: "smartattendance-gdg.firebaseapp.com",
+      projectId: "smartattendance-gdg"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let sessionEndTime = 0;
+    let sessionStatus = "ACTIVE";
+
+    // ================= FETCH SESSION (LIVE) =================
+    db.collection("attendance_sessions")
+      .doc(sessionId)
+      .onSnapshot(doc => {
+        if (!doc.exists) return;
+
+        const d = doc.data();
+
+        document.getElementById("teacherName").innerText = d.teacherName;
+        document.getElementById("subject").innerText = "Subject: " + d.subject;
+        document.getElementById("timeSlot").innerText =
+          "Time Slot: " + d.timeSlot;
+
+        sessionEndTime = d.expiresAt;
+        sessionStatus = d.status;
+
+        if (sessionStatus !== "ACTIVE") {
+          endScreen();
+        }
+      });
+
+    // ================= COUNTDOWN TIMER =================
+    const countdownTimer = setInterval(() => {
+      if (!sessionEndTime) return;
+
+      const remaining =
+        Math.floor((sessionEndTime - Date.now()) / 1000);
+
+      if (remaining <= 0) {
+        endScreen();
+      } else {
+        document.getElementById("countdown").innerText =
+          "Time Remaining: " + remaining + " sec";
+      }
+    }, 1000);
+
+    // ================= LIVE PRESENT COUNT =================
+    const presentTimer = setInterval(() => {
+      if (sessionStatus !== "ACTIVE") return;
+
+      db.collection("attendance_records")
+        .where("sessionId", "==", sessionId)
+        .get()
+        .then(qs => {
+          document.getElementById("present").innerText =
+            "Present: " + qs.size;
+        });
+    }, 3000);
+
+    // ================= DYNAMIC QR =================
+    const qrTimer = setInterval(() => {
+      if (sessionStatus !== "ACTIVE") return;
+
+      const payload = sessionId + "|" + Date.now();
+
+      QRCode.toDataURL(payload, { width: 320 }, (err, url) => {
+        if (!err) {
+          document.getElementById("qrImg").src = url;
+        }
+      });
+    }, 10000);
+
+    // ================= END SESSION UI =================
+    function endScreen() {
+      clearInterval(qrTimer);
+      clearInterval(presentTimer);
+      clearInterval(countdownTimer);
+
+      document.getElementById("qrBox").style.display = "none";
+      document.getElementById("present").style.display = "none";
+      document.getElementById("countdown").style.display = "none";
+      document.getElementById("ended").style.display = "block";
+    }
+
+    // 🔥 Generate first QR instantly
+    QRCode.toDataURL(sessionId + "|" + Date.now(), { width: 320 }, (e, url) => {
+      if (!e) document.getElementById("qrImg").src = url;
+    });
+  </script>
+
+</body>
+</html>
