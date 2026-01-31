@@ -141,7 +141,11 @@
         sessionStatus = d.status;
 
         if (sessionStatus !== "ACTIVE") {
-          endScreen();
+        endScreen();
+        return;
+        }
+        if (Date.now() > sessionEndTime) {
+        endScreen();
         }
       });
 
