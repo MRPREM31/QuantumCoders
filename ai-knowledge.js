@@ -47,6 +47,7 @@ OUR 9 CORE TEAM MEMBERS:
    • Email: mr.prem2006@gmail.com
    • GitHub: MRPREM31
    • LinkedIn: prem-prasad-pradhan
+   • WhatsApp: +91 9827775230
    • Leads design and development of innovative web and AI solutions
 
 2. ARADHANA SATAPATHY - Lead Presenter
@@ -76,6 +77,7 @@ OUR 9 CORE TEAM MEMBERS:
    • Email: sankarprasadacharjya@gmail.com
    • LinkedIn: sankar-prasad-acharya-95716b372
    • GitHub: SankarCode-sys
+   WhatsApp: +91 7894568443
    • Resume: Available as Sankar_Prasad_Acharjya_CV.pdf
    • Builds responsive, user-friendly interfaces
 
