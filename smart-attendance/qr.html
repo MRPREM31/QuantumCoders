@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <title>Live Attendance QR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <!-- Add font awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     * {
       box-sizing: border-box;
@@ -12,86 +14,535 @@
       padding: 0;
     }
 
+    :root {
+      --primary-color: #2563eb;
+      --primary-dark: #1d4ed8;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --dark-bg: #0f172a;
+      --card-bg: #1e293b;
+      --text-light: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-radius: 16px;
+      --transition: all 0.3s ease;
+    }
+
     body {
-      background: #000;
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-      text-align: center;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: var(--text-light);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
       padding: 20px;
     }
 
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .logo-icon {
+      background: var(--primary-color);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
     h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
+      font-size: 32px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 8px;
     }
 
-    h2 {
-      font-size: 22px;
-      margin-bottom: 6px;
+    .subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 25px;
     }
 
-    p {
+    .session-info-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .info-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(37, 99, 235, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 18px;
-      margin: 5px 0;
+      color: var(--primary-color);
+    }
+
+    .info-text h3 {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .info-text p {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    .qr-section {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+
+    .qr-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .qr-header h2 {
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .qr-refresh {
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      color: var(--primary-color);
+      border-radius: 8px;
+      padding: 8px 15px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: default;
     }
 
     #qrBox {
-      margin: 20px auto;
-      padding: 15px;
-      background: #111;
-      display: inline-block;
+      background: white;
+      padding: 20px;
       border-radius: 12px;
+      display: inline-block;
+      margin: 15px auto;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      transition: var(--transition);
+    }
+
+    #qrBox:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
     }
 
     img {
-      width: 320px;
-      height: 320px;
+      width: 300px;
+      height: 300px;
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .status-section {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 25px;
+    }
+
+    .status-card {
+      flex: 1;
+      min-width: 250px;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .status-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .present-icon {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success-color);
+    }
+
+    .timer-icon {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--warning-color);
+    }
+
+    .status-content h3 {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .status-content p {
+      font-size: 26px;
+      font-weight: 700;
     }
 
     #present {
-      font-size: 26px;
-      margin-top: 15px;
-      color: #00e676;
+      color: var(--success-color);
     }
 
     #countdown {
-      font-size: 20px;
-      color: #ffab00;
+      color: var(--warning-color);
     }
 
-    #ended {
-      color: #ff5252;
-      font-size: 26px;
+    /* Session Ended Styles */
+    .session-ended {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 60px 30px;
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       display: none;
-      margin-top: 30px;
+    }
+
+    .session-ended-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: var(--danger-color);
+      margin: 0 auto 25px;
+    }
+
+    .session-ended h2 {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: var(--text-light);
+    }
+
+    .session-ended p {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .session-ended-action {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-light);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
     footer {
-      margin-top: 20px;
+      margin-top: 40px;
+      text-align: center;
       font-size: 14px;
-      opacity: 0.7;
+      color: var(--text-muted);
+      padding: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      width: 100%;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 28px;
+      }
+      
+      .session-info-card {
+        grid-template-columns: 1fr;
+      }
+      
+      img {
+        width: 250px;
+        height: 250px;
+      }
+      
+      .qr-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+      
+      .status-section {
+        flex-direction: column;
+      }
+      
+      .session-ended {
+        padding: 40px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 10px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      img {
+        width: 220px;
+        height: 220px;
+      }
+      
+      .session-ended-action {
+        flex-direction: column;
+      }
+    }
+
+    /* Animation for QR refresh */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .refreshing {
+      animation: pulse 0.5s ease;
+    }
+
+    /* Status indicator */
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-left: 15px;
+    }
+
+    .status-active {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success-color);
+    }
+
+    .status-inactive {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger-color);
     }
   </style>
 </head>
 
 <body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-qrcode"></i>
+        </div>
+        <h1>Smart Attendance System</h1>
+      </div>
+      <p class="subtitle">Live QR Code for Student Attendance</p>
+    </div>
 
-  <h1 id="teacherName">Loading…</h1>
-  <h2 id="subject"></h2>
+    <!-- Session Information -->
+    <div class="session-info-card">
+      <div class="info-item">
+        <div class="info-icon">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div class="info-text">
+          <h3>Teacher</h3>
+          <p id="teacherName">Loading...</p>
+        </div>
+      </div>
+      
+      <div class="info-item">
+        <div class="info-icon">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <div class="info-text">
+          <h3>Subject</h3>
+          <p id="subject">Loading...</p>
+        </div>
+      </div>
+      
+      <div class="info-item">
+        <div class="info-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="info-text">
+          <h3>Time Slot</h3>
+          <p id="timeSlot">Loading...</p>
+        </div>
+      </div>
+    </div>
 
-  <p id="timeSlot"></p>
-  <p id="countdown"></p>
+    <!-- QR Code Section -->
+    <div class="qr-section">
+      <div class="qr-header">
+        <h2><i class="fas fa-qrcode"></i> Attendance QR Code</h2>
+        <div class="qr-refresh">
+          <i class="fas fa-sync-alt"></i> Auto-refreshes every 10 seconds
+        </div>
+      </div>
+      
+      <div id="qrBox">
+        <img id="qrImg" alt="QR Code"/>
+      </div>
+      
+      <p style="margin-top: 15px; color: var(--text-muted); font-size: 14px;">
+        Students should scan this QR code with their mobile devices to mark attendance
+      </p>
+    </div>
 
-  <div id="qrBox">
-    <img id="qrImg" alt="QR Code"/>
+    <!-- Status Section -->
+    <div class="status-section">
+      <div class="status-card">
+        <div class="status-icon present-icon">
+          <i class="fas fa-user-check"></i>
+        </div>
+        <div class="status-content">
+          <h3>Present Students</h3>
+          <p id="present">0</p>
+        </div>
+      </div>
+      
+      <div class="status-card">
+        <div class="status-icon timer-icon">
+          <i class="fas fa-hourglass-half"></i>
+        </div>
+        <div class="status-content">
+          <h3>Time Remaining</h3>
+          <p id="countdown">Loading...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Session Ended Section (Initially Hidden) -->
+    <div id="ended" class="session-ended">
+      <div class="session-ended-icon">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <h2>Session Ended</h2>
+      <p id="endedMessage">This attendance session has ended. No further attendance can be marked.</p>
+      
+      <div class="session-ended-action">
+        <button class="btn btn-outline" onclick="window.location.reload()">
+          <i class="fas fa-redo"></i> Refresh Page
+        </button>
+        <button class="btn btn-primary" onclick="window.close()">
+          <i class="fas fa-times"></i> Close Window
+        </button>
+      </div>
+    </div>
   </div>
 
-  <div id="present">Present: 0</div>
-
-  <div id="ended">⛔ Session Ended</div>
-
   <footer>
-    Smart Attendance System
+    <div class="footer-logo">
+      <i class="fas fa-graduation-cap"></i>
+      <span>Smart Attendance System</span>
+    </div>
+    <p>© 2023 Smart Attendance. All rights reserved.</p>
   </footer>
 
   <!-- 🔥 Firebase -->
@@ -107,7 +558,22 @@
   const sessionId = params.get("sessionId");
 
   if (!sessionId) {
-    document.body.innerHTML = "<h1>Invalid QR Link</h1>";
+    document.body.innerHTML = `
+      <div class="container">
+        <div class="session-ended">
+          <div class="session-ended-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h2>Invalid Session</h2>
+          <p>No valid session ID was provided in the URL.</p>
+          <div class="session-ended-action">
+            <button class="btn btn-primary" onclick="window.history.back()">
+              <i class="fas fa-arrow-left"></i> Go Back
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
     throw new Error("Session ID missing");
   }
 
@@ -132,34 +598,46 @@
 
     QRCode.toDataURL(payload, { width: 320 }, (err, url) => {
       if (!err) {
-        document.getElementById("qrImg").src = url;
+        const qrImg = document.getElementById("qrImg");
+        qrImg.classList.add("refreshing");
+        qrImg.src = url;
+        
+        // Remove animation class after animation completes
+        setTimeout(() => {
+          qrImg.classList.remove("refreshing");
+        }, 500);
       }
     });
   }
 
   // ================= END SESSION UI =================
   function endScreen(message) {
-
     clearInterval(qrTimer);
     clearInterval(presentTimer);
     clearInterval(countdownTimer);
 
-    document.getElementById("qrBox").style.display = "none";
-    document.getElementById("present").style.display = "none";
-    document.getElementById("countdown").style.display = "none";
-
-    document.getElementById("ended").innerText =
-      message || "⛔ Session Ended";
-    document.getElementById("ended").style.display = "block";
+    // Hide all active session elements
+    document.querySelector(".session-info-card").style.display = "none";
+    document.querySelector(".qr-section").style.display = "none";
+    document.querySelector(".status-section").style.display = "none";
+    
+    // Show ended session screen
+    const endedDiv = document.getElementById("ended");
+    const endedMessage = document.getElementById("endedMessage");
+    
+    if (message) {
+      endedMessage.innerText = message;
+    }
+    
+    endedDiv.style.display = "block";
   }
 
   // ================= FETCH SESSION (LIVE) =================
   db.collection("attendance_sessions")
     .doc(sessionId)
     .onSnapshot(doc => {
-
       if (!doc.exists) {
-        endScreen("⛔ Session Closed");
+        endScreen("This attendance session has been closed or does not exist.");
         return;
       }
 
@@ -167,13 +645,13 @@
 
       // 🔴 CLOSED BY TEACHER
       if (d.status !== "ACTIVE") {
-        endScreen("⛔ Session Closed by Teacher");
+        endScreen("This attendance session has been closed by the teacher.");
         return;
       }
 
       // 🔴 TIME EXPIRED
       if (Date.now() > d.expiresAt) {
-        endScreen("⛔ Session Time Over");
+        endScreen("This attendance session has expired. No further attendance can be marked.");
         return;
       }
 
@@ -182,49 +660,44 @@
       sessionEndTime = d.expiresAt;
 
       document.getElementById("teacherName").innerText = d.teacherName;
-      document.getElementById("subject").innerText = "Subject: " + d.subject;
-      document.getElementById("timeSlot").innerText =
-        "Time Slot: " + d.timeSlot;
+      document.getElementById("subject").innerText = d.subject;
+      document.getElementById("timeSlot").innerText = d.timeSlot;
 
       // 🔥 Generate first QR safely
       generateQR();
     });
 
-    // ================= COUNTDOWN TIMER =================
-    const countdownTimer = setInterval(() => {
+  // ================= COUNTDOWN TIMER =================
+  const countdownTimer = setInterval(() => {
+    if (!sessionEndTime) return;
 
-        if (!sessionEndTime) return;
+    const remaining = Math.floor((sessionEndTime - Date.now()) / 1000);
 
-        const remaining =
-        Math.floor((sessionEndTime - Date.now()) / 1000);
+    if (remaining <= 0) {
+      endScreen("This attendance session has expired. No further attendance can be marked.");
+    } else {
+      // Format time as MM:SS
+      const minutes = Math.floor(remaining / 60);
+      const seconds = remaining % 60;
+      document.getElementById("countdown").innerText = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+  }, 1000);
 
-        if (remaining <= 0) {
-        endScreen("⛔ Session Time Over");
-        } else {
-        document.getElementById("countdown").innerText =
-            "Time Remaining: " + remaining + " sec";
-        }
-    }, 1000);
+  // ================= LIVE PRESENT COUNT =================
+  const presentTimer = setInterval(() => {
+    if (sessionStatus !== "ACTIVE") return;
 
-    // ================= LIVE PRESENT COUNT =================
-    const presentTimer = setInterval(() => {
+    db.collection("attendance_records")
+      .where("sessionId", "==", sessionId)
+      .get()
+      .then(qs => {
+        document.getElementById("present").innerText = qs.size;
+      });
+  }, 3000);
 
-        if (sessionStatus !== "ACTIVE") return;
-
-        db.collection("attendance_records")
-        .where("sessionId", "==", sessionId)
-        .get()
-        .then(qs => {
-            document.getElementById("present").innerText =
-            "Present: " + qs.size;
-        });
-
-    }, 3000);
-
-    // ================= QR ROTATION TIMER =================
-    const qrTimer = setInterval(generateQR, 10000);
-
-    </script>
-
+  // ================= QR ROTATION TIMER =================
+  const qrTimer = setInterval(generateQR, 10000);
+  </script>
 </body>
 </html>
