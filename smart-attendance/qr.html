@@ -102,111 +102,129 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
   <script>
-    // ================= GET SESSION ID =================
-    const params = new URLSearchParams(window.location.search);
-    const sessionId = params.get("sessionId");
+  // ================= GET SESSION ID =================
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get("sessionId");
 
-    if (!sessionId) {
-      document.body.innerHTML = "<h1>Invalid QR Link</h1>";
-      throw new Error("Session ID missing");
-    }
+  if (!sessionId) {
+    document.body.innerHTML = "<h1>Invalid QR Link</h1>";
+    throw new Error("Session ID missing");
+  }
 
-    // ================= FIREBASE CONFIG =================
-    const firebaseConfig = {
-      apiKey: "AIzaSyDvOsbdPqY57dhsn4KsBOr_IIy94ULp0S0",
-      authDomain: "smartattendance-gdg.firebaseapp.com",
-      projectId: "smartattendance-gdg"
-    };
+  // ================= FIREBASE CONFIG =================
+  const firebaseConfig = {
+    apiKey: "AIzaSyDvOsbdPqY57dhsn4KsBOr_IIy94ULp0S0",
+    authDomain: "smartattendance-gdg.firebaseapp.com",
+    projectId: "smartattendance-gdg"
+  };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-    let sessionEndTime = 0;
-    let sessionStatus = "ACTIVE";
+  let sessionEndTime = 0;
+  let sessionStatus = "UNKNOWN";
 
-    // ================= FETCH SESSION (LIVE) =================
-    db.collection("attendance_sessions")
-      .doc(sessionId)
-      .onSnapshot(doc => {
-        if (!doc.exists) return;
+  // ================= GENERATE QR (ONLY WHEN ACTIVE) =================
+  function generateQR() {
+    if (sessionStatus !== "ACTIVE") return;
 
-        const d = doc.data();
+    const payload = sessionId + "|" + Date.now();
 
-        document.getElementById("teacherName").innerText = d.teacherName;
-        document.getElementById("subject").innerText = "Subject: " + d.subject;
-        document.getElementById("timeSlot").innerText =
-          "Time Slot: " + d.timeSlot;
+    QRCode.toDataURL(payload, { width: 320 }, (err, url) => {
+      if (!err) {
+        document.getElementById("qrImg").src = url;
+      }
+    });
+  }
 
-        sessionEndTime = d.expiresAt;
-        sessionStatus = d.status;
+  // ================= END SESSION UI =================
+  function endScreen(message) {
 
-        if (sessionStatus !== "ACTIVE") {
-        endScreen();
+    clearInterval(qrTimer);
+    clearInterval(presentTimer);
+    clearInterval(countdownTimer);
+
+    document.getElementById("qrBox").style.display = "none";
+    document.getElementById("present").style.display = "none";
+    document.getElementById("countdown").style.display = "none";
+
+    document.getElementById("ended").innerText =
+      message || "⛔ Session Ended";
+    document.getElementById("ended").style.display = "block";
+  }
+
+  // ================= FETCH SESSION (LIVE) =================
+  db.collection("attendance_sessions")
+    .doc(sessionId)
+    .onSnapshot(doc => {
+
+      if (!doc.exists) {
+        endScreen("⛔ Session Closed");
         return;
-        }
-        if (Date.now() > sessionEndTime) {
-        endScreen();
-        }
-      });
+      }
+
+      const d = doc.data();
+
+      // 🔴 CLOSED BY TEACHER
+      if (d.status !== "ACTIVE") {
+        endScreen("⛔ Session Closed by Teacher");
+        return;
+      }
+
+      // 🔴 TIME EXPIRED
+      if (Date.now() > d.expiresAt) {
+        endScreen("⛔ Session Time Over");
+        return;
+      }
+
+      // ✅ ACTIVE SESSION
+      sessionStatus = d.status;
+      sessionEndTime = d.expiresAt;
+
+      document.getElementById("teacherName").innerText = d.teacherName;
+      document.getElementById("subject").innerText = "Subject: " + d.subject;
+      document.getElementById("timeSlot").innerText =
+        "Time Slot: " + d.timeSlot;
+
+      // 🔥 Generate first QR safely
+      generateQR();
+    });
 
     // ================= COUNTDOWN TIMER =================
     const countdownTimer = setInterval(() => {
-      if (!sessionEndTime) return;
 
-      const remaining =
+        if (!sessionEndTime) return;
+
+        const remaining =
         Math.floor((sessionEndTime - Date.now()) / 1000);
 
-      if (remaining <= 0) {
-        endScreen();
-      } else {
+        if (remaining <= 0) {
+        endScreen("⛔ Session Time Over");
+        } else {
         document.getElementById("countdown").innerText =
-          "Time Remaining: " + remaining + " sec";
-      }
+            "Time Remaining: " + remaining + " sec";
+        }
     }, 1000);
 
     // ================= LIVE PRESENT COUNT =================
     const presentTimer = setInterval(() => {
-      if (sessionStatus !== "ACTIVE") return;
 
-      db.collection("attendance_records")
+        if (sessionStatus !== "ACTIVE") return;
+
+        db.collection("attendance_records")
         .where("sessionId", "==", sessionId)
         .get()
         .then(qs => {
-          document.getElementById("present").innerText =
+            document.getElementById("present").innerText =
             "Present: " + qs.size;
         });
+
     }, 3000);
 
-    // ================= DYNAMIC QR =================
-    const qrTimer = setInterval(() => {
-      if (sessionStatus !== "ACTIVE") return;
+    // ================= QR ROTATION TIMER =================
+    const qrTimer = setInterval(generateQR, 10000);
 
-      const payload = sessionId + "|" + Date.now();
-
-      QRCode.toDataURL(payload, { width: 320 }, (err, url) => {
-        if (!err) {
-          document.getElementById("qrImg").src = url;
-        }
-      });
-    }, 10000);
-
-    // ================= END SESSION UI =================
-    function endScreen() {
-      clearInterval(qrTimer);
-      clearInterval(presentTimer);
-      clearInterval(countdownTimer);
-
-      document.getElementById("qrBox").style.display = "none";
-      document.getElementById("present").style.display = "none";
-      document.getElementById("countdown").style.display = "none";
-      document.getElementById("ended").style.display = "block";
-    }
-
-    // 🔥 Generate first QR instantly
-    QRCode.toDataURL(sessionId + "|" + Date.now(), { width: 320 }, (e, url) => {
-      if (!e) document.getElementById("qrImg").src = url;
-    });
-  </script>
+    </script>
 
 </body>
 </html>
