@@ -11,197 +11,204 @@
       --bg-secondary: #ffffff;
       --text-primary: #1e293b;
       --text-secondary: #64748b;
-      --accent-primary: #3b82f6;
-      --accent-secondary: #10b981;
+      --accent-primary: #2563eb;
+      --accent-secondary: #059669;
       --border-color: #e2e8f0;
-      --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
       --footer-bg: #1e293b;
       --footer-text: #f1f5f9;
-    }
-
-    .dark-mode {
-      --bg-primary: #0f172a;
-      --bg-secondary: #1e293b;
-      --text-primary: #f1f5f9;
-      --text-secondary: #cbd5e1;
-      --accent-primary: #60a5fa;
-      --accent-secondary: #34d399;
-      --border-color: #334155;
-      --shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      --footer-bg: #0f172a;
-      --footer-text: #cbd5e1;
+      --navbar-height: 70px;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      transition: all 0.3s ease;
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       line-height: 1.6;
-      padding: 20px;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
       width: 100%;
+      padding: 0 20px;
     }
 
-    /* Header & Theme Toggle */
-    header {
+    /* ==================== PROFESSIONAL NAVBAR ==================== */
+    .navbar {
+      position: static;
+      top: 0;
+      z-index: 1000;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      height: var(--navbar-height);
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 0;
-      margin-bottom: 20px;
-      border-bottom: 1px solid var(--border-color);
+      width: 100%;
     }
 
-    .logo-header {
+    .nav-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 15px;
+      text-decoration: none;
     }
 
-    .logo-img {
-      height: 50px;
+    .nav-logo {
+      height: 45px;
       width: auto;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
 
-    .header-text h1 {
+    .nav-brand-text h1 {
       font-size: 1.5rem;
       color: var(--accent-primary);
       margin-bottom: 3px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
     }
 
-    .header-text p {
-      font-size: 0.85rem;
+    .nav-brand-text p {
+      font-size: 0.8rem;
       color: var(--text-secondary);
+      font-weight: 500;
     }
 
-    .datetime-theme {
+    .nav-user-status {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 15px;
+      padding: 8px 20px;
+      background: var(--bg-primary);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
     }
 
-    .datetime {
-      text-align: right;
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    #current-date {
-      font-weight: 600;
-      font-size: 1rem;
-    }
-
-    #current-time {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
-
-    .theme-toggle {
-      background: var(--accent-primary);
-      color: white;
-      border: none;
+    .status-dot {
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+      background: var(--accent-secondary);
     }
 
-    .theme-toggle:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
+    .status-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
     }
 
-    /* Main Card */
+    /* ==================== MAIN CONTENT ==================== */
     .main-content {
-      display: flex;
-      flex-wrap: wrap;
+      flex: 1;
+      padding: 50px 0;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 30px;
       margin-bottom: 40px;
     }
 
+    @media (max-width: 992px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .card {
-      flex: 1;
-      min-width: 300px;
       background: var(--bg-secondary);
-      border-radius: 18px;
-      padding: 30px;
+      border-radius: 20px;
+      padding: 35px;
       box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+    }
+
+    .profile-card {
       text-align: center;
     }
 
     .profile-header {
       position: relative;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
     }
 
     .avatar {
-      width: 120px;
-      height: 120px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
-      margin: 0 auto 20px;
+      margin: 0 auto 25px;
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 3rem;
-      border: 5px solid var(--bg-primary);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      font-size: 3.5rem;
+      border: 6px solid var(--bg-primary);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
     }
 
     h2 {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
+      font-size: 2rem;
+      margin-bottom: 10px;
       color: var(--text-primary);
+      font-weight: 700;
     }
 
     .email {
       color: var(--text-secondary);
-      font-size: 1rem;
-      margin-bottom: 20px;
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      font-weight: 500;
     }
 
     .badge {
       display: inline-block;
-      padding: 8px 20px;
+      padding: 10px 25px;
       border-radius: 50px;
       color: white;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 600;
-      margin: 15px 0;
+      margin: 20px 0;
       letter-spacing: 0.5px;
     }
 
     .teacher-badge {
-      background: linear-gradient(90deg, #10b981, #34d399);
+      background: linear-gradient(135deg, var(--accent-secondary), #10b981);
     }
 
     .student-badge {
-      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      background: linear-gradient(135deg, var(--accent-primary), #3b82f6);
     }
 
     .status-info {
-      background: var(--bg-primary);
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 25px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(5, 150, 105, 0.05));
+      border-radius: 16px;
+      padding: 25px;
+      margin-top: 30px;
       border-left: 4px solid var(--accent-primary);
       text-align: left;
     }
@@ -209,9 +216,9 @@
     .info-item {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 12px;
-      padding-bottom: 12px;
-      border-bottom: 1px dashed var(--border-color);
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border-color);
     }
 
     .info-item:last-child {
@@ -222,35 +229,27 @@
 
     .info-label {
       color: var(--text-secondary);
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .info-value {
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-primary);
     }
 
     /* About Section */
-    .about-section {
-      flex: 1;
-      min-width: 300px;
-    }
-
     .about-card {
-      background: var(--bg-secondary);
-      border-radius: 18px;
-      padding: 30px;
-      box-shadow: var(--shadow);
       height: 100%;
     }
 
     .section-title {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
+      font-size: 1.6rem;
+      margin-bottom: 25px;
       color: var(--accent-primary);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      font-weight: 700;
     }
 
     .section-title i {
@@ -258,96 +257,163 @@
     }
 
     .verification-message {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.1));
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 25px;
-      border-left: 4px solid var(--accent-secondary);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(5, 150, 105, 0.08));
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(37, 99, 235, 0.1);
     }
 
     .verification-message h3 {
       color: var(--accent-secondary);
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      font-size: 1.3rem;
     }
 
     .verification-message p {
       color: var(--text-primary);
-      font-size: 1rem;
+      font-size: 1.05rem;
+      line-height: 1.7;
     }
 
     .org-logo {
-      width: 120px;
+      width: 140px;
       height: auto;
-      margin: 20px auto;
+      margin: 25px auto;
       display: block;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
     }
 
     .quantumcoders-info {
-      margin-top: 30px;
+      margin-top: 35px;
       padding-top: 25px;
       border-top: 1px solid var(--border-color);
     }
 
     .quantumcoders-info h3 {
       color: var(--accent-primary);
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      font-size: 1.3rem;
     }
 
     .quantumcoders-info p {
       color: var(--text-secondary);
-      font-size: 0.95rem;
+      font-size: 1rem;
       line-height: 1.7;
+      margin-bottom: 15px;
     }
 
-    /* Footer */
-    footer {
+    /* ==================== PROFESSIONAL FOOTER WITH LIVE TIME ==================== */
+    .footer {
       background: var(--footer-bg);
       color: var(--footer-text);
-      border-radius: 12px;
+      padding: 50px 0 30px;
       margin-top: auto;
-      padding: 30px;
     }
 
     .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    .footer-info h3 {
+      font-size: 1.3rem;
+      color: white;
+      margin-bottom: 20px;
+      font-weight: 700;
     }
 
     .footer-logo {
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .footer-logo-icon {
+      font-size: 2rem;
+      color: #60a5fa;
+    }
+
+    .footer-logo-text {
       font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .footer-info p {
+      color: #cbd5e1;
+      font-size: 1rem;
+      line-height: 1.7;
       margin-bottom: 25px;
     }
 
-    .footer-logo i {
-      color: #60a5fa;
-      font-size: 2rem;
+    .footer-live-time {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .live-time-label {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    #footer-current-date {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: white;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    #footer-current-time {
+      font-size: 1.8rem;
+      color: var(--accent-secondary);
+      font-weight: 700;
+      font-family: 'Courier New', 'Monaco', monospace;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     .footer-bottom {
-      text-align: center;
-      padding-top: 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 30px;
+      text-align: center;
     }
 
     .footer-bottom p {
-      margin-bottom: 10px;
+      color: #94a3b8;
       font-size: 0.9rem;
-      color: #cbd5e1;
+      margin-bottom: 10px;
     }
 
     .heart {
       color: #ef4444;
       animation: heartbeat 1.5s infinite;
+      display: inline-block;
     }
 
     @keyframes heartbeat {
@@ -355,42 +421,72 @@
       50% { transform: scale(1.1); }
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .main-content {
+    .copyright {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-top: 15px;
+    }
+
+    /* ==================== RESPONSIVE DESIGN ==================== */
+    @media (max-width: 992px) {
+      .navbar-container {
         flex-direction: column;
+        gap: 15px;
+        padding: 15px 0;
       }
       
-      .datetime-theme {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-end;
-      }
-      
-      .datetime {
-        text-align: right;
-      }
-      
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-      }
-      
-      .logo-header {
+      .nav-brand {
         width: 100%;
         justify-content: center;
       }
       
-      .datetime-theme {
+      .nav-user-status {
         width: 100%;
-        justify-content: space-between;
-        flex-direction: row;
+        justify-content: center;
+      }
+      
+      .main-content {
+        padding: 30px 0;
+      }
+      
+      .card {
+        padding: 25px;
+      }
+      
+      h2 {
+        font-size: 1.7rem;
+      }
+      
+      .avatar {
+        width: 120px;
+        height: 120px;
+        font-size: 3rem;
       }
     }
 
-    @media (max-width: 480px) {
-      .card, .about-card {
+    @media (max-width: 768px) {
+      .navbar {
+        height: auto;
+        padding: 15px 0;
+      }
+      
+      .nav-brand-text h1 {
+        font-size: 1.3rem;
+      }
+      
+      .nav-brand-text p {
+        font-size: 0.75rem;
+      }
+      
+      .nav-logo {
+        height: 40px;
+      }
+      
+      .main-content {
+        padding: 25px 0;
+      }
+      
+      .card {
         padding: 20px;
       }
       
@@ -404,94 +500,121 @@
         font-size: 2.5rem;
       }
       
-      .datetime-theme {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+      .footer {
+        padding: 40px 0 25px;
       }
       
-      .theme-toggle {
-        align-self: flex-end;
+      #footer-current-time {
+        font-size: 1.5rem;
       }
     }
 
-    /* Loading State */
-    .loading {
-      opacity: 0.7;
-      pointer-events: none;
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 15px;
+      }
+      
+      .content-grid {
+        gap: 20px;
+      }
+      
+      .nav-brand-text h1 {
+        font-size: 1.1rem;
+      }
+      
+      .avatar {
+        width: 90px;
+        height: 90px;
+        font-size: 2rem;
+      }
+      
+      .footer {
+        padding: 30px 0 20px;
+      }
+      
+      .footer-live-time {
+        padding: 20px;
+      }
+      
+      #footer-current-time {
+        font-size: 1.3rem;
+      }
+      
+      .footer-bottom p {
+        font-size: 0.8rem;
+      }
     }
 
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-radius: 50%;
-      border-top: 4px solid var(--accent-primary);
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
+    /* ==================== UTILITY CLASSES ==================== */
+    .mt-20 {
+      margin-top: 20px;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .mb-20 {
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo-header">
-        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/National_Institute_of_Science_and_Technology_Logo.svg/320px-National_Institute_of_Science_and_Technology_Logo.svg.png" alt="NIST University Logo" class="logo-img">
-        <div class="header-text">
-          <h1>Smart Attendance System</h1>
-          <p>NIST University - Digital Identification Portal</p>
-        </div>
-      </div>
-      
-      <div class="datetime-theme">
-        <div class="datetime">
-          <div id="current-date">Loading...</div>
-          <div id="current-time">Loading...</div>
-        </div>
-        <button class="theme-toggle" id="theme-toggle">
-          <i class="fas fa-moon"></i>
-        </button>
-      </div>
-    </header>
-
-    <main class="main-content">
-      <div class="card">
-        <div class="profile-header">
-          <div class="avatar">
-            <i class="fas fa-user-graduate"></i>
+  <!-- Professional Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-container">
+        <a href="#" class="nav-brand">
+          <img src="./assets/logo/college_logo.png" alt="NIST University Logo" class="nav-logo">
+          <div class="nav-brand-text">
+            <h1>Smart Attendance System</h1>
+            <p>NIST University - Digital Identification Portal</p>
           </div>
-          <h2 id="name">Loading...</h2>
-          <p class="email" id="email">Loading user information...</p>
-          <div id="badge" class="badge teacher-badge">🟢 Verified Teacher</div>
-        </div>
-
-        <div class="status-info">
-          <div class="info-item">
-            <span class="info-label">Account Status</span>
-            <span class="info-value" id="status">Active</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Member Since</span>
-            <span class="info-value" id="createdAt">Loading...</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Last Updated</span>
-            <span class="info-value" id="updatedAt">Loading...</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">User ID</span>
-            <span class="info-value" id="uid">Loading...</span>
+        </a>
+        
+        <div class="nav-user-status">
+          <div class="status-indicator">
+            <div class="status-dot"></div>
+            <span class="status-text" id="status-text">Active</span>
           </div>
         </div>
       </div>
+    </div>
+  </nav>
 
-      <div class="about-section">
-        <div class="about-card">
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <div class="content-grid">
+        <!-- Profile Card -->
+        <div class="card profile-card">
+          <div class="profile-header">
+            <div class="avatar">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <h2 id="name">Loading...</h2>
+            <p class="email" id="email">Loading user information...</p>
+            <div id="badge" class="badge teacher-badge">🟢 Verified Teacher</div>
+          </div>
+
+          <div class="status-info">
+            <div class="info-item">
+              <span class="info-label">Account Status</span>
+              <span class="info-value" id="status">Active</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Member Since</span>
+              <span class="info-value" id="createdAt">Loading...</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Last Updated</span>
+              <span class="info-value" id="updatedAt">Loading...</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">User ID</span>
+              <span class="info-value" id="uid">Loading...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- About Card -->
+        <div class="card about-card">
           <h2 class="section-title"><i class="fas fa-university"></i> University Verification</h2>
           
           <div class="verification-message">
@@ -501,27 +624,40 @@
 
           <h2 class="section-title"><i class="fas fa-code"></i> About QuantumCoders</h2>
           
-          <img src="https://cdn-icons-png.flaticon.com/512/2103/2103655.png" alt="QuantumCoders Logo" class="org-logo">
+          <img src="/assets/icons/Quantumcoder_logo.png" alt="QuantumCoders Logo" class="org-logo">
           
           <div class="quantumcoders-info">
             <p>We are <strong>QuantumCoders Tech Lab</strong>, a student-driven technology development community. Our mission is to empower students by transforming theoretical learning into real-world project experience. We aim to build the next generation of technology innovators and problem solvers.</p>
-            <p style="margin-top: 15px;">The Smart Attendance System is one of our flagship projects designed to modernize traditional attendance tracking with secure, efficient, and user-friendly technology.</p>
+            <p class="mt-20">The Smart Attendance System is one of our flagship projects designed to modernize traditional attendance tracking with secure, efficient, and user-friendly technology.</p>
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">
-        <i class="fas fa-graduation-cap"></i>
-        <span>Smart Attendance System</span>
+  <!-- Professional Footer with Live Time -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <div class="footer-logo">
+            <i class="fas fa-graduation-cap footer-logo-icon"></i>
+            <span class="footer-logo-text">Smart Attendance</span>
+          </div>
+          <h3>Digital Attendance Management</h3>
+          <p>A Smart Attendance System is a digital solution that records attendance automatically using technologies like QR codes, mobile apps, and cloud databases.</p>
+        </div>
+        
+        <div class="footer-live-time">
+          <div class="live-time-label">Current Date & Time</div>
+          <div id="footer-current-date">Loading...</div>
+          <div id="footer-current-time">Loading...</div>
+        </div>
       </div>
       
       <div class="footer-bottom">
-        <p>&copy; 2026 QuantumCoders Tech Lab. All rights reserved. | Smart Attendance System </p>
-        <p style="margin-top: 0.5rem;">Developed with <span class="heart">❤️</span> by <strong>QuantumCoders</strong></p>
+        <p>&copy; 2026 QuantumCoders Tech Lab. All rights reserved.</p>
+        <p class="mt-20">Developed with <span class="heart">❤️</span> by <strong>QuantumCoders Tech Lab</strong></p>
       </div>
     </div>
   </footer>
@@ -543,10 +679,9 @@
     const db = getFirestore(app);
 
     // DOM Elements
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = themeToggle.querySelector('i');
-    const currentDateEl = document.getElementById('current-date');
-    const currentTimeEl = document.getElementById('current-time');
+    const footerCurrentDateEl = document.getElementById('footer-current-date');
+    const footerCurrentTimeEl = document.getElementById('footer-current-time');
+    const statusTextEl = document.getElementById('status-text');
 
     // 🔗 Get UID from URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -559,37 +694,27 @@
       console.log("Demo mode active - Using sample data");
     }
 
-    // ================= DAY/NIGHT THEME TOGGLE =================
-    function initTheme() {
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
-      }
-    }
-
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      if (document.body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
-      } else {
-        localStorage.setItem('theme', 'light');
-        themeIcon.classList.remove('fa-sun');
-        themeIcon.classList.add('fa-moon');
-      }
-    });
-
-    // ================= REAL-TIME DATE & TIME =================
+    // ================= REAL-TIME DATE & TIME IN FOOTER =================
     function updateDateTime() {
       const now = new Date();
-      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
       
-      currentDateEl.textContent = now.toLocaleDateString('en-US', dateOptions);
-      currentTimeEl.textContent = now.toLocaleTimeString('en-US', timeOptions);
+      // Format date for footer
+      const dateOptions = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      };
+      footerCurrentDateEl.textContent = now.toLocaleDateString('en-US', dateOptions);
+      
+      // Format time for footer (24-hour format for professional look)
+      const timeOptions = { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit',
+        hour12: false 
+      };
+      footerCurrentTimeEl.textContent = now.toLocaleTimeString('en-US', timeOptions);
     }
 
     // Update time immediately and every second
@@ -610,7 +735,8 @@
             email: "s.johnson@nistuniversity.edu",
             role: "teacher",
             createdAt: new Date(2024, 0, 15).toISOString(),
-            updatedAt: new Date().toISOString()
+            updatedAt: new Date().toISOString(),
+            status: "Active"
           };
           displayUserData(demoData);
           return;
@@ -625,36 +751,40 @@
           console.log("USER DATA:", userData);
           displayUserData(userData);
         } else {
-          document.getElementById('name').textContent = "User not found";
-          document.getElementById('email').textContent = "The requested profile could not be found in our database.";
-          document.getElementById('badge').classList.add('student-badge');
-          document.getElementById('badge').textContent = "User Not Found";
-          document.getElementById('badge').style.background = "#ef4444";
+          displayUserNotFound();
         }
       } catch (error) {
         console.error("Error loading profile:", error);
-        document.getElementById('name').textContent = "Error Loading Profile";
-        document.getElementById('email').textContent = "There was an issue connecting to the database.";
+        displayErrorState();
       }
     }
 
     function displayUserData(data) {
       // Display user information
-      document.getElementById('name').textContent = data.name || "N/A";
+      const userName = data.name || "N/A";
+      document.getElementById('name').textContent = userName;
       document.getElementById('email').textContent = data.email || "Email not available";
       document.getElementById('uid').textContent = uid.substring(0, 12) + "...";
+      statusTextEl.textContent = data.status || "Active";
       
       // Set badge based on role
       const badge = document.getElementById('badge');
       if (data.role === "teacher") {
-        badge.textContent = "🟢 Verified Teacher";
+        badge.textContent = "👨‍🏫 Verified Teacher";
         badge.className = "badge teacher-badge";
       } else {
-        badge.textContent = "🔵 Verified Student";
+        badge.textContent = "🎓 Verified Student";
         badge.className = "badge student-badge";
       }
       
       // Format dates
+      formatAndDisplayDates(data);
+      
+      // Set status
+      document.getElementById('status').textContent = data.status || "Active";
+    }
+
+    function formatAndDisplayDates(data) {
       if (data.createdAt) {
         const createdAt = data.createdAt.toDate ? data.createdAt.toDate() : new Date(data.createdAt);
         document.getElementById('createdAt').textContent = createdAt.toLocaleDateString('en-US', {
@@ -676,13 +806,24 @@
       } else {
         document.getElementById('updatedAt').textContent = "Not available";
       }
-      
-      // Set status
-      document.getElementById('status').textContent = data.status || "Active";
+    }
+
+    function displayUserNotFound() {
+      document.getElementById('name').textContent = "User not found";
+      document.getElementById('email').textContent = "The requested profile could not be found in our database.";
+      document.getElementById('badge').classList.add('student-badge');
+      document.getElementById('badge').textContent = "User Not Found";
+      document.getElementById('badge').style.background = "#ef4444";
+      statusTextEl.textContent = "Not Found";
+    }
+
+    function displayErrorState() {
+      document.getElementById('name').textContent = "Error Loading Profile";
+      document.getElementById('email').textContent = "There was an issue connecting to the database.";
+      statusTextEl.textContent = "Error";
     }
 
     // Initialize everything
-    initTheme();
     loadUserProfile();
   </script>
 </body>
