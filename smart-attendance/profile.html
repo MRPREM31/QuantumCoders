@@ -598,6 +598,10 @@
               <span class="info-label">Account Status</span>
               <span class="info-value" id="status">Active</span>
             </div>
+            <div class="info-item" id="roll-item" style="display:none;">
+                <span class="info-label">Roll Number</span>
+                <span class="info-value" id="rollNumber">Loading...</span>
+            </div>
             <div class="info-item">
               <span class="info-label">Member Since</span>
               <span class="info-value" id="createdAt">Loading...</span>
@@ -760,52 +764,43 @@
     }
 
     function displayUserData(data) {
-      // Display user information
-      const userName = data.name || "N/A";
-      document.getElementById('name').textContent = userName;
-      document.getElementById('email').textContent = data.email || "Email not available";
-      document.getElementById('uid').textContent = uid.substring(0, 12) + "...";
-      statusTextEl.textContent = data.status || "Active";
-      
-      // Set badge based on role
-      const badge = document.getElementById('badge');
-      if (data.role === "teacher") {
+    // Basic info
+    document.getElementById('name').textContent = data.name || "N/A";
+    document.getElementById('email').textContent = data.email || "Email not available";
+    document.getElementById('uid').textContent = uid.substring(0, 12) + "...";
+    statusTextEl.textContent = data.status || "Active";
+
+    const badge = document.getElementById('badge');
+    const rollItem = document.getElementById('roll-item');
+    const rollNumberEl = document.getElementById('rollNumber');
+
+    // 🔥 ROLE-BASED UI
+    if (data.role === "teacher") {
         badge.textContent = "👨‍🏫 Verified Teacher";
         badge.className = "badge teacher-badge";
-      } else {
+
+        // ❌ Hide roll number for teacher
+        rollItem.style.display = "none";
+
+    } else if (data.role === "student") {
         badge.textContent = "🎓 Verified Student";
         badge.className = "badge student-badge";
-      }
-      
-      // Format dates
-      formatAndDisplayDates(data);
-      
-      // Set status
-      document.getElementById('status').textContent = data.status || "Active";
+
+        // ✅ Show roll number for student
+        if (data.rollNumber) {
+        rollItem.style.display = "flex";
+        rollNumberEl.textContent = data.rollNumber;
+        } else {
+        rollItem.style.display = "flex";
+        rollNumberEl.textContent = "Not assigned";
+        }
     }
 
-    function formatAndDisplayDates(data) {
-      if (data.createdAt) {
-        const createdAt = data.createdAt.toDate ? data.createdAt.toDate() : new Date(data.createdAt);
-        document.getElementById('createdAt').textContent = createdAt.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        });
-      } else {
-        document.getElementById('createdAt').textContent = "Not available";
-      }
-      
-      if (data.updatedAt) {
-        const updatedAt = data.updatedAt.toDate ? data.updatedAt.toDate() : new Date(data.updatedAt);
-        document.getElementById('updatedAt').textContent = updatedAt.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        });
-      } else {
-        document.getElementById('updatedAt').textContent = "Not available";
-      }
+    // Dates
+    formatAndDisplayDates(data);
+
+    // Status
+    document.getElementById('status').textContent = data.status || "Active";
     }
 
     function displayUserNotFound() {
