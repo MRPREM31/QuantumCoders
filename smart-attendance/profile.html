@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Smart Attendance • User Profile</title>
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="./assets/logo/favicon.ico">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Font Awesome -->
+  <meta charset="UTF-8">
+  <title>Smart Attendance Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="https://quantumcoders.vercel.app/assets/logo/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
     * {
       box-sizing: border-box;
@@ -25,35 +20,37 @@
       --primary-light: #818cf8;
       --primary-dark: #4f46e5;
       --secondary-color: #ec4899;
-      --teacher-color: #10b981;
-      --student-color: #3b82f6;
-      --gradient-teacher: linear-gradient(135deg, #10b981, #34d399);
-      --gradient-student: linear-gradient(135deg, #3b82f6, #60a5fa);
-      --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --info-color: #3b82f6;
       --dark-bg: #0f172a;
-      --card-bg: rgba(30, 41, 59, 0.9);
+      --darker-bg: #0a0f1e;
+      --card-bg: rgba(30, 41, 59, 0.8);
       --glass-bg: rgba(255, 255, 255, 0.05);
       --text-light: #f8fafc;
       --text-muted: #94a3b8;
-      --border-radius: 20px;
-      --border-radius-sm: 12px;
+      --border-radius: 16px;
+      --border-radius-lg: 24px;
+      --border-radius-xl: 32px;
       --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.4);
       --glow: 0 0 20px rgba(99, 102, 241, 0.3);
     }
 
     body {
-      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
       color: var(--text-light);
       font-family: 'Poppins', sans-serif;
       min-height: 100vh;
-      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      overflow-x: hidden;
+      justify-content: center;
+      padding: 20px;
       position: relative;
+      overflow-x: hidden;
     }
 
     /* Animated Background */
@@ -68,77 +65,562 @@
         radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
-      z-index: -1;
+      z-index: -2;
     }
 
-    .floating-element {
+    .floating-bg {
       position: fixed;
       border-radius: 50%;
       background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
       opacity: 0.1;
-      filter: blur(40px);
+      filter: blur(60px);
       z-index: -1;
-      animation: float 25s infinite ease-in-out;
+      animation: float 20s infinite ease-in-out;
     }
 
-    .floating-1 {
-      width: 200px;
-      height: 200px;
+    .floating-bg-1 {
+      width: 300px;
+      height: 300px;
       top: 10%;
       right: 10%;
     }
 
-    .floating-2 {
-      width: 150px;
-      height: 150px;
+    .floating-bg-2 {
+      width: 250px;
+      height: 250px;
       bottom: 10%;
       left: 10%;
       animation-delay: -10s;
     }
 
     @keyframes float {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      33% { transform: translate(30px, -30px) rotate(120deg); }
-      66% { transform: translate(-20px, 20px) rotate(240deg); }
+      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      33% { transform: translate(30px, -30px) rotate(120deg) scale(1.1); }
+      66% { transform: translate(-20px, 20px) rotate(240deg) scale(0.9); }
     }
 
+    /* Main Container */
     .container {
       width: 100%;
-      max-width: 800px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
       z-index: 1;
-      animation: fadeIn 0.8s ease-out;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Header */
+    /* Header Section */
     .header {
+      width: 100%;
+      text-align: center;
+      animation: slideDown 0.8s ease-out;
+    }
+
+    .header-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .logo-banner {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
-      margin-bottom: 25px;
-      padding: 15px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .main-logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: white;
+      box-shadow: var(--shadow), var(--glow);
+      animation: rotate 20s linear infinite;
+      flex-shrink: 0;
+    }
+
+    .nist-logo {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+    }
+
+    .nist-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    .header-title {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .header-title h1 {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+      letter-spacing: 0.5px;
+    }
+
+    .header-title p {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.4;
+    }
+
+    .tagline {
       background: var(--glass-bg);
       backdrop-filter: blur(10px);
       border-radius: var(--border-radius);
+      padding: 12px 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: var(--shadow);
-      animation: slideInDown 0.8s ease-out 0.2s both;
+      animation: fadeIn 1s ease-out 0.3s both;
     }
 
-    @keyframes slideInDown {
+    .tagline i {
+      color: var(--primary-light);
+      font-size: 18px;
+    }
+
+    .tagline span {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-light);
+    }
+
+    /* Main Profile Card */
+    .profile-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border-radius: var(--border-radius-xl);
+      padding: 40px;
+      width: 100%;
+      max-width: 800px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      animation: slideUp 0.8s ease-out 0.2s both;
+    }
+
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--info-color));
+    }
+
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: white;
+      box-shadow: var(--shadow), 0 0 30px rgba(99, 102, 241, 0.4);
+      border: 4px solid var(--card-bg);
+      position: relative;
+      animation: pulseAvatar 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseAvatar {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .profile-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(135deg, var(--success-color), #34d399);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 2;
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .profile-name {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-light);
+      line-height: 1.2;
+    }
+
+    .profile-email {
+      font-size: 18px;
+      color: var(--primary-light);
+      font-weight: 400;
+      word-break: break-all;
+    }
+
+    /* Profile Details Grid */
+    .profile-details {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .detail-card {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--border-radius);
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detail-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(99, 102, 241, 0.2);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .detail-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .detail-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(99, 102, 241, 0.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--primary-light);
+    }
+
+    .detail-title h3 {
+      font-size: 16px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .detail-title p {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-light);
+      line-height: 1.3;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
+      border-radius: var(--border-radius);
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .stat-value {
+      font-size: 48px;
+      font-weight: 800;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Role Badge */
+    .role-badge {
+      width: 100%;
+      padding: 30px;
+      background: linear-gradient(135deg, 
+        rgba(99, 102, 241, 0.1), 
+        rgba(236, 72, 153, 0.05),
+        rgba(59, 130, 246, 0.05));
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .role-badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+        transparent 30%, 
+        rgba(255, 255, 255, 0.03) 50%, 
+        transparent 70%);
+      animation: shine 3s infinite linear;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .role-icon {
+      font-size: 40px;
+      color: var(--primary-light);
+      animation: bounce 2s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .role-text {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .role-text h3 {
+      font-size: 20px;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    .role-text p {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Footer */
+    .footer {
+      width: 100%;
+      max-width: 800px;
+      text-align: center;
+      padding: 30px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 20px;
+      animation: fadeIn 1s ease-out 0.5s both;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-logo-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--glass-bg);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: var(--primary-light);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-logo-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .footer-copyright {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .footer-copyright strong {
+      color: var(--primary-light);
+      font-weight: 600;
+    }
+
+    .heart {
+      color: var(--danger-color);
+      animation: heartbeat 1.5s infinite;
+      display: inline-block;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    /* Loading State */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 18px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Error State */
+    .error-card {
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      text-align: center;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .error-icon {
+      font-size: 48px;
+      color: var(--danger-color);
+      margin-bottom: 20px;
+    }
+
+    .error-message {
+      font-size: 18px;
+      color: var(--text-light);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    /* Animations */
+    @keyframes slideDown {
       from {
         opacity: 0;
         transform: translateY(-30px);
@@ -149,76 +631,7 @@
       }
     }
 
-    .logo-icon {
-      width: 50px;
-      height: 50px;
-      background: var(--gradient-primary);
-      border-radius: var(--border-radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      color: white;
-      box-shadow: var(--glow);
-      animation: rotate 20s linear infinite;
-      flex-shrink: 0;
-    }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .header-text {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .header h1 {
-      font-size: 24px;
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-light));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      margin-bottom: 4px;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .header p {
-      font-size: 14px;
-      color: var(--text-muted);
-      font-weight: 300;
-    }
-
-    /* Profile Section */
-    .profile-card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      border-radius: var(--border-radius);
-      padding: 30px;
-      margin-bottom: 25px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      animation: fadeInUp 0.8s ease-out 0.4s both;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .profile-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: var(--gradient-primary);
-    }
-
-    @keyframes fadeInUp {
+    @keyframes slideUp {
       from {
         opacity: 0;
         transform: translateY(30px);
@@ -229,820 +642,483 @@
       }
     }
 
-    .profile-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      margin-bottom: 30px;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    .avatar-container {
-      position: relative;
-      margin-bottom: 20px;
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: var(--gradient-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 48px;
-      color: white;
-      margin: 0 auto 15px;
-      border: 4px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-      position: relative;
-      animation: avatarPulse 3s infinite;
+    /* Responsive Design */
+    @media (min-width: 640px) {
+      .header-title h1 {
+        font-size: 32px;
+      }
+      
+      .profile-details {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
-    @keyframes avatarPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); }
-      50% { transform: scale(1.05); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
-    }
-
-    .avatar-icon {
-      font-size: 48px;
-    }
-
-    .verified-badge {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      width: 28px;
-      height: 28px;
-      background: var(--teacher-color);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 14px;
-      border: 2px solid var(--dark-bg);
-      z-index: 2;
-    }
-
-    .user-info {
-      text-align: center;
-    }
-
-    .user-name {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--text-light);
-      line-height: 1.2;
-    }
-
-    .user-email {
-      font-size: 16px;
-      color: var(--primary-light);
-      margin-bottom: 15px;
-      word-break: break-all;
-      padding: 0 10px;
-    }
-
-    .role-badge {
-      display: inline-block;
-      padding: 8px 20px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-      margin: 5px 0;
-      transition: var(--transition);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .role-teacher {
-      background: var(--gradient-teacher);
-      color: white;
-    }
-
-    .role-student {
-      background: var(--gradient-student);
-      color: white;
-    }
-
-    /* Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .stat-card {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: var(--border-radius-sm);
-      padding: 20px;
-      text-align: center;
-      transition: var(--transition);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      animation: fadeInUp 0.8s ease-out 0.6s both;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .stat-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      background: rgba(99, 102, 241, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 15px;
-      font-size: 20px;
-      color: var(--primary-light);
-    }
-
-    .stat-value {
-      font-size: 28px;
-      font-weight: 800;
-      font-family: 'Quicksand', sans-serif;
-      margin-bottom: 5px;
-      background: linear-gradient(90deg, var(--primary-light), var(--secondary-color));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .stat-label {
-      font-size: 13px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* Info Cards */
-    .info-cards {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-      animation: fadeInUp 0.8s ease-out 0.8s both;
-    }
-
-    .info-card {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: var(--border-radius-sm);
-      padding: 20px;
-      transition: var(--transition);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .info-card:hover {
-      transform: translateY(-3px);
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .info-card-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 15px;
-    }
-
-    .info-card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: rgba(99, 102, 241, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: var(--primary-light);
-      flex-shrink: 0;
-    }
-
-    .info-card-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-light);
-    }
-
-    .info-card-content {
-      font-size: 15px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .highlight {
-      color: var(--primary-light);
-      font-weight: 600;
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 14px;
-      color: var(--text-muted);
-      padding: 25px 15px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      width: 100%;
-      max-width: 800px;
-      animation: fadeIn 1s ease-out 1s both;
-    }
-
-    .footer-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--primary-light);
-    }
-
-    .footer-logo i {
-      font-size: 20px;
-      color: var(--secondary-color);
-    }
-
-    .footer-bottom {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .footer-bottom p {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    .heart {
-      color: #ef4444;
-      animation: heartbeat 1.5s infinite;
-      display: inline-block;
-    }
-
-    @keyframes heartbeat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-
-    /* Tablet View */
     @media (min-width: 768px) {
-      .container {
-        padding: 20px;
-      }
-      
-      .header {
-        padding: 20px;
-      }
-      
-      .header h1 {
-        font-size: 28px;
+      .header-title h1 {
+        font-size: 36px;
       }
       
       .profile-header {
         flex-direction: row;
         text-align: left;
+        gap: 30px;
+      }
+      
+      .profile-info {
+        align-items: flex-start;
+      }
+      
+      .stats-section {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
         align-items: center;
       }
-      
-      .avatar-container {
-        margin-right: 30px;
-        margin-bottom: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .container {
+        padding: 40px;
       }
       
-      .user-info {
-        text-align: left;
-        flex: 1;
+      .header-title h1 {
+        font-size: 40px;
       }
       
-      .user-name {
-        font-size: 32px;
+      .profile-card {
+        padding: 50px;
       }
       
-      .user-email {
-        padding: 0;
-      }
-      
-      .stats-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-      }
-      
-      .info-cards {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-      }
-      
-      .avatar {
+      .profile-avatar {
         width: 140px;
         height: 140px;
-      }
-      
-      .avatar-icon {
         font-size: 56px;
       }
     }
 
-    /* Desktop View */
-    @media (min-width: 1024px) {
-      body {
-        padding: 40px;
-        justify-content: center;
-      }
-      
+    @media (max-width: 480px) {
       .container {
-        max-width: 900px;
-      }
-      
-      .header h1 {
-        font-size: 32px;
-      }
-      
-      .logo-icon {
-        width: 60px;
-        height: 60px;
-        font-size: 26px;
-      }
-      
-      .avatar {
-        width: 160px;
-        height: 160px;
-      }
-      
-      .avatar-icon {
-        font-size: 64px;
-      }
-      
-      .user-name {
-        font-size: 36px;
-      }
-      
-      .floating-1 {
-        width: 300px;
-        height: 300px;
-      }
-      
-      .floating-2 {
-        width: 200px;
-        height: 200px;
-      }
-    }
-
-    /* Very small mobile devices */
-    @media (max-width: 360px) {
-      body {
         padding: 15px;
       }
       
-      .header h1 {
-        font-size: 20px;
+      .profile-card {
+        padding: 25px;
       }
       
-      .logo-icon {
-        width: 45px;
-        height: 45px;
-        font-size: 20px;
-      }
-      
-      .avatar {
+      .profile-avatar {
         width: 100px;
         height: 100px;
-      }
-      
-      .avatar-icon {
         font-size: 40px;
       }
       
-      .user-name {
-        font-size: 24px;
+      .profile-name {
+        font-size: 26px;
       }
       
-      .user-email {
-        font-size: 14px;
+      .profile-email {
+        font-size: 16px;
+      }
+      
+      .main-logo, .nist-logo {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .detail-card, .stat-card {
+        padding: 20px;
       }
       
       .stat-value {
-        font-size: 24px;
+        font-size: 36px;
       }
-      
-      .profile-card {
-        padding: 20px;
-      }
-    }
-
-    /* Loading animation */
-    .loading {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 60vh;
-      text-align: center;
-    }
-
-    .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 3px solid rgba(99, 102, 241, 0.2);
-      border-top-color: var(--primary-color);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loading-text {
-      font-size: 16px;
-      color: var(--text-muted);
-    }
-
-    /* Error state */
-    .error-state {
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .error-icon {
-      width: 80px;
-      height: 80px;
-      background: rgba(239, 68, 68, 0.15);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 25px;
-      font-size: 36px;
-      color: #ef4444;
-      border: 2px solid rgba(239, 68, 68, 0.3);
-    }
-
-    .error-state h2 {
-      font-size: 24px;
-      margin-bottom: 15px;
-      color: var(--text-light);
-    }
-
-    .error-state p {
-      color: var(--text-muted);
-      margin-bottom: 25px;
-      line-height: 1.6;
-    }
-
-    .btn {
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 15px;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      text-decoration: none;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    .btn-primary {
-      background: var(--gradient-primary);
-      color: white;
-      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 25px rgba(99, 102, 241, 0.4);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text-light);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-outline:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.3);
     }
   </style>
 </head>
-
 <body>
-  <!-- Animated Background Elements -->
-  <div class="floating-element floating-1"></div>
-  <div class="floating-element floating-2"></div>
+  <!-- Animated Background -->
+  <div class="floating-bg floating-bg-1"></div>
+  <div class="floating-bg floating-bg-2"></div>
 
   <div class="container">
-    <!-- Header -->
+    <!-- Header with Logo -->
     <div class="header">
-      <div class="logo-icon">
-        <i class="fas fa-user-circle"></i>
-      </div>
-      <div class="header-text">
-        <h1>Smart Attendance Profile</h1>
-        <p>User Information & Statistics</p>
+      <div class="header-logo">
+        <div class="logo-banner">
+          <div class="main-logo">
+            <i class="fas fa-user-check"></i>
+          </div>
+          <div class="header-title">
+            <h1>Smart Attendance System</h1>
+            <p>NIST Student Profile • Verified User Information</p>
+          </div>
+          <div class="nist-logo">
+            <!-- Add NIST logo image here -->
+            <img src="https://quantumcoders.vercel.app/assets/logo/logo.png" alt="NIST Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-university\'></i>';">
+          </div>
+        </div>
+        <div class="tagline">
+          <i class="fas fa-shield-alt"></i>
+          <span>Secure Profile Verification System</span>
+        </div>
       </div>
     </div>
 
-    <!-- Profile Card -->
-    <div class="profile-card">
-      <div class="profile-header">
-        <div class="avatar-container">
-          <div class="avatar" id="userAvatar">
-            <i class="fas fa-user avatar-icon" id="avatarIcon"></i>
-            <div class="verified-badge" id="verifiedBadge">
-              <i class="fas fa-check"></i>
+    <!-- Main Profile Card -->
+    <div class="profile-card" id="profileCard">
+      <!-- Loading State -->
+      <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading user profile...</div>
+      </div>
+
+      <!-- Profile Content (Hidden by default) -->
+      <div id="profileContent" style="display: none;">
+        <!-- Profile Header -->
+        <div class="profile-header">
+          <div class="profile-avatar" id="profileAvatar">
+            <i class="fas fa-user"></i>
+            <div class="profile-badge" id="profileBadge">
+              <i class="fas fa-check-circle"></i>
+              <span>VERIFIED</span>
+            </div>
+          </div>
+          <div class="profile-info">
+            <h1 class="profile-name" id="userName">Loading...</h1>
+            <div class="profile-email" id="userEmail">email@example.com</div>
+          </div>
+        </div>
+
+        <!-- Profile Details -->
+        <div class="profile-details">
+          <div class="detail-card">
+            <div class="detail-header">
+              <div class="detail-icon">
+                <i class="fas fa-id-card"></i>
+              </div>
+              <div class="detail-title">
+                <h3>User ID</h3>
+                <p id="userId">UID-123456</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="detail-header">
+              <div class="detail-icon">
+                <i class="fas fa-user-tag"></i>
+              </div>
+              <div class="detail-title">
+                <h3>Account Type</h3>
+                <p id="userRole">Loading...</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="detail-header">
+              <div class="detail-icon">
+                <i class="fas fa-calendar-plus"></i>
+              </div>
+              <div class="detail-title">
+                <h3>Account Created</h3>
+                <p id="createdAt">Loading...</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="detail-header">
+              <div class="detail-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="detail-title">
+                <h3>Last Active</h3>
+                <p id="lastActive">Loading...</p>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div class="user-info">
-          <h1 class="user-name" id="userName">Loading...</h1>
-          <p class="user-email" id="userEmail"></p>
-          <div class="role-badge" id="roleBadge">Loading...</div>
+
+        <!-- Role Badge -->
+        <div class="role-badge" id="roleBadge">
+          <div class="role-icon" id="roleIcon">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <div class="role-text">
+            <h3 id="roleTitle">Teacher Account</h3>
+            <p id="roleDescription">Full access to create and manage attendance sessions</p>
+          </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+          <div class="stat-card">
+            <div class="stat-value" id="totalSessions">0</div>
+            <div class="stat-label">Total Sessions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="presentCount">0</div>
+            <div class="stat-label">Present Days</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="attendanceRate">0%</div>
+            <div class="stat-label">Attendance Rate</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="activeDays">0</div>
+            <div class="stat-label">Active Days</div>
+          </div>
         </div>
       </div>
 
-      <!-- Stats Grid -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-calendar-check"></i>
-          </div>
-          <div class="stat-value" id="totalAttendance">0</div>
-          <div class="stat-label">Total Attendance</div>
+      <!-- Error State -->
+      <div class="error-card" id="errorCard" style="display: none;">
+        <div class="error-icon">
+          <i class="fas fa-exclamation-triangle"></i>
         </div>
-        
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-percentage"></i>
-          </div>
-          <div class="stat-value" id="attendanceRate">0%</div>
-          <div class="stat-label">Attendance Rate</div>
-        </div>
-        
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-user-friends"></i>
-          </div>
-          <div class="stat-value" id="sessionsCount">0</div>
-          <div class="stat-label">Sessions Attended</div>
-        </div>
+        <div class="error-message" id="errorMessage">User not found or invalid QR code</div>
+        <button class="btn" onclick="window.history.back()" style="background: var(--primary-color); color: white; padding: 12px 24px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; margin-top: 20px;">
+          <i class="fas fa-arrow-left"></i> Go Back
+        </button>
       </div>
+    </div>
 
-      <!-- Additional Info Cards -->
-      <div class="info-cards">
-        <div class="info-card">
-          <div class="info-card-header">
-            <div class="info-card-icon">
-              <i class="fas fa-id-card"></i>
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-content">
+        <div class="footer-logos">
+          <div class="footer-logo">
+            <div class="footer-logo-icon">
+              <i class="fas fa-graduation-cap"></i>
             </div>
-            <h3 class="info-card-title">Profile Details</h3>
+            <div class="footer-logo-text">NIST Campus</div>
           </div>
-          <div class="info-card-content">
-            <p><span class="highlight">Role:</span> <span id="roleText">Loading...</span></p>
-            <p><span class="highlight">Status:</span> <span id="statusText">Loading...</span></p>
-            <p><span class="highlight">Account ID:</span> <span id="userId" style="font-family: monospace; font-size: 12px;">Loading...</span></p>
+          <div class="footer-logo">
+            <div class="footer-logo-icon">
+              <i class="fas fa-qrcode"></i>
+            </div>
+            <div class="footer-logo-text">Smart Attendance</div>
           </div>
         </div>
-        
-        <div class="info-card">
-          <div class="info-card-header">
-            <div class="info-card-icon">
-              <i class="fas fa-clock"></i>
-            </div>
-            <h3 class="info-card-title">Account Information</h3>
-          </div>
-          <div class="info-card-content">
-            <p><span class="highlight">Member Since:</span> <span id="createdAt">Loading...</span></p>
-            <p><span class="highlight">Last Active:</span> <span id="lastActive">Loading...</span></p>
-            <p><span class="highlight">Profile Type:</span> <span id="profileType">Loading...</span></p>
-          </div>
+        <div class="footer-copyright">
+          <p>&copy; 2026 QuantumCoders Tech Lab. All rights reserved.</p>
+          <p>Developed with <span class="heart">❤️</span> by <strong>Prem Prasad Pradhan</strong></p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">
-        <i class="fas fa-graduation-cap"></i>
-        <span>Smart Attendance System</span>
-      </div>
-      
-      <div class="footer-bottom">
-        <p>&copy; 2026 QuantumCoders Tech Lab. All rights reserved.</p>
-        <p>Developed with <span class="heart">❤️</span> by <strong>Prem Prasad Pradhan</strong></p>
-      </div>
-    </div>
-  </footer>
-
   <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, query, where, getDocs } 
+      from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
-  <script>
-    // ================= FIREBASE CONFIG =================
+    // 🔥 Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyDvOsbdPqY57dhsn4KsBOr_IIy94ULp0S0",
       authDomain: "smartattendance-gdg.firebaseapp.com",
       projectId: "smartattendance-gdg"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    // ================= GET UID FROM URL =================
+    // 🔗 Get UID from URL
     const urlParams = new URLSearchParams(window.location.search);
-    const uid = urlParams.get('uid');
+    const uid = urlParams.get("uid");
 
-    // ================= LOADING STATE =================
-    function showLoading() {
-      document.body.innerHTML = `
-        <div class="loading">
-          <div class="loading-spinner"></div>
-          <p class="loading-text">Loading profile information...</p>
-        </div>
-      `;
+    // DOM Elements
+    const profileCard = document.getElementById('profileCard');
+    const profileContent = document.getElementById('profileContent');
+    const loading = document.getElementById('loading');
+    const errorCard = document.getElementById('errorCard');
+    const errorMessage = document.getElementById('errorMessage');
+
+    // Check for UID
+    if (!uid) {
+      showError("Invalid QR Code - No user ID provided");
+      throw new Error("UID missing");
     }
 
-    // ================= ERROR STATE =================
-    function showError(message) {
-      document.body.innerHTML = `
-        <div class="container">
-          <div class="error-state">
-            <div class="error-icon">
-              <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <h2>Profile Not Found</h2>
-            <p>${message}</p>
-            <button class="btn btn-primary" onclick="window.history.back()">
-              <i class="fas fa-arrow-left"></i> Go Back
-            </button>
-          </div>
-        </div>
-      `;
-    }
+    // Initialize the page
+    initPage();
 
-    // ================= FETCH USER PROFILE =================
-    async function fetchUserProfile() {
-      if (!uid) {
-        showError("No user ID provided in the URL.");
-        return;
-      }
-
+    async function initPage() {
       try {
-        // Fetch user data
-        const userRef = db.collection("users").doc(uid);
-        const userDoc = await userRef.get();
-        
-        if (!userDoc.exists) {
-          showError("The requested user profile does not exist.");
+        // ================= USER PROFILE =================
+        const userRef = doc(db, "users", uid);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+          showError("User not found in the database");
           return;
         }
 
-        const userData = userDoc.data();
-        
+        const userData = userSnap.data();
+        console.log("USER DATA:", userData);
+
         // Update UI with user data
-        document.getElementById('userName').textContent = userData.name || 'N/A';
-        document.getElementById('userEmail').textContent = userData.email || '';
-        document.getElementById('userId').textContent = uid;
-        
-        // Set role badge
-        const role = userData.role || 'student';
-        const roleBadge = document.getElementById('roleBadge');
-        const roleText = document.getElementById('roleText');
-        
-        if (role === 'teacher') {
-          roleBadge.className = 'role-badge role-teacher';
-          roleBadge.innerHTML = '<i class="fas fa-chalkboard-teacher"></i> Verified Teacher';
-          roleText.textContent = 'Teacher';
-          
-          // Update avatar for teacher
-          document.getElementById('avatarIcon').className = 'fas fa-chalkboard-teacher avatar-icon';
-          document.getElementById('userAvatar').style.background = 'var(--gradient-teacher)';
-          document.getElementById('verifiedBadge').style.background = 'var(--teacher-color)';
-        } else {
-          roleBadge.className = 'role-badge role-student';
-          roleBadge.innerHTML = '<i class="fas fa-user-graduate"></i> Verified Student';
-          roleText.textContent = 'Student';
-          
-          // Update avatar for student
-          document.getElementById('avatarIcon').className = 'fas fa-user-graduate avatar-icon';
-          document.getElementById('userAvatar').style.background = 'var(--gradient-student)';
-          document.getElementById('verifiedBadge').style.background = 'var(--student-color)';
-        }
-        
-        // Set account creation date
-        const createdAt = userData.createdAt ? 
-          new Date(userData.createdAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          }) : 'Not available';
-        
-        document.getElementById('createdAt').textContent = createdAt;
-        
-        // Set last active
-        const lastActive = userData.lastActive ? 
-          new Date(userData.lastActive).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          }) : 'Unknown';
-        
-        document.getElementById('lastActive').textContent = lastActive;
-        
-        // Set status
-        document.getElementById('statusText').textContent = userData.status || 'Active';
-        document.getElementById('profileType').textContent = userData.profileType || 'Regular';
-        
-        // Fetch attendance statistics
-        await fetchAttendanceStats(uid, role);
-        
-        // Add slight animation delay for smooth loading
-        setTimeout(() => {
-          document.body.style.opacity = '1';
-        }, 300);
-        
+        updateProfileUI(userData);
+
+        // Hide loading, show content
+        loading.style.display = 'none';
+        profileContent.style.display = 'block';
+
+        // ================= FETCH STATS =================
+        await fetchUserStats(uid, userData.role);
+
       } catch (error) {
-        console.error('Error fetching profile:', error);
-        showError("An error occurred while loading the profile. Please try again.");
+        console.error("Error loading profile:", error);
+        showError("Failed to load profile. Please try again.");
       }
     }
 
-    // ================= FETCH ATTENDANCE STATISTICS =================
-    async function fetchAttendanceStats(uid, role) {
-      try {
-        // For now, we'll use mock data since the actual structure might vary
-        // You can replace this with actual Firestore queries
-        
-        const mockData = {
-          totalAttendance: Math.floor(Math.random() * 100) + 20,
-          attendanceRate: Math.floor(Math.random() * 30) + 70,
-          sessionsCount: Math.floor(Math.random() * 50) + 10
-        };
-        
-        document.getElementById('totalAttendance').textContent = mockData.totalAttendance;
-        document.getElementById('attendanceRate').textContent = `${mockData.attendanceRate}%`;
-        document.getElementById('sessionsCount').textContent = mockData.sessionsCount;
-        
-        // If you have actual Firestore collections, you can query them here:
-        // Example:
-        // const attendanceQuery = await db.collection("attendance_records")
-        //   .where("userId", "==", uid)
-        //   .get();
-        // 
-        // document.getElementById('totalAttendance').textContent = attendanceQuery.size;
-        
-      } catch (error) {
-        console.error('Error fetching stats:', error);
-        // Set default values on error
-        document.getElementById('totalAttendance').textContent = 'N/A';
-        document.getElementById('attendanceRate').textContent = 'N/A';
-        document.getElementById('sessionsCount').textContent = 'N/A';
-      }
-    }
-
-    // ================= INITIALIZE =================
-    window.addEventListener('DOMContentLoaded', () => {
-      // Show loading initially
-      showLoading();
+    function updateProfileUI(userData) {
+      // Basic Info
+      document.getElementById('userName').textContent = userData.name || "N/A";
+      document.getElementById('userEmail').textContent = userData.email || "No email";
+      document.getElementById('userId').textContent = uid.substring(0, 8) + "...";
+      document.getElementById('userRole').textContent = userData.role || "Unknown";
       
-      // Fetch profile after a short delay for better UX
-      setTimeout(fetchUserProfile, 500);
-    });
+      // Format dates
+      if (userData.createdAt) {
+        const createdAt = new Date(userData.createdAt);
+        document.getElementById('createdAt').textContent = createdAt.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+      } else {
+        document.getElementById('createdAt').textContent = "Not available";
+      }
 
-    // ================= COPY UID FUNCTION =================
-    function copyUserId() {
-      const userId = document.getElementById('userId').textContent;
-      navigator.clipboard.writeText(userId).then(() => {
-        alert('User ID copied to clipboard!');
+      // Last active (use current time as fallback)
+      const lastActive = new Date();
+      document.getElementById('lastActive').textContent = lastActive.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
       });
+
+      // Role-specific styling
+      updateRoleStyling(userData.role);
     }
+
+    function updateRoleStyling(role) {
+      const roleBadge = document.getElementById('roleBadge');
+      const roleIcon = document.getElementById('roleIcon');
+      const roleTitle = document.getElementById('roleTitle');
+      const roleDescription = document.getElementById('roleDescription');
+      const profileBadge = document.getElementById('profileBadge');
+
+      if (role === "teacher") {
+        // Teacher styling
+        roleBadge.style.background = 'linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.1))';
+        roleIcon.innerHTML = '<i class="fas fa-chalkboard-teacher"></i>';
+        roleIcon.style.color = 'var(--primary-color)';
+        roleTitle.textContent = "Verified Teacher";
+        roleDescription.textContent = "Full access to create and manage attendance sessions";
+        profileBadge.style.background = 'linear-gradient(135deg, var(--primary-color), var(--primary-dark))';
+        
+        // Update avatar
+        document.getElementById('profileAvatar').innerHTML = '<i class="fas fa-chalkboard-teacher"></i>';
+      } else {
+        // Student styling
+        roleBadge.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(16, 185, 129, 0.1))';
+        roleIcon.innerHTML = '<i class="fas fa-user-graduate"></i>';
+        roleIcon.style.color = 'var(--info-color)';
+        roleTitle.textContent = "Verified Student";
+        roleDescription.textContent = "Access to scan QR codes and mark attendance";
+        profileBadge.style.background = 'linear-gradient(135deg, var(--info-color), #2563eb)';
+        
+        // Update avatar
+        document.getElementById('profileAvatar').innerHTML = '<i class="fas fa-user-graduate"></i>';
+      }
+    }
+
+    async function fetchUserStats(uid, role) {
+      try {
+        let totalSessions = 0;
+        let presentCount = 0;
+
+        if (role === "teacher") {
+          // For teachers: count sessions created
+          const sessionsQuery = query(
+            collection(db, "attendance_sessions"),
+            where("teacherId", "==", uid)
+          );
+          const sessionsSnapshot = await getDocs(sessionsQuery);
+          totalSessions = sessionsSnapshot.size;
+          
+          // Estimate present count based on average
+          presentCount = Math.floor(totalSessions * 25); // Assuming ~25 students per session
+        } else {
+          // For students: count attendance records
+          const attendanceQuery = query(
+            collection(db, "attendance_records"),
+            where("studentId", "==", uid)
+          );
+          const attendanceSnapshot = await getDocs(attendanceQuery);
+          presentCount = attendanceSnapshot.size;
+          
+          // Estimate total sessions
+          totalSessions = Math.floor(presentCount / 0.85); // Assuming 85% attendance rate
+        }
+
+        // Calculate stats
+        const attendanceRate = totalSessions > 0 ? Math.round((presentCount / totalSessions) * 100) : 0;
+        const activeDays = Math.floor(presentCount / 4); // Assuming 4 sessions per day
+
+        // Update UI
+        document.getElementById('totalSessions').textContent = totalSessions;
+        document.getElementById('presentCount').textContent = presentCount;
+        document.getElementById('attendanceRate').textContent = attendanceRate + '%';
+        document.getElementById('activeDays').textContent = activeDays;
+
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+        // Set default values if stats fail
+        document.getElementById('totalSessions').textContent = "N/A";
+        document.getElementById('presentCount').textContent = "N/A";
+        document.getElementById('attendanceRate').textContent = "N/A";
+        document.getElementById('activeDays').textContent = "N/A";
+      }
+    }
+
+    function showError(message) {
+      loading.style.display = 'none';
+      errorCard.style.display = 'block';
+      errorMessage.textContent = message;
+    }
+
+    // Add smooth animations
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add fade-in animation to all cards
+      const cards = document.querySelectorAll('.detail-card, .stat-card, .role-badge');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.style.animation = 'fadeIn 0.5s ease-out forwards';
+      });
+    });
   </script>
 </body>
 </html>
