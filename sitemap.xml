@@ -11,6 +11,22 @@
     <priority>1.0</priority>
   </url>
 
+  <!-- MPSO 1.0 – MY PORTFOLIO STANDS OUT (HACKATHON PAGE) -->
+  <url>
+    <loc>https://quantumcoders.vercel.app/MPSO/index.html</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+
+    <!-- Hackathon Poster for Google Images -->
+    <image:image>
+      <image:loc>https://quantumcoders.vercel.app/assets/poster/MPSO-1.0.png</image:loc>
+      <image:title>MPSO 1.0 - My Portfolio Stands Out Hackathon</image:title>
+      <image:caption>National-level student hackathon by QuantumCoders Tech Lab and R3S Interactive</image:caption>
+    </image:image>
+  </url>
+
+
   <!-- SMART ATTENDANCE SYSTEM (PRODUCT PAGE) -->
   <url>
     <loc>https://quantumcoders.vercel.app/smart-attendance/smart_attendance_index.html</loc>
