@@ -1,0 +1,1968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- ===== Primary Meta Tags ===== -->
+    <title>MPSO 1.0 | My Portfolio Stands Out Hackathon – QuantumCoders Tech Lab & R3S Interactive</title>
+
+    <meta name="description" content="MPSO 1.0 – My Portfolio Stands Out is a national-level student hackathon organized by QuantumCoders Tech Lab and R3S Interactive. Build and showcase a professional portfolio website, enhance your digital presence, and stand out to recruiters.">
+
+    <meta name="keywords" content="MPSO 1.0, My Portfolio Stands Out, hackathon, student hackathon India, portfolio hackathon, QuantumCoders Tech Lab events, R3S Interactive events, web development hackathon, portfolio website competition, tech events India, coding competition, UI UX hackathon, AI portfolio, digital portfolio challenge">
+
+    <meta name="author" content="QuantumCoders Tech Lab & R3S Interactive">
+    <meta name="robots" content="index, follow">
+
+    <!-- ===== Canonical URL ===== -->
+    <link rel="canonical" href="https://quantumcoders.vercel.app/mpso">
+
+    <!-- ===== Open Graph / Facebook ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MPSO 1.0 | My Portfolio Stands Out – National Hackathon">
+    <meta property="og:description" content="A premier student hackathon empowering participants to design and deploy professional portfolio websites. Organized by QuantumCoders Tech Lab & R3S Interactive.">
+    <meta property="og:url" content="https://quantumcoders.vercel.app/mpso">
+    <meta property="og:image" content="https://quantumcoders.vercel.app/assets/poster/MPSO-1.0.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="QuantumCoders Tech Lab">
+
+    <!-- ===== Twitter Card ===== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MPSO 1.0 | My Portfolio Stands Out Hackathon">
+    <meta name="twitter:description" content="Join MPSO 1.0, a national-level portfolio hackathon for students. Showcase your skills, creativity, and technical excellence.">
+    <meta name="twitter:image" content="https://quantumcoders.vercel.app/assets/poster/MPSO-1.0.png">
+    <meta name="twitter:creator" content="@QuantumCodersTL">
+
+    <!-- ===== Favicon ===== -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/Logo/mpso-favicon.png">
+    <link rel="icon" type="image/x-icon" href="./assets/Logo/mpso-favicon.ico">
+
+    <!-- ===== Fonts & Icons ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ===== Structured Data (Schema.org) ===== -->
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "MPSO 1.0 – My Portfolio Stands Out",
+    "description": "A national-level student hackathon focused on building professional portfolio websites. Organized by QuantumCoders Tech Lab and R3S Interactive.",
+    "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "organizer": [
+        {
+        "@type": "Organization",
+        "name": "QuantumCoders Tech Lab",
+        "url": "https://quantumcoders.vercel.app"
+        },
+        {
+        "@type": "Organization",
+        "name": "R3S Interactive"
+        }
+    ],
+    "image": "https://quantumcoders.vercel.app/assets/poster/MPSO-1.0.png",
+    "url": "https://quantumcoders.vercel.app/mpso",
+    "audience": {
+        "@type": "Audience",
+        "audienceType": "Students"
+    }
+    }
+    </script>
+
+    <style>
+    /* ===== CSS RESET & VARIABLES ===== */
+    :root {
+        --primary: #2563eb;
+        --secondary: #7c3aed;
+        --accent: #06b6d4;
+        --dark: #0f172a;
+        --light: #f8fafc;
+        --gray: #64748b;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --gradient-primary: linear-gradient(135deg, #2563eb, #7c3aed);
+        --gradient-dark: linear-gradient(135deg, #0f172a, #1e293b);
+        --gradient-accent: linear-gradient(135deg, #06b6d4, #3b82f6);
+        --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.16);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .futuristic-font {
+        font-family: 'Orbitron', sans-serif;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradient-text 3s ease infinite;
+        background-size: 200% auto;
+    }
+
+    @keyframes gradient-text {
+        0% { background-position: 0% center; }
+        50% { background-position: 100% center; }
+        100% { background-position: 0% center; }
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 clamp(1rem, 5vw, 2rem);
+    }
+
+    /* ===== ANIMATED PARTICLES BACKGROUND ===== */
+    #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    /* ===== LIVE TIME DISPLAY ===== */
+    .live-time {
+        position: fixed;
+        top: 120px;
+        right: 20px;
+        background: var(--gradient-dark);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-family: 'Orbitron', monospace;
+        font-size: 14px;
+        z-index: 999;
+        box-shadow: var(--shadow-md);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        opacity: 0.9;
+        transition: var(--transition);
+    }
+
+    .live-time:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+    }
+
+    .live-time i {
+        color: var(--accent);
+    }
+
+    /* ===== HEADER & NAVIGATION ===== */
+    header {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-sm);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: var(--transition);
+        padding: 0;
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        position: relative;
+        height: 80px;
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.5rem, 2vw, 1rem);
+        position: relative;
+        z-index: 1001;
+    }
+
+    .logo-wrapper {
+        position: relative;
+        width: clamp(50px, 8vw, 70px);
+        height: clamp(50px, 8vw, 70px);
+        transition: var(--transition);
+    }
+
+    .company-logo {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid transparent;
+        background: linear-gradient(white, white) padding-box,
+                    linear-gradient(135deg, var(--primary), var(--secondary)) border-box;
+        padding: 3px;
+        box-shadow: var(--shadow-md);
+        transition: var(--transition);
+        cursor: pointer;
+    }
+
+    .company-logo:hover {
+        transform: scale(1.05) rotate(5deg);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .close-symbol {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: clamp(1.25rem, 3vw, 2rem);
+        font-weight: 800;
+        color: var(--primary);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: clamp(1rem, 2vw, 2.5rem);
+        align-items: center;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 600;
+        font-size: clamp(0.9rem, 1.2vw, 1rem);
+        position: relative;
+        /* padding: 0.5rem 0; */
+        transition: var(--transition);
+        white-space: nowrap;
+    }
+
+    .nav-links a:not(.register-btn):hover {
+        color: var(--primary);
+    }
+
+    .nav-links a:not(.register-btn)::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--gradient-primary);
+        transition: var(--transition);
+    }
+
+    .nav-links a:not(.register-btn):hover::after {
+        width: 100%;
+    }
+
+    .register-btn {
+        background: var(--gradient-primary);
+        color: white;
+        padding: clamp(0.6rem, 1.5vw, 0.75rem) clamp(1rem, 2vw, 1.5rem);
+        border-radius: 50px;
+        font-weight: 600;
+        transition: var(--transition);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        white-space: nowrap;
+        font-size: clamp(0.9rem, 1.2vw, 1rem);
+    }
+
+    .register-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    /* ===== MOBILE TOGGLE BUTTON ===== */
+    .mobile-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--dark);
+        cursor: pointer;
+        padding: 0.5rem;
+        z-index: 1001;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .mobile-toggle:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    .mobile-toggle.active {
+        color: var(--primary);
+    }
+
+    .mobile-toggle .close-icon {
+        display: none;
+    }
+
+    .mobile-toggle.active .bars-icon {
+        display: none;
+    }
+
+    .mobile-toggle.active .close-icon {
+        display: block;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+        padding: clamp(8rem, 15vw, 12rem) 0 clamp(4rem, 8vw, 8rem);
+        background: var(--gradient-dark);
+        color: white;
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+    }
+
+    .hero-content {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        margin-bottom: clamp(1rem, 2vw, 1.5rem);
+        line-height: 1.2;
+        padding: 0 clamp(1rem, 5vw, 2rem);
+    }
+
+    .hero p {
+        font-size: clamp(1rem, 1.5vw, 1.2rem);
+        margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+        color: #e2e8f0;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 clamp(1rem, 5vw, 2rem);
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: clamp(0.75rem, 1.5vw, 1rem);
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 0 clamp(1rem, 5vw, 2rem);
+    }
+
+    .btn {
+        padding: clamp(0.875rem, 1.5vw, 1rem) clamp(1.5rem, 3vw, 2rem);
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: clamp(0.9rem, 1.2vw, 1rem);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+        min-height: 50px;
+    }
+
+    .btn-primary {
+        background: var(--gradient-accent);
+        color: white;
+        box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ===== SECTIONS COMMON STYLES ===== */
+    .section {
+        padding: clamp(3rem, 6vw, 6rem) 0;
+        position: relative;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: clamp(2rem, 4vw, 3rem);
+        padding: 0 clamp(1rem, 5vw, 2rem);
+    }
+
+    .section-title h2 {
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+    }
+
+    .section-title p {
+        color: var(--gray);
+        font-size: clamp(0.9rem, 1.2vw, 1rem);
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: clamp(2rem, 4vw, 4rem);
+        align-items: center;
+        padding: 0 clamp(1rem, 5vw, 2rem);
+    }
+
+    .about-text h3 {
+        font-size: clamp(1.5rem, 3vw, 1.8rem);
+        margin-bottom: clamp(1rem, 2vw, 1.5rem);
+        color: var(--dark);
+    }
+
+    .about-text p {
+        margin-bottom: clamp(1rem, 2vw, 1.5rem);
+        color: var(--gray);
+        font-size: clamp(0.9rem, 1.2vw, 1rem);
+    }
+
+    .about-image {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition);
+        order: -1;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .about-image:hover {
+        transform: scale(1.02);
+    }
+
+    .about-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.8s ease;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+    }
+
+    .about-image:hover img {
+        transform: scale(1.05);
+    }
+
+    /* ===== GUIDELINES SECTION ===== */
+    .guidelines {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border-radius: clamp(10px, 2vw, 15px);
+        padding: clamp(1.5rem, 3vw, 2rem);
+        margin-top: clamp(1rem, 2vw, 2rem);
+        box-shadow: var(--shadow-md);
+        margin: 0 clamp(1rem, 5vw, 2rem);
+    }
+
+    .guidelines-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+        gap: clamp(1rem, 2vw, 1.5rem);
+        margin-top: clamp(1rem, 2vw, 2rem);
+    }
+
+    .guideline-card {
+        background: white;
+        padding: clamp(1.5rem, 2.5vw, 2rem) clamp(1rem, 1.5vw, 1.5rem);
+        border-radius: clamp(8px, 1.5vw, 12px);
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+        border: 1px solid #e2e8f0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .guideline-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--gradient-primary);
+    }
+
+    .guideline-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .guideline-card i {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .guideline-card h4 {
+        font-size: clamp(1.1rem, 1.5vw, 1.2rem);
+        margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+        color: var(--dark);
+    }
+
+    .guideline-card p {
+        font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+        color: var(--gray);
+    }
+
+    /* ===== REWARDS SECTION ===== */
+    .rewards {
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    }
+
+    .rewards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+        gap: clamp(1rem, 2vw, 1.5rem);
+        margin-top: clamp(1rem, 2vw, 2rem);
+        padding: 0 clamp(1rem, 5vw, 2rem);
+    }
+
+    .reward-card {
+        background: white;
+        padding: clamp(2rem, 3vw, 2.5rem) clamp(1.5rem, 2vw, 2rem);
+        border-radius: clamp(10px, 2vw, 15px);
+        text-align: center;
+        box-shadow: var(--shadow-md);
+        position: relative;
+        overflow: hidden;
+        transition: var(--transition);
+        border: 2px solid transparent;
+    }
+
+    .reward-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: var(--gradient-primary);
+    }
+
+    .reward-card.winner::before {
+        height: 8px;
+        background: linear-gradient(90deg, #f59e0b, #f97316);
+    }
+
+    .reward-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .reward-icon {
+        font-size: clamp(2rem, 3vw, 2.5rem);
+        margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .reward-card.winner .reward-icon {
+        background: linear-gradient(90deg, #f59e0b, #f97316);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .reward-card h4 {
+        font-size: clamp(1.2rem, 1.5vw, 1.3rem);
+        margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+        color: var(--dark);
+    }
+
+    .reward-card p {
+        font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+        color: var(--gray);
+    }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact-section {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: white;
+    }
+
+    .contact-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: clamp(2rem, 4vw, 3rem);
+        align-items: start;
+        padding: 0 clamp(1rem, 5vw, 2rem);
+    }
+
+    .contact-form {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: clamp(1.5rem, 3vw, 2rem);
+        border-radius: clamp(10px, 2vw, 15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: clamp(0.25rem, 0.5vw, 0.5rem);
+        font-weight: 600;
+        color: #e2e8f0;
+        font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+    }
+
+    .form-input, .form-textarea, .form-select {
+        width: 100%;
+        padding: clamp(0.75rem, 1.2vw, 0.875rem) clamp(1rem, 1.5vw, 1.25rem);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: white;
+        font-size: clamp(0.9rem, 1.2vw, 1rem);
+        transition: var(--transition);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    /* Fix for select dropdown options */
+    .form-select option {
+        background: #0f172a;
+        color: white;
+        padding: 10px;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+    }
+
+    .form-input::placeholder, .form-textarea::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .form-textarea {
+        min-height: 120px;
+        resize: vertical;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .contact-info {
+        padding: clamp(1rem, 2vw, 1.5rem);
+    }
+
+    .info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: clamp(0.75rem, 1.5vw, 1rem);
+        margin-bottom: clamp(1rem, 2vw, 1.5rem);
+        padding: clamp(1rem, 1.5vw, 1.25rem);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: clamp(8px, 1.5vw, 12px);
+        transition: var(--transition);
+    }
+
+    .info-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+    }
+
+    .info-icon {
+        width: clamp(40px, 5vw, 45px);
+        height: clamp(40px, 5vw, 45px);
+        background: var(--gradient-primary);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: clamp(1rem, 1.5vw, 1.25rem);
+        flex-shrink: 0;
+    }
+
+    .info-content h4 {
+        font-size: clamp(1rem, 1.3vw, 1.1rem);
+        margin-bottom: clamp(0.125rem, 0.25vw, 0.25rem);
+        color: white;
+    }
+
+    .info-content p {
+        color: #cbd5e1;
+        line-height: 1.5;
+        font-size: clamp(0.8rem, 1vw, 0.9rem);
+    }
+
+    .company-websites {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: clamp(0.75rem, 1.5vw, 1rem);
+        margin-top: clamp(1rem, 2vw, 2rem);
+    }
+
+    .website-link {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.5rem, 1vw, 0.75rem);
+        padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1rem, 1.5vw, 1.5rem);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: clamp(8px, 1.5vw, 12px);
+        text-decoration: none;
+        color: white;
+        transition: var(--transition);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+    }
+
+    .website-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+        border-color: var(--accent);
+    }
+
+    /* ===== FOOTER - 3D STYLES ===== */
+    footer {
+        background: linear-gradient(145deg, #0a0f1f, #1a233f);
+        color: white;
+        padding: clamp(2rem, 4vw, 3rem) 0 clamp(1rem, 2vw, 1.5rem);
+        position: relative;
+        overflow: hidden;
+        perspective: 1000px;
+    }
+
+    footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--accent), var(--primary), transparent);
+        animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+        0% { background-position: -200% center; }
+        100% { background-position: 200% center; }
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: clamp(1.5rem, 3vw, 2rem);
+        margin-bottom: clamp(1rem, 2vw, 2rem);
+        position: relative;
+        z-index: 1;
+    }
+
+    .footer-logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(0.75rem, 1.5vw, 1rem);
+        margin-bottom: clamp(1rem, 2vw, 1.5rem);
+        transform-style: preserve-3d;
+    }
+
+    .footer-logo {
+        width: clamp(40px, 6vw, 45px);
+        height: clamp(40px, 6vw, 45px);
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid white;
+        padding: 2px;
+        background: white;
+        transition: var(--transition);
+        transform: translateZ(20px);
+    }
+
+    .footer-logo:hover {
+        transform: translateZ(40px) rotateY(15deg);
+        box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4);
+    }
+
+    .footer-close-symbol {
+        color: white;
+        font-size: clamp(1rem, 1.5vw, 1.25rem);
+        font-weight: 800;
+        transform: translateZ(15px);
+    }
+
+    .footer-logo-container:hover .footer-logo:first-child {
+        transform: translateZ(30px) rotateY(-15deg);
+    }
+
+    .footer-logo-container:hover .footer-logo:last-child {
+        transform: translateZ(30px) rotateY(15deg);
+    }
+
+    .footer-links h4 {
+        font-size: clamp(1rem, 1.3vw, 1.1rem);
+        margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+        color: #e2e8f0;
+        position: relative;
+        padding-bottom: 8px;
+    }
+
+    .footer-links h4::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: var(--gradient-accent);
+    }
+
+    .footer-links ul {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: clamp(0.375rem, 0.75vw, 0.5rem);
+        transform-style: preserve-3d;
+        transition: var(--transition);
+    }
+
+    
+
+    .footer-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: clamp(0.25rem, 0.5vw, 0.5rem);
+        font-size: clamp(0.8rem, 1vw, 0.9rem);
+        padding: 4px 0;
+    }
+
+    .footer-links li {
+        transition: var(--transition);
+    }
+
+    .footer-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: clamp(0.8rem, 1vw, 0.9rem);
+        padding: 4px 0;
+        transition: color 0.3s ease, transform 0.3s ease;
+        will-change: transform;
+    }
+
+    .footer-links a:hover {
+        color: #ffffff;
+        transform: translateX(6px); /* ONLY X-axis */
+    }
+
+
+    
+
+    .social-links {
+        display: flex;
+        gap: clamp(0.5rem, 1vw, 0.75rem);
+        margin-top: clamp(1rem, 2vw, 1.5rem);
+        justify-content: center;
+        transform-style: preserve-3d;
+    }
+
+    .social-link {
+        width: clamp(35px, 5vw, 40px);
+        height: clamp(35px, 5vw, 40px);
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        transition: var(--transition);
+        transform-style: preserve-3d;
+    }
+
+    .social-link:hover {
+        background: var(--gradient-primary);
+        transform: translateY(-2px) translateZ(20px);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    .copyright {
+        text-align: center;
+        padding-top: clamp(1rem, 2vw, 1.5rem);
+        border-top: 1px solid #334155;
+        color: #94a3b8;
+        font-size: clamp(0.75rem, 1vw, 0.85rem);
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ===== FORM MESSAGES ===== */
+    .form-message {
+        padding: clamp(0.75rem, 1.5vw, 1rem);
+        border-radius: 8px;
+        margin-bottom: clamp(1rem, 2vw, 1.5rem);
+        display: none;
+        animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-message.success {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid #10b981;
+        color: #10b981;
+        display: block;
+    }
+
+    .form-message.error {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid #ef4444;
+        color: #ef4444;
+        display: block;
+    }
+
+    .form-message i {
+        margin-right: 0.5rem;
+    }
+
+    /* ===== LOADING SPINNER ===== */
+    .loading-spinner {
+        display: none;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s linear infinite;
+    }
+    
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    
+    /* Mobile Navigation */
+    @media (max-width: 768px) {
+        .nav-links {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+            transition: var(--transition);
+            z-index: 999;
+            padding: 2rem;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .nav-links.active {
+            left: 0;
+        }
+        
+        .mobile-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero h1 {
+            font-size: 2rem;
+        }
+        
+        .cta-buttons {
+            flex-direction: column;
+            align-items: stretch;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .live-time {
+            top: 90px;
+            right: 10px;
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+        
+        .footer-links {
+            text-align: center;
+        }
+        
+        .footer-links h4::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .footer-links a {
+            justify-content: center;
+        }
+    }
+
+    /* Tablet (768px and up) */
+    @media (min-width: 768px) {
+        .about-content {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .about-image {
+            order: 2;
+        }
+        
+        .contact-container {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .company-websites {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .footer-content {
+            grid-template-columns: repeat(3, 1fr);
+            text-align: left;
+        }
+        
+        .footer-logo-container {
+            justify-content: flex-start;
+        }
+        
+        .social-links {
+            justify-content: flex-start;
+        }
+        
+        .footer-links h4::after {
+            left: 0;
+            transform: none;
+        }
+        
+        .footer-links a {
+            justify-content: flex-start;
+        }
+    }
+
+    /* Small Mobile (480px and below) */
+    @media (max-width: 480px) {
+        .hero h1 {
+            font-size: 1.8rem;
+        }
+        
+        .section-title h2 {
+            font-size: 1.6rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+        }
+        
+        .guideline-card, .reward-card {
+            padding: 1.25rem;
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            padding: 0.625rem 0.875rem;
+        }
+    }
+
+    /* Extra Small Mobile (360px and below) */
+    @media (max-width: 360px) {
+        .hero h1 {
+            font-size: 1.6rem;
+        }
+        
+        .section-title h2 {
+            font-size: 1.4rem;
+        }
+        
+        .logo-wrapper {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .guideline-card, .reward-card {
+            padding: 1rem;
+        }
+    }
+
+    /* Landscape Mode */
+    @media (max-height: 600px) and (orientation: landscape) {
+        .hero {
+            padding: 6rem 0 3rem;
+            min-height: auto;
+        }
+        
+        .hero h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .hero p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .nav-links {
+            padding: 1rem;
+            gap: 1rem;
+        }
+        
+        .live-time {
+            top: 80px;
+        }
+    }
+
+    /* High Resolution Displays */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .company-logo, .footer-logo {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+    }
+
+    /* Print Styles */
+    @media print {
+        .nav-links,
+        .mobile-toggle,
+        .register-btn,
+        .contact-form,
+        .social-links,
+        .live-time {
+            display: none !important;
+        }
+        
+        .hero {
+            background: white !important;
+            color: black !important;
+            padding: 2rem 0 !important;
+        }
+        
+        .section {
+            padding: 2rem 0 !important;
+        }
+    }
+
+    /* Prevent horizontal scroll */
+    body.nav-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+</head>
+<body>
+    <!-- ===== ANIMATED PARTICLES ===== -->
+    <div id="particles-js"></div>
+
+    <!-- ===== LIVE TIME DISPLAY ===== -->
+    <div class="live-time">
+        <i class="fas fa-clock"></i>
+        <span id="current-time"></span>
+        <span id="current-date"></span>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-container">
+                <div class="logo-wrapper">
+                    <img src="/assets/icons/Quantumcoder_logo.png" alt="QuantumCoders Tech Lab" class="company-logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyOCIgZmlsbD0idXJsKCNwYWludDBfYW5ndWxhcl8xMjM0XzEyMzQpIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfYW5ndWxhcl8xMjM0XzEyMzQiIHgxPSIzMCIgeTE9IjIiIHgyPSIzMCIgeTI9IjU4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iIzNiODJmNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzFiNGZlOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjx0ZXh0IHg9IjMwIiB5PSIzNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+UUM8L3RleHQ+PC9zdmc+'">
+                </div>
+                <div class="close-symbol">×</div>
+                <div class="logo-wrapper">
+                    <img src="./assets/r3s-logo.jpeg" alt="R3S Interactive" class="company-logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyOCIgZmlsbD0idXJsKCNwYWludDBfYW5ndWxhcl8xMjM0XzEyMzUpIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfYW5ndWxhcl8xMjM0XzEyMzUiIHgxPSIzMCIgeTE9IjIiIHgyPSIzMCIgeTI9IjU4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iIzhjNWNmNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzZkMjhkOSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjx0ZXh0IHg9IjMwIiB5PSIzNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4tYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPlIzUzwvdGV4dD48L3N2Zz4='">
+                </div>
+            </div>
+            
+            <nav>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars bars-icon"></i>
+                    <i class="fas fa-times close-icon"></i>
+                </button>
+                <div class="nav-links" id="navLinks">
+                    <a href="#home"><i class="fas fa-home"></i> Home</a>
+                    <a href="#about"><i class="fas fa-info-circle"></i> About</a>
+                    <a href="#guidelines"><i class="fas fa-book"></i> Guidelines</a>
+                    <a href="#rewards"><i class="fas fa-trophy"></i> Rewards</a>
+                    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
+                    <a href="participate.html" class="register-btn"><i class="fas fa-user-plus"></i> Register Now</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>MPSO 1.0: <span class="futuristic-font">My Portfolio Stands Out</span></h1>
+                <p>A premier hackathon by QuantumCoders Tech Lab & R3S Interactive to empower students to establish a robust digital presence and showcase their potential.</p>
+                <div class="cta-buttons">
+                    <a href="participate.html" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> Register Now
+                    </a>
+                    <a href="#about" class="btn btn-secondary">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2><span class="futuristic-font">About MPSO 1.0</span></h2>
+                <p>In the contemporary professional landscape, a resume lists your past, but a portfolio showcases your potential.</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Showcase Your Quantum Potential</h3>
+                    <p>This initiative is not merely a competition; it is a developmental opportunity. We invite aspiring developers, designers, and innovators to construct and deploy a creative personal portfolio.</p>
+                    <p>This asset will serve as a testament to your technical proficiency and creative vision, providing a tangible advantage in your future professional endeavors.</p>
+                    <p>Participants are encouraged to leverage modern technologies and are permitted to utilize Artificial Intelligence tools to enhance their creativity and execution. The objective is clear: distinguish yourself from the crowd.</p>
+                    <a href="participate.html" class="btn btn-primary" style="margin-top: 20px;">
+                        <i class="fas fa-code"></i> Join the Hackathon
+                    </a>
+                </div>
+                <div class="about-image">
+                    <img src="./assets/MPSO-1.0.png" alt="Portfolio Design" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GUIDELINES SECTION ===== -->
+    <section class="section" id="guidelines">
+        <div class="container">
+            <div class="section-title">
+                <h2><span class="futuristic-font">Guidelines & Rules</span></h2>
+                <p>Please read the following guidelines carefully before participating</p>
+            </div>
+            
+            <div class="guidelines">
+                <h3 style="margin-bottom: 30px; color: var(--dark);">Eligibility & Submission Guidelines</h3>
+                
+                <div class="guidelines-grid">
+                    <div class="guideline-card">
+                        <i class="fas fa-user-graduate"></i>
+                        <h4>Eligibility</h4>
+                        <p>Open to all students pursuing undergraduate or postgraduate degrees across India, regardless of their branch or year of study.</p>
+                    </div>
+                    
+                    <div class="guideline-card">
+                        <i class="fas fa-users"></i>
+                        <h4>Team Structure</h4>
+                        <p>This is an individual participation event. Inter-college and inter-specialization restrictions do not apply as entries are individual.</p>
+                    </div>
+                    
+                    <div class="guideline-card">
+                        <i class="fas fa-link"></i>
+                        <h4>Submission Format</h4>
+                        <p>Participants must submit a live, publicly accessible URL of their portfolio website deployed on platforms like Vercel, GitHub Pages, Netlify, etc.</p>
+                    </div>
+                    
+                    <div class="guideline-card">
+                        <i class="fas fa-robot"></i>
+                        <h4>AI Usage</h4>
+                        <p>The use of AI tools (for coding assistance, content generation, or design inspiration) is permitted and encouraged to maximize creativity.</p>
+                    </div>
+                    
+                    <div class="guideline-card">
+                        <i class="fas fa-paint-brush"></i>
+                        <h4>Originality</h4>
+                        <p>While AI tools are allowed, the final portfolio must represent the participant's own professional identity. Plagiarism will lead to disqualification.</p>
+                    </div>
+                    
+                    <div class="guideline-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Responsiveness</h4>
+                        <p>The website should be responsive and viewable on both desktop and mobile devices. Must contain About, Projects, and Contact sections.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== REWARDS SECTION ===== -->
+    <section class="section rewards" id="rewards">
+        <div class="container">
+            <div class="section-title">
+                <h2><span class="futuristic-font">Rewards & Recognition</span></h2>
+                <p>All participants get certificates and top performers receive special recognition</p>
+            </div>
+            
+            <div class="rewards-grid">
+                <div class="reward-card winner">
+                    <div class="reward-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h4>Winner</h4>
+                    <p>Certificate of Excellence + Special Mention + Opportunity to join our teams</p>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="reward-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h4>2nd Position</h4>
+                    <p>Certificate of Excellence + Special Recognition</p>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="reward-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h4>3rd Position</h4>
+                    <p>Certificate of Excellence + Special Recognition</p>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="reward-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Top 50</h4>
+                    <p>Certificate of Appreciation for creativity, UI/UX, and technical implementation</p>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="reward-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h4>All Participants</h4>
+                    <p>Certificate of Participation for all valid submissions that meet deployment criteria</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT SECTION ===== -->
+    <section id="contact" class="section contact-section">
+        <div class="container">
+            <div class="section-title">
+                <h2><span class="futuristic-font">Initiate Quantum Contact</span></h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-form">
+                    <div id="formMessage" class="form-message"></div>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name"><i class="fas fa-user"></i> Your Name</label>
+                            <input type="text" id="name" class="form-input" placeholder="Enter your quantum identity" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                            <input type="email" id="email" class="form-input" placeholder="your.quantum@universe.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="college"><i class="fas fa-university"></i> College Name</label>
+                            <input type="text" id="college" class="form-input" placeholder="Enter your quantum academy" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="purpose"><i class="fas fa-bullseye"></i> Purpose of Contact</label>
+                            <select id="purpose" class="form-select" required style="color: white;">
+                                <option value="" disabled selected style="color: rgba(255,255,255,0.5);">Select your purpose</option>
+                                <option value="hackathon-query" style="color: white; background: #0f172a;">Hackathon Query</option>
+                                <option value="registration-help" style="color: white; background: #0f172a;">Registration Help</option>
+                                <option value="technical-support" style="color: white; background: #0f172a;">Technical Support</option>
+                                <option value="collaboration" style="color: white; background: #0f172a;">Collaboration Opportunity</option>
+                                <option value="other" style="color: white; background: #0f172a;">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message"><i class="fas fa-lightbulb"></i> Quantum Vision</label>
+                            <textarea id="message" class="form-textarea" placeholder="Describe your vision for a quantum-powered future..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i> Transmit Quantum Message
+                            <div class="loading-spinner" id="loadingSpinner"></div>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="contact-info">
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>QuantumCoders Tech Lab</h4>
+                            <p>quantumcoderstechlab@gmail.com</p>
+                            <p>Student-driven technology development community</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>R3S Interactive</h4>
+                            <p>r3s.interactive@gmail.com</p>
+                            <p>Innovative solutions for the digital future</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Event Hosted On</h4>
+                            <p>Unstop Platform</p>
+                            <p>Open for all students across India</p>
+                        </div>
+                    </div>
+                    
+                    <div class="company-websites">
+                        <a href="https://quantumcoders.vercel.app/" target="_blank" class="website-link">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>Visit QuantumCoders Website</span>
+                        </a>
+                        <a href="https://r3s-interactive.vercel.app/" target="_blank" class="website-link">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>Visit R3S Interactive Website</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo-container">
+                        <img src="/assets/icons/Quantumcoder_logo.png" alt="QuantumCoders" class="footer-logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyOCIgZmlsbD0idXJsKCNwYWludDBfYW5ndWxhcl8xMjM0XzEyMzQpIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfYW5ndWxhcl8xMjM0XzEyMzQiIHgxPSIzMCIgeTE9IjIiIHgyPSIzMCIgeTI9IjU4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iIzNiODJmNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzFiNGZlOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjx0ZXh0IHg9IjMwIiB5PSIzNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+UUM8L3RleHQ+PC9zdmc+'">
+                        <div class="footer-close-symbol">×</div>
+                        <img src="/MPSO/assets/r3s-logo.jpeg" alt="R3S Interactive" class="footer-logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyOCIgZmlsbD0idXJsKCNwYWludDBfYW5ndWxhcl8xMjM0XzEyMzUpIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfYW5ndWxhcl8xMjM0XzEyMzUiIHgxPSIzMCIgeTE9IjIiIHgyPSIzMCIgeTI9IjU4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iIzhjNWNmNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzZkMjhkOSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjx0ZXh0IHg9IjMwIiB5PSIzNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+UlNTPC90ZXh0Pjwvc3ZnPg=='">
+                    </div>
+                    <p style="margin-top: 20px; color: #94a3b8; max-width: 300px;">We are student-driven technology development community founded in 2025. Our mission is to empower students by transforming theoretical learning into real-world project experience.</p>
+                    
+                    <div class="social-links">
+                        <a href="https://quantumcoders.vercel.app/" target="_blank" class="social-link">
+                            <i class="fas fa-globe"></i>
+                        </a>
+                        <a href="mailto:quantumcoderstechlab@gmail.com" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://r3s-interactive.vercel.app/" target="_blank" class="social-link">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#about"><i class="fas fa-chevron-right"></i> About</a></li>
+                        <li><a href="#guidelines"><i class="fas fa-chevron-right"></i> Guidelines</a></li>
+                        <li><a href="#rewards"><i class="fas fa-chevron-right"></i> Rewards</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Upcoming</h4>
+                    <ul>
+                        <li><a href="mentors.html"><i class="fas fa-chevron-right"></i> Mentors</a></li>
+                        <li><a href="winners.html"><i class="fas fa-chevron-right"></i> Top Performers</a></li>
+                        <li><a href="best-websites.html"><i class="fas fa-chevron-right"></i> Best Portfolios</a></li>
+                        <li><a href="participate.html"><i class="fas fa-chevron-right"></i> Register Now</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2026 MPSO 1.0 - My Portfolio Stands Out. A collaboration between QuantumCoders Tech Lab & R3S Interactive. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== PARTICLES JS SCRIPT ===== -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        // ===== ANIMATED PARTICLES =====
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { value: 80, density: { enable: true, value_area: 800 } },
+                        color: { value: ["#2563eb", "#7c3aed", "#06b6d4"] },
+                        shape: { type: "circle" },
+                        opacity: { value: 0.5, random: true },
+                        size: { value: 3, random: true },
+                        line_linked: {
+                            enable: true,
+                            distance: 150,
+                            color: "#3b82f6",
+                            opacity: 0.2,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 2,
+                            direction: "none",
+                            random: true,
+                            straight: false,
+                            out_mode: "out",
+                            bounce: false
+                        }
+                    },
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: {
+                            onhover: { enable: true, mode: "repulse" },
+                            onclick: { enable: true, mode: "push" },
+                            resize: true
+                        }
+                    },
+                    retina_detect: true
+                });
+            }
+        });
+
+        // ===== LIVE TIME DISPLAY =====
+        function updateDateTime() {
+            const now = new Date();
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+            
+            const timeString = now.toLocaleTimeString('en-US', timeOptions);
+            const dateString = now.toLocaleDateString('en-US', dateOptions);
+            
+            document.getElementById('current-time').textContent = timeString;
+            document.getElementById('current-date').textContent = ` | ${dateString}`;
+        }
+        
+        // Update time immediately and every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // ===== MOBILE NAVIGATION =====
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+        const body = document.body;
+        let isNavOpen = false;
+        
+        function toggleNav() {
+            isNavOpen = !isNavOpen;
+            navLinks.classList.toggle('active');
+            mobileToggle.classList.toggle('active');
+            
+            if (isNavOpen) {
+                body.classList.add('nav-open');
+                // Prevent scrolling when nav is open
+                document.addEventListener('touchmove', preventScroll, { passive: false });
+                document.addEventListener('wheel', preventScroll, { passive: false });
+            } else {
+                body.classList.remove('nav-open');
+                document.removeEventListener('touchmove', preventScroll);
+                document.removeEventListener('wheel', preventScroll);
+            }
+        }
+        
+        function preventScroll(e) {
+            if (isNavOpen) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }
+        
+        mobileToggle.addEventListener('click', toggleNav);
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (isNavOpen) {
+                    toggleNav();
+                }
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (isNavOpen && !navLinks.contains(e.target) && !mobileToggle.contains(e.target)) {
+                toggleNav();
+            }
+        });
+        
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isNavOpen) {
+                toggleNav();
+            }
+        });
+        
+        // ===== SMOOTH SCROLLING =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    // Close mobile menu if open
+                    if (isNavOpen) {
+                        toggleNav();
+                    }
+                    
+                    // Smooth scroll with offset for header
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = targetPosition - headerHeight - 20;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // ===== FORM HANDLING =====
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const formMessage = document.getElementById('formMessage');
+
+        // Google Apps Script Web App URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwe8V6eAkgdI5yUy1IJAP59BcTCrzl2cPUKcui2BMoWn9Y8Q5SnM2I4t-5Okn0JPZwk0A/exec';
+        
+        function validateForm() {
+            let isValid = true;
+            
+            // Reset errors
+            document.querySelectorAll('.form-input, .form-textarea, .form-select').forEach(el => {
+                el.style.borderColor = '';
+            });
+            
+            const name = document.getElementById('name').value.trim();
+            if (!name) {
+                document.getElementById('name').style.borderColor = '#ef4444';
+                isValid = false;
+            }
+            
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) {
+                document.getElementById('email').style.borderColor = '#ef4444';
+                isValid = false;
+            }
+            
+            const college = document.getElementById('college').value.trim();
+            if (!college) {
+                document.getElementById('college').style.borderColor = '#ef4444';
+                isValid = false;
+            }
+            
+            const purpose = document.getElementById('purpose').value;
+            if (!purpose) {
+                document.getElementById('purpose').style.borderColor = '#ef4444';
+                isValid = false;
+            }
+            
+            const message = document.getElementById('message').value.trim();
+            if (!message) {
+                document.getElementById('message').style.borderColor = '#ef4444';
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+        
+        // Generate unique code
+        function generateUniqueCode() {
+            const timestamp = Date.now().toString(36);
+            const random = Math.random().toString(36).substr(2, 5);
+            return `MPSO-${timestamp}-${random}`.toUpperCase();
+        }
+        
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                formMessage.className = 'form-message error';
+                formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please fill in all required fields correctly.';
+                formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            
+            // Disable submit button and show loading
+            submitBtn.disabled = true;
+            loadingSpinner.style.display = 'block';
+            submitBtn.style.opacity = '0.7';
+            
+            // Prepare form data
+            const uniqueCode = generateUniqueCode();
+            const data = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                college: document.getElementById('college').value.trim(),
+                purpose: document.getElementById('purpose').value,
+                message: document.getElementById('message').value.trim(),
+                uniqueCode: uniqueCode,
+                source: 'MPSO Contact Form',
+                timestamp: new Date().toISOString()
+            };
+            
+            console.log('📤 Sending data:', data);
+            
+            try {
+                // Send data using FormData
+                const formData = new FormData();
+                Object.keys(data).forEach(key => {
+                    formData.append(key, data[key]);
+                });
+                
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors' // Important for Google Apps Script
+                });
+                
+                // Since we're using no-cors, we can't read the response
+                // But we assume success if no error was thrown
+                
+                // Show success message
+                formMessage.className = 'form-message success';
+                formMessage.innerHTML = `
+                    <i class="fas fa-check-circle"></i> 
+                    <strong>✅ Quantum Message Transmitted!</strong><br>
+                    Your unique code: <strong>${uniqueCode}</strong><br>
+                    Confirmation email sent to ${data.email}. Keep this code safe!
+                `;
+                
+                // Reset form
+                contactForm.reset();
+                
+                // Scroll to message
+                formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+            } catch (error) {
+                console.error('❌ Submission error:', error);
+                
+                // Show error message
+                formMessage.className = 'form-message error';
+                formMessage.innerHTML = `
+                    <i class="fas fa-exclamation-circle"></i> 
+                    <strong>❌ Transmission Error!</strong><br>
+                    Please try again or contact us directly at quantumcoderstechlab@gmail.com
+                `;
+                
+                // Scroll to message
+                formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                loadingSpinner.style.display = 'none';
+                submitBtn.style.opacity = '1';
+            }
+        });
+        
+        // Real-time validation
+        document.querySelectorAll('.form-input, .form-textarea, .form-select').forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.style.borderColor === 'rgb(239, 68, 68)') {
+                    input.style.borderColor = '';
+                }
+            });
+            
+            // Fix for select dropdown
+            if (input.tagName === 'SELECT') {
+                input.addEventListener('change', function() {
+                    if (this.value) {
+                        this.style.color = 'white';
+                    }
+                });
+            }
+        });
+        
+        // ===== HEADER SCROLL EFFECT =====
+        let lastScrollTop = 0;
+        const header = document.querySelector('header');
+        
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100) {
+                header.style.boxShadow = 'var(--shadow-md)';
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.boxShadow = 'var(--shadow-sm)';
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            }
+            
+            // Hide/show header on scroll
+            if (scrollTop > lastScrollTop && scrollTop > 200) {
+                // Scrolling down
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                // Scrolling up
+                header.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+        
+        // ===== TOUCH GESTURES FOR MOBILE =====
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        });
+        
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+            
+            // Swipe left to close menu
+            if (isNavOpen && diffX > 50 && Math.abs(diffY) < 50) {
+                toggleNav();
+            }
+        });
+        
+        // ===== PERFORMANCE OPTIMIZATIONS =====
+        // Lazy load images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.add('loaded');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+        
+        // ===== FIX FOR iOS VIEWPORT =====
+        function setViewportHeight() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        setViewportHeight();
+        window.addEventListener('resize', setViewportHeight);
+        window.addEventListener('orientationchange', setViewportHeight);
+    </script>
+</body>
+</html>

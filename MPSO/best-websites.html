@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Portfolios | MPSO 1.0</title>
+    <!-- ===== Favicon ===== -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/Logo/mpso-favicon.png">
+    <link rel="icon" type="image/x-icon" href="./assets/Logo/mpso-favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+        }
+
+        .logo-placeholder {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .logo-placeholder.secondary {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+        }
+
+        .close-symbol {
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            position: absolute;
+            left: calc(50% - 12px);
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .coming-soon-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 0 80px;
+        }
+
+        .content-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 60px 40px;
+            max-width: 900px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-container {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 50px;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .live-time {
+            font-size: 1.2rem;
+            margin: 30px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        /* Website Grid Preview */
+        .websites-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 50px 0;
+            perspective: 1000px;
+        }
+
+        .website-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.5s, background 0.3s;
+            transform-style: preserve-3d;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .website-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-10px) rotateX(5deg);
+        }
+
+        .website-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+        }
+
+        .website-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .website-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .website-status {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Animation */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+            animation: scan 3s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        .website-card:hover .scan-line {
+            animation: scan 1.5s linear infinite;
+        }
+
+        /* Criteria Section */
+        .criteria-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: left;
+        }
+
+        .criteria-section h3 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .criterion {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .criterion i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        /* Countdown */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 20px;
+            min-width: 100px;
+            backdrop-filter: blur(10px);
+        }
+
+        .countdown-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 30px 0;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .websites-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .websites-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .countdown {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .countdown-item {
+                min-width: 80px;
+                padding: 15px;
+            }
+            
+            .countdown-value {
+                font-size: 2rem;
+            }
+            
+            .content-box {
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-container {
+                gap: 15px;
+            }
+            
+            .logo-placeholder {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            
+            .close-symbol {
+                font-size: 20px;
+                left: calc(50% - 10px);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .icon-container {
+                width: 80px;
+                height: 80px;
+                font-size: 30px;
+            }
+            
+            .criteria-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-container">
+                <div class="logo-placeholder">QuantumCoders</div>
+                <div class="logo-placeholder secondary">R3S Interactive</div>
+            </div>
+            
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="coming-soon-container">
+        <div class="content-box">
+            <div class="icon-container">
+                <i class="fas fa-laptop-code"></i>
+            </div>
+            
+            <h1>Best Portfolios</h1>
+            <div class="subtitle">Showcasing Exceptional Digital Creations</div>
+            
+            <div class="live-time" id="liveTime">
+                Loading time...
+            </div>
+            
+            <div class="websites-grid">
+                <div class="website-card">
+                    <div class="scan-line"></div>
+                    <div class="website-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="website-name">Creative Design</div>
+                    <div class="website-status">Coming Soon</div>
+                </div>
+                
+                <div class="website-card">
+                    <div class="scan-line"></div>
+                    <div class="website-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="website-name">Innovative Tech</div>
+                    <div class="website-status">Coming Soon</div>
+                </div>
+                
+                <div class="website-card">
+                    <div class="scan-line"></div>
+                    <div class="website-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="website-name">User Experience</div>
+                    <div class="website-status">Coming Soon</div>
+                </div>
+            </div>
+            
+            <div class="criteria-section">
+                <h3>Selection Criteria</h3>
+                <div class="criteria-grid">
+                    <div class="criterion">
+                        <i class="fas fa-paint-brush"></i>
+                        <strong>Creativity:</strong> Originality and innovation in design
+                    </div>
+                    <div class="criterion">
+                        <i class="fas fa-mobile-alt"></i>
+                        <strong>Responsiveness:</strong> Works perfectly on all devices
+                    </div>
+                    <div class="criterion">
+                        <i class="fas fa-code"></i>
+                        <strong>Technical Quality:</strong> Clean code and performance
+                    </div>
+                    <div class="criterion">
+                        <i class="fas fa-user-friends"></i>
+                        <strong>User Experience:</strong> Intuitive navigation and usability
+                    </div>
+                </div>
+            </div>
+            
+            <div class="message">
+                We're curating the most outstanding portfolios submitted by participants. These will serve as inspiration for future designers and developers. Check back soon to see the exceptional work created by talented students across India.
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2026 MPSO 1.0 - My Portfolio Stands Out. Best portfolios showcase coming soon.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Live Time Update
+        function updateLiveTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            const liveTimeElement = document.getElementById('liveTime');
+            liveTimeElement.textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        // Countdown Timer (Set to 10 days from now)
+        function updateCountdown() {
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + 10); // 10 days from now
+            
+            const now = new Date();
+            const timeDifference = targetDate - now;
+            
+            if (timeDifference > 0) {
+                const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }
+        }
+        
+        // Initialize and update timers
+        updateLiveTime();
+        updateCountdown();
+        setInterval(updateLiveTime, 1000);
+        setInterval(updateCountdown, 1000);
+        
+        // Add scan animation to website cards
+        document.querySelectorAll('.website-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.querySelector('.scan-line').style.opacity = '1';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.querySelector('.scan-line').style.opacity = '0';
+            });
+        });
+    </script>
+</body>
+</html>

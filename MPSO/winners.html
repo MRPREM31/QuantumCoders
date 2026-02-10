@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Performers | MPSO 1.0</title>
+    <!-- ===== Favicon ===== -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/Logo/mpso-favicon.png">
+    <link rel="icon" type="image/x-icon" href="./assets/Logo/mpso-favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --gold: #fbbf24;
+            --silver: #94a3b8;
+            --bronze: #f97316;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e1b4b 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+        }
+
+        .logo-placeholder {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .logo-placeholder.secondary {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+        }
+
+        .close-symbol {
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+            position: absolute;
+            left: calc(50% - 12px);
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .coming-soon-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 0 80px;
+        }
+
+        .content-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 60px 40px;
+            max-width: 900px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-container {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 50px;
+            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--gold), var(--silver), var(--bronze));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .live-time {
+            font-size: 1.2rem;
+            margin: 30px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        /* Podium Preview */
+        .podium-preview {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 40px;
+            margin: 50px 0;
+            height: 200px;
+        }
+
+        .podium-place {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .podium-stand {
+            width: 120px;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .podium-stand.gold {
+            height: 180px;
+            background: linear-gradient(to bottom, var(--gold), #d97706);
+        }
+
+        .podium-stand.silver {
+            height: 150px;
+            background: linear-gradient(to bottom, var(--silver), #475569);
+        }
+
+        .podium-stand.bronze {
+            height: 120px;
+            background: linear-gradient(to bottom, var(--bronze), #c2410c);
+        }
+
+        .medal {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .place-label {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .place-label.gold { color: var(--gold); }
+        .place-label.silver { color: var(--silver); }
+        .place-label.bronze { color: var(--bronze); }
+
+        /* Loading Animation */
+        .loading-animation {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 40px 0;
+        }
+
+        .loading-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            animation: loading-bounce 0.6s infinite alternate;
+        }
+
+        .loading-dot:nth-child(1) {
+            background: var(--gold);
+            animation-delay: 0s;
+        }
+
+        .loading-dot:nth-child(2) {
+            background: var(--silver);
+            animation-delay: 0.2s;
+        }
+
+        .loading-dot:nth-child(3) {
+            background: var(--bronze);
+            animation-delay: 0.4s;
+        }
+
+        @keyframes loading-bounce {
+            to {
+                transform: translateY(-20px);
+                opacity: 0.5;
+            }
+        }
+
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 30px 0;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .prize-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            border-left: 4px solid var(--gold);
+        }
+
+        .prize-info h3 {
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .prize-list {
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .prize-list li {
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .podium-preview {
+                gap: 20px;
+                height: 150px;
+            }
+            
+            .podium-stand {
+                width: 80px;
+            }
+            
+            .podium-stand.gold { height: 130px; }
+            .podium-stand.silver { height: 110px; }
+            .podium-stand.bronze { height: 90px; }
+            
+            .medal {
+                font-size: 30px;
+                width: 50px;
+                height: 50px;
+                top: -25px;
+            }
+            
+            .content-box {
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-container {
+                gap: 15px;
+            }
+            
+            .logo-placeholder {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            
+            .close-symbol {
+                font-size: 20px;
+                left: calc(50% - 10px);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .icon-container {
+                width: 80px;
+                height: 80px;
+                font-size: 30px;
+            }
+            
+            .podium-preview {
+                flex-direction: column;
+                align-items: center;
+                height: auto;
+                gap: 30px;
+            }
+            
+            .podium-place {
+                flex-direction: row;
+                gap: 20px;
+                align-items: center;
+            }
+            
+            .podium-stand {
+                height: 100px !important;
+                width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-container">
+                <div class="logo-placeholder">QuantumCoders</div>
+                <div class="logo-placeholder secondary">R3S Interactive</div>
+            </div>
+            
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="coming-soon-container">
+        <div class="content-box">
+            <div class="icon-container">
+                <i class="fas fa-trophy"></i>
+            </div>
+            
+            <h1>Top Performers</h1>
+            <div class="subtitle">Celebrating Excellence in Portfolio Design</div>
+            
+            <div class="live-time" id="liveTime">
+                Loading time...
+            </div>
+            
+            <div class="podium-preview">
+                <div class="podium-place">
+                    <div class="podium-stand gold">
+                        <div class="medal">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                    </div>
+                    <div class="place-label gold">1st Place</div>
+                </div>
+                
+                <div class="podium-place">
+                    <div class="podium-stand silver">
+                        <div class="medal">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                    </div>
+                    <div class="place-label silver">2nd Place</div>
+                </div>
+                
+                <div class="podium-place">
+                    <div class="podium-stand bronze">
+                        <div class="medal">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                    </div>
+                    <div class="place-label bronze">3rd Place</div>
+                </div>
+            </div>
+            
+            <div class="loading-animation">
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+            </div>
+            
+            <div class="message">
+                <strong>Winners Announcement Pending</strong><br><br>
+                All portfolio submissions are currently under expert evaluation.  
+                Results will be published here once the review process is completed, ensuring fairness, creativity, and technical excellence.
+                <br><br>
+                Stay tuned — the top performers will be revealed soon.
+            </div>
+            
+            <div class="prize-info">
+                <h3>Prizes & Recognition</h3>
+                <ul class="prize-list">
+                    <li><strong>1st Place:</strong> Certificate of Excellence + Special Mention + Team Invitation</li>
+                    <li><strong>2nd Place:</strong> Certificate of Excellence + Special Recognition</li>
+                    <li><strong>3rd Place:</strong> Certificate of Excellence + Special Recognition</li>
+                    <li><strong>Top 50:</strong> Certificate of Appreciation</li>
+                    <li><strong>All Participants:</strong> Certificate of Participation</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2026 MPSO 1.0 - My Portfolio Stands Out. Winners announcement coming soon.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Live Time Update
+        function updateLiveTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            const liveTimeElement = document.getElementById('liveTime');
+            liveTimeElement.textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        // Initialize and update timer
+        updateLiveTime();
+        setInterval(updateLiveTime, 1000);
+    </script>
+</body>
+</html>
