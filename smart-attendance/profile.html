@@ -778,6 +778,30 @@
     const rollItem = document.getElementById('roll-item');
     const rollNumberEl = document.getElementById('rollNumber');
 
+    // ================= APPROVED BY ADMIN =================
+    if (data.approvedByAdminId) {
+
+        const approvedItem = document.getElementById("approved-item");
+        const approvedByEl = document.getElementById("approvedBy");
+
+        approvedItem.style.display = "flex";
+
+        const adminRef = doc(db, "admins", data.approvedByAdminId);
+
+        getDoc(adminRef).then(adminSnap => {
+
+            if (adminSnap.exists()) {
+                const adminData = adminSnap.data();
+                approvedByEl.textContent = adminData.name || "Admin";
+            } else {
+                approvedByEl.textContent = "Admin Not Found";
+            }
+
+        }).catch(() => {
+            approvedByEl.textContent = "Error Loading";
+        });
+    }
+
     // 🔥 ROLE-BASED UI
     if (data.role === "teacher") {
         badge.textContent = "👨‍🏫 Verified Teacher";
@@ -847,30 +871,6 @@
       document.getElementById('email').textContent = "There was an issue connecting to the database.";
       statusTextEl.textContent = "Error";
     }
-
-    // ================= APPROVED BY ADMIN =================
-  if (data.approvedByAdminId) {
-
-      const approvedItem = document.getElementById("approved-item");
-      const approvedByEl = document.getElementById("approvedBy");
-
-      approvedItem.style.display = "flex";
-
-      const adminRef = doc(db, "admins", data.approvedByAdminId);
-      getDoc(adminRef).then(adminSnap => {
-
-          if (adminSnap.exists()) {
-              const adminData = adminSnap.data();
-              approvedByEl.textContent = adminData.name || "Admin";
-          } else {
-              approvedByEl.textContent = "Admin Not Found";
-          }
-
-      }).catch(() => {
-          approvedByEl.textContent = "Error Loading";
-      });
-
-  }
 
     // Initialize everything
     loadUserProfile();
