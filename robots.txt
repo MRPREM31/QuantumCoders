@@ -1,7 +1,6 @@
-# robots.txt for QuantumCoders Website
-# Project: QuantumCoders & QuantumCoders Tech Lab
-# Domain: https://quantumcoders.vercel.app/
-# Last Updated: 2025-12-30
+# robots.txt for QuantumCoders Tech Lab
+# Main Website: https://quantumcoderstechlab.codes
+# Last Updated: 2026-03-08
 
 ############################
 # DEFAULT RULES – ALL BOTS
@@ -29,28 +28,12 @@ Disallow: /vercel/
 ############################
 # FILE TYPE RESTRICTIONS
 ############################
-# Prevent crawling raw config/data files
 Disallow: /*.json$
 Disallow: /*.lock$
 Disallow: /*.map$
 
-# Allow sitemap explicitly
-Allow: /sitemap.xml
-
 ############################
-# IMAGE & ASSET INDEXING
-############################
-# Allow images for Google Image Search
-User-agent: Googlebot-Image
-Allow: /assets/images/
-Allow: /assets/icons/
-
-User-agent: Bingbot-Image
-Allow: /assets/images/
-Allow: /assets/icons/
-
-############################
-# GOOGLE & BING (FULL ACCESS)
+# SEARCH ENGINE ACCESS
 ############################
 User-agent: Googlebot
 Allow: /
@@ -59,7 +42,14 @@ User-agent: Bingbot
 Allow: /
 
 ############################
-# BLOCK AGGRESSIVE SEO SCRAPERS
+# IMAGE INDEXING
+############################
+User-agent: Googlebot-Image
+Allow: /assets/images/
+Allow: /assets/icons/
+
+############################
+# BLOCK SEO SCRAPERS
 ############################
 User-agent: AhrefsBot
 Disallow: /
@@ -74,12 +64,11 @@ User-agent: MJ12bot
 Disallow: /
 
 ############################
-# MOBILE CRAWLERS
+# PRIMARY DOMAIN
 ############################
-User-agent: Googlebot-Mobile
-Allow: /
+Host: https://quantumcoderstechlab.codes
 
 ############################
 # SITEMAP LOCATION
 ############################
-Sitemap: https://quantumcoders.vercel.app/sitemap.xml
+Sitemap: https://quantumcoderstechlab.codes/sitemap.xml
