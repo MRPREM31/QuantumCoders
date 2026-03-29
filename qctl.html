@@ -2001,59 +2001,59 @@ img { max-width: 100%; height: auto; }
                     <p>Fill in your requirements and we'll respond within 24 hours with team capacity, timeline, and rate details.</p>
 
                     <form id="contactForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Full Name *</label>
-                                <input type="text" class="form-input" placeholder="Your name" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Company / Organization</label>
-                                <input type="text" class="form-input" placeholder="Company name">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Email Address *</label>
-                                <input type="email" class="form-input" placeholder="you@company.com" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Phone / WhatsApp</label>
-                                <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX">
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" id="name" class="form-input" placeholder="Your name" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Service Required *</label>
-                            <select class="form-select" required>
-                                <option value="">Select a service...</option>
-                                <option>Audio Transcription</option>
-                                <option>Data Annotation</option>
-                                <option>Voice Over Recording</option>
-                                <option>Audio Segmentation</option>
-                                <option>Review & QC</option>
-                                <option>Bulk / Long-term Project</option>
-                                <option>Multiple Services</option>
-                            </select>
+                            <label class="form-label">Company / Organization</label>
+                            <input type="text" id="company" class="form-input" placeholder="Company name">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" id="email" class="form-input" placeholder="you@company.com" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Language(s) Required</label>
-                            <select class="form-select">
-                                <option value="">Select language(s)...</option>
-                                <option>Hindi</option>
-                                <option>English (Indian)</option>
-                                <option>Odia</option>
-                                <option>Hindi + English</option>
-                                <option>Hindi + Odia</option>
-                                <option>All Three Languages</option>
-                                <option>Other (specify below)</option>
-                            </select>
+                            <label class="form-label">Phone / WhatsApp</label>
+                            <input type="text" id="phone" class="form-input" placeholder="+91 XXXXX XXXXX">
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Project Details *</label>
-                            <textarea class="form-textarea" placeholder="Describe your project: audio volume, domain, turnaround time, format requirements, etc." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:16px;">
-                            <i class="fas fa-paper-plane"></i> Submit Project Inquiry
-                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Service Required *</label>
+                        <select id="service" class="form-select" required>
+                            <option value="">Select a service...</option>
+                            <option>Audio Transcription</option>
+                            <option>Data Annotation</option>
+                            <option>Voice Over</option>
+                            <option>Audio Segmentation</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Language(s) Required</label>
+                        <select id="language" class="form-select">
+                            <option value="">Select language...</option>
+                            <option>Hindi</option>
+                            <option>English</option>
+                            <option>Odia</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Project Details *</label>
+                        <textarea id="message" class="form-textarea" placeholder="Describe your project..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">
+                        <i class="fas fa-paper-plane"></i> Submit Project Inquiry
+                    </button>
+
                     </form>
                 </div>
 
@@ -2159,7 +2159,7 @@ img { max-width: 100%; height: auto; }
                         <li><a href="#team"><i class="fas fa-user"></i> Srikant Kumar Sabat</a></li>
                         <li><a href="#team"><i class="fas fa-user"></i> Samir Kumar Dash</a></li>
                         <li><a href="#team"><i class="fas fa-user"></i> Sankar Prasad Acharya</a></li>
-                        <li><a href="./all-members.html"><i class="fas fa-users"></i> View All 9 Members</a></li>
+                        <li><a href="#team"><i class="fas fa-users"></i> View All 9 Members</a></li>
                     </ul>
                 </div>
 
@@ -2167,7 +2167,7 @@ img { max-width: 100%; height: auto; }
                     <h4>Quick Links</h4>
                     <ul class="footer-links">
                         <li><a href="#contact"><i class="fas fa-paper-plane"></i> Hire Our Team</a></li>
-                        <li><a href="#capacity"><i class="fas fa-chart-bar"></i> Pricing &amp; Rates</a></li>
+                        <li><a href="#contact"><i class="fas fa-chart-bar"></i> Pricing &amp; Rates</a></li>
                         <li><a href="#partner"><i class="fas fa-handshake"></i> DesiCrew Partnership</a></li>
                         <li><a href="#languages"><i class="fas fa-language"></i> Languages</a></li>
                         <li><a href="./index.html"><i class="fas fa-laptop-code"></i> QuantumCoders Tech Lab</a></li>
@@ -2363,7 +2363,7 @@ img { max-width: 100%; height: auto; }
         const form = document.getElementById('contactForm');
         if (!form) return;
         const btn = form.querySelector('button[type="submit"]');
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwjmNoRNtjJnr33zQWemBp3-nRdcZvR8BaeEJwHQy0i7g_lJengK-rHD7_MB-bQW7XFpg/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXS_cGMKikmFFv1PVzEkmEtju_D3r-yGsczMdXdosYD1GzAhP4QI1kWIbixlkgw5s1Rw/exec';
 
         form.addEventListener('submit', async e => {
             e.preventDefault();
@@ -2372,12 +2372,14 @@ img { max-width: 100%; height: auto; }
             btn.disabled = true;
 
             const data = {
-                name: form.querySelector('input[type="text"]').value,
-                email: form.querySelector('input[type="email"]').value,
-                service: form.querySelector('select').value,
-                message: form.querySelector('textarea').value,
-                source: 'QuantumCoders Data Solutions Page',
-                timestamp: new Date().toISOString()
+                name: document.getElementById("name").value,
+                company: document.getElementById("company").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                service: document.getElementById("service").value,
+                language: document.getElementById("language").value,
+                message: document.getElementById("message").value,
+                source: "QuantumCoders Website"
             };
 
             try {
