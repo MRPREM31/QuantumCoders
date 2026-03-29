@@ -717,15 +717,17 @@ img { max-width: 100%; height: auto; }
         .contact-section { background:var(--bg-2); }
 
         .contact-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:clamp(24px, 6vw, 48px); align-items:start; width:100%; box-sizing:border-box; }
+        @media(max-width:1100px) { .contact-grid { grid-template-columns:1fr; gap:clamp(24px, 5vw, 40px); } }
 
         .contact-form-wrap {
             background:var(--card); border:1px solid var(--border); border-radius:var(--radius-xl);
-            padding:clamp(24px, 6vw, 48px); box-shadow:var(--shadow-md); box-sizing:border-box; width:100%;
+            padding:clamp(24px, 6vw, 48px); box-shadow:0 8px 20px rgba(0,0,0,0.08); box-sizing:border-box; width:100%;
         }
-        .contact-form-wrap h3 { margin-bottom:8px; color:var(--text); }
-        .contact-form-wrap p { margin-bottom:28px; font-size:.92rem; }
+        .contact-form-wrap h3 { margin-bottom:12px; color:var(--text); font-size:clamp(1rem, 2vw, 1.15rem); }
+        .contact-form-wrap p { margin-bottom:28px; font-size:.92rem; line-height:1.6; }
 
         .form-row { display:grid; grid-template-columns:1fr 1fr; gap:clamp(12px, 3vw, 16px); width:100%; box-sizing:border-box; }
+        @media(max-width:992px) { .form-row { grid-template-columns:1fr; gap:clamp(12px, 2vw, 16px); } }
         .form-group { display:flex; flex-direction:column; gap:8px; margin-bottom:clamp(12px, 2vw, 16px); width:100%; box-sizing:border-box; }
         .form-label { font-size:.85rem; font-weight:600; color:var(--text); }
         .form-input, .form-select, .form-textarea {
@@ -740,7 +742,7 @@ img { max-width: 100%; height: auto; }
         .form-textarea { min-height:140px; resize:vertical; }
         .form-select { cursor:pointer; }
 
-        .contact-info-wrap { display:flex; flex-direction:column; gap:clamp(12px, 3vw, 20px); width:100%; box-sizing:border-box; }
+        .contact-info-wrap { display:flex; flex-direction:column; gap:clamp(16px, 4vw, 20px); width:100%; box-sizing:border-box; }
 
         .cinfo-card {
             background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
@@ -751,30 +753,39 @@ img { max-width: 100%; height: auto; }
             .cinfo-card:hover { transform:translateX(4px); border-color:var(--primary); box-shadow:0 8px 16px rgba(0,0,0,0.06); }
         }
         @media(max-width:768px) {
-            .cinfo-card { transition:none; }
+            .cinfo-card { transition:none; padding:clamp(12px, 3vw, 16px); gap:clamp(10px, 2vw, 12px); }
             .cinfo-card:hover { transform:none; border-color:var(--border); box-shadow:0 2px 8px rgba(0,0,0,0.04); }
         }
         .cinfo-icon {
             width:52px; height:52px; border-radius:var(--radius-sm); flex-shrink:0;
-            display:flex; align-items:center; justify-content:center; font-size:1.4rem;
+            display:flex; align-items:center; justify-content:center; font-size:clamp(1.2rem, 3vw, 1.4rem);
         }
         .cinfo-icon.blue { background:linear-gradient(135deg,var(--primary),var(--primary-light)); color:white; }
         .cinfo-icon.orange { background:linear-gradient(135deg,var(--accent),var(--accent-light)); color:white; }
         .cinfo-icon.teal { background:linear-gradient(135deg,var(--secondary),var(--success)); color:white; }
         .cinfo-icon.gold { background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:white; }
-        .cinfo-title { font-weight:700; color:var(--text); font-size:.95rem; margin-bottom:4px; }
-        .cinfo-val { font-size:.88rem; color:var(--text-muted); }
+        .cinfo-title { font-weight:700; color:var(--text); font-size:clamp(.9rem, 2vw, .95rem); margin-bottom:6px; }
+        .cinfo-val { font-size:clamp(.8rem, 1.5vw, .88rem); color:var(--text-muted); line-height:1.5; }
         .cinfo-val a { color:var(--primary); text-decoration:none; }
         .cinfo-val a:hover { text-decoration:underline; }
 
         .qc-ref-box {
             background:linear-gradient(135deg,rgba(15,76,129,.08),rgba(0,180,216,.08));
             border:1px solid var(--border-strong); border-radius:var(--radius);
-            padding:clamp(16px, 3vw, 20px); box-sizing:border-box; width:100%;
+            padding:clamp(16px, 4vw, 20px); box-sizing:border-box; width:100%;
         }
-        .qc-ref-box h4 { color:var(--primary); margin-bottom:10px; font-size:.9rem; }
-        .ref-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; font-size:.82rem; color:var(--text-muted); }
-        .ref-row i { color:var(--accent); }
+        .qc-ref-box h4 { color:var(--primary); margin-bottom:12px; font-size:clamp(.85rem, 2vw, .95rem); font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+        .ref-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:clamp(.75rem, 1.5vw, .82rem); color:var(--text-muted); line-height:1.5; }
+        .ref-row i { color:var(--accent); width:18px; flex-shrink:0; }
+
+        .response-time-box {
+            background:linear-gradient(135deg,rgba(15,76,129,.08),rgba(0,180,216,.08));
+            border:1px solid var(--border-strong); border-radius:var(--radius);
+            padding:clamp(16px, 4vw, 20px); box-sizing:border-box; width:100%;
+        }
+        .response-time-title { font-size:clamp(.85rem, 2vw, .95rem); font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:.5px; margin-bottom:12px; }
+        .response-time-content { font-size:clamp(.8rem, 1.5vw, .88rem); color:var(--text-muted); line-height:1.7; }
+        .response-time-content strong { color:var(--text); font-weight:600; }
 
         /* ── Footer ── */
         .footer {
@@ -2056,13 +2067,14 @@ img { max-width: 100%; height: auto; }
                         <div class="ref-row"><i class="fas fa-id-badge"></i> Reference our vendor: <strong>Prem Prasad Pradhan</strong></div>
                     </div>
 
-                    <div style="background:linear-gradient(135deg,rgba(15,76,129,.08),rgba(0,180,216,.08)); border:1px solid var(--border-strong); border-radius:var(--radius); padding:20px;">
-                        <div style="font-size:.82rem; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;"><i class="fas fa-clock"></i> &nbsp;Response Time</div>
-                        <div style="font-size:.88rem; color:var(--text-muted); line-height:1.7;">
-                            📧 Email inquiries: <strong style="color:var(--text);">Within 24 hours</strong><br>
-                            📱 WhatsApp: <strong style="color:var(--text);">Within 2–4 hours</strong><br>
-                            📞 Calls: <strong style="color:var(--text);">Mon–Sat 9 AM – 8 PM IST</strong>
+                    <div class="response-time-box">
+                        <div class="response-time-title"><i class="fas fa-clock"></i> &nbsp;Response Time</div>
+                        <div class="response-time-content">
+                            📧 Email inquiries: <strong>Within 24 hours</strong><br>
+                            📱 WhatsApp: <strong>Within 2–4 hours</strong><br>
+                            📞 Calls: <strong>Mon–Sat 9 AM – 8 PM IST</strong>
                         </div>
+                    </div>
                     </div>
                 </div>
 
