@@ -14,12 +14,13 @@ Explain clearly when something belongs to Tech Lab or Data Solutions.
 
 export const RESPONSE_RULES = `
 CRITICAL RESPONSE RULES:
-• Answer ONLY what is asked - don't add extra information
+• Answer ONLY what is asked
 • Keep answers concise: 3-5 lines maximum
 • NEVER invent or guess information
-• If unsure, guide to quantumcoderstechlab@gmail.com
+• If information is not available, say:
+  "I do not have that information yet. Please contact quantumcoderstechlab@gmail.com."
 • Always maintain friendly, professional tone
-• Use bullet points only for lists, not for normal answers
+• Use bullet points only for lists
 `;
 
 export const CORE_FACTS = `
@@ -76,6 +77,28 @@ We have been delivering data services projects through DesiCrew Solutions since 
 
 QCDS focuses on enterprise data services, while QuantumCoders Tech Lab focuses on technology development, AI projects, and student innovation.
 `;
+
+
+export const QCDS_CORE_INFO = `
+QUANTUMCODERS DATA SOLUTIONS - CORE INFORMATION:
+
+• Official Name: QuantumCoders Data Solutions
+• Organization: QuantumCoders
+• Division Of: QuantumCoders Tech Lab
+• Type: Language Data and AI Dataset Services Team
+• Services: Transcription, Data Annotation, Voice Over, Audio Segmentation, AI Data Collection
+• Languages: Hindi, English, Odia and other Indian languages
+• Project Work: Language data and AI dataset projects
+• Collaboration: Working through data service projects and language data workflows since 2023
+• Location: Berhampur, Odisha, India
+• Focus: Language data services and AI dataset preparation
+`;
+
+export const QCDS_DESCRIPTION = `
+QuantumCoders Data Solutions is the professional language data and AI dataset services division of QuantumCoders Tech Lab.
+It focuses on transcription, data annotation, voice over, audio segmentation, and AI data collection projects.
+`;
+
 
 export const ORGANIZATION_STRUCTURE = `
 ORGANIZATION STRUCTURE:
