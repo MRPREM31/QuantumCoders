@@ -466,6 +466,7 @@ Type: Professional language data services team
 Partnership: DesiCrew Solutions vendor (1.5+ years collaboration)
 Location: Berhampur, Odisha, India
 Contact: quantumcoderstechlab@gmail.com
+Website: https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html
 
 PRIMARY SERVICES:
 • Audio Transcription (Speech-to-text with segmentation, speaker labeling, timestamps)
@@ -483,7 +484,7 @@ LANGUAGES SUPPORTED:
 • Bengali (On request)
 
 TEAM DETAILS:
-• Team Size: 20+ dedicated members
+• Team Size: 30+ dedicated members
 • Team Composition: Transcription specialists, annotation experts, data processors
 • Project Capacity: Multiple simultaneous projects with dedicated team assignments
 
@@ -542,7 +543,7 @@ GENERAL APPROACH:
 `;
 
 export const QCDS_TEAM_COMPLETE = `
-QUANTUMCODERS DATA SOLUTIONS - COMPLETE TEAM (20+ Members):
+QUANTUMCODERS DATA SOLUTIONS - COMPLETE TEAM (30+ Members):
 
 ═══════════════════════════════════════════════════════════
 
@@ -631,14 +632,14 @@ QUALITY ASSURANCE & SUPPORT:
 
 ADDITIONAL TEAM MEMBERS (Extended Team):
 
-The team also includes 8+ additional data specialists working on:
+The team also includes 16+ additional data specialists working on:
 • Transcription and data annotation tasks
 • Audio processing and formatting
 • Quality control and verification
 • Data collection and processing
 • Production target management
 
-Total Active Team: 20+ dedicated members
+Total Active Team: 30+ dedicated members
 Current Capacity: Multiple simultaneous large-scale projects
 Average Team: Varies by project, 5-15 members per engagement
 
@@ -768,7 +769,7 @@ Q: How do I contact you for a project?
 A: Email: quantumcoderstechlab@gmail.com with your project details for a discussion about scope, timeline, and requirements.
 
 Q: What is your team size?
-A: We have 20+ dedicated team members specializing in different aspects of data services.
+A: We have 30+ dedicated team members specializing in different aspects of data services.
 
 Q: How long is your partnership?
 A: We've been working with DesiCrew Solutions for 1.5+ years on language data and AI dataset projects.
