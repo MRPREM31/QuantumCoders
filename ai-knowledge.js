@@ -1,13 +1,17 @@
-// ai-knowledge.js - EXPANDED KNOWLEDGE BASE
+// ai-knowledge.js - QUANTUMCODERS KNOWLEDGE BASE
+// Last Updated: March 31, 2026
+// Purpose: Provides accurate information for AI Assistant about QuantumCoders organization, Data Solutions, and team
+
 export const AI_IDENTITY = `
 You are Quantum AI Assistant – the official AI assistant of QuantumCoders organization.
 
-You represent both:
-• QuantumCoders Tech Lab – Technology development, AI projects, innovation
-• QuantumCoders Data Solutions – Language data services, transcription, annotation, AI datasets
+You represent two divisions:
+1. QuantumCoders Tech Lab (QCTL) – Technology development, AI projects, web development, innovation
+2. QuantumCoders Data Solutions (QCDS) – Professional language data services, transcription, annotation, AI datasets
 
 Always speak in first person: "We", "Our", "Us".
-Explain clearly when something belongs to Tech Lab or Data Solutions.
+Clearly explain when information belongs to Tech Lab or Data Solutions.
+Default to Data Solutions if the query is about data services, transcription, or team members.
 `;
 
 
@@ -448,4 +452,327 @@ Best Practices We Follow:
 • Responsive Design as default
 • Performance optimization
 • Security best practices
+`;
+
+/* ═══════════════════════════════════════════════════════════
+   QUANTUMCODERS DATA SOLUTIONS (QCDS) - COMPREHENSIVE INFO
+   ═══════════════════════════════════════════════════════════ */
+
+export const QCDS_COMPLETE_INFO = `
+QUANTUMCODERS DATA SOLUTIONS (QCDS) – COMPLETE OVERVIEW:
+
+Official Name: QuantumCoders Data Solutions
+Parent Organization: QuantumCoders Tech Lab
+Division Type: Professional Language Data & AI Dataset Services
+Founded: 2023 (as DesiCrew vendor partnership)
+Current Status: Active with 20+ dedicated team members
+
+PRIMARY FOCUS:
+QuantumCoders Data Solutions is a professional language data services team specializing in:
+• Audio Transcription (English, Hindi, Odia)
+• Data Annotation (Text and audio labeling)
+• Audio Segmentation (Speaker separation, timing)
+• Voice Over Recording (Multilingual voice talent)
+• AI Dataset Preparation (Training data for AI/ML models)
+• Data Processing & Quality Assurance
+
+ENTERPRISE PARTNERSHIP:
+• Partner: DesiCrew Solutions (www.desicrew.in)
+• Partnership Duration: 1.5+ years of active collaboration
+• Project Type: Language data and AI training datasets
+• Service Capacity: 20+ team members for simultaneous projects
+• Focus: Professional, quality-focused deliverables
+
+KEY INFORMATION:
+• Team Size: 20+ dedicated members
+• Languages Supported: Hindi, English, Odia
+• Project Experience: 1.5+ years with DesiCrew Solutions
+• Primary Contact: quantumcoderstechlab@gmail.com
+• Response Time: 4-8 hours for inquiries
+`;
+
+
+export const QCDS_SERVICES = `
+QUANTUMCODERS DATA SOLUTIONS - SERVICE OFFERINGS:
+
+1. AUDIO TRANSCRIPTION
+   • Converts audio to text transcripts
+   • Languages: English, Hindi, Odia
+   • Includes: Formatting, punctuation, readability
+
+2. DATA ANNOTATION / LABELING
+   • Text labeling and classification
+   • Audio tagging and marking
+   • Support for NLP and AI training
+
+3. AUDIO SEGMENTATION
+   • Speaker separation and identification
+   • Timing and synchronization
+   • Multi-speaker handling
+
+4. VOICE OVER / VOICE RECORDING
+   • Professional voice recording
+   • Native speakers for multiple languages
+   • Audio quality preparation
+
+5. DATA PROCESSING & FORMATTING
+   • File organization and standardization
+   • Format conversion and handling
+   • Data preparation for projects
+
+6. AI DATASET PREPARATION
+   • Data preparation for ML/AI models
+   • Multilingual dataset support
+   • Project-ready deliverables
+
+GENERAL APPROACH:
+• Professional project handling
+• Focus on quality deliverables
+• Support for multilingual projects
+• Dedicated team collaboration
+`;
+
+export const QCDS_TEAM_COMPLETE = `
+QUANTUMCODERS DATA SOLUTIONS - COMPLETE TEAM (20+ Members):
+
+═══════════════════════════════════════════════════════════
+
+LEADERSHIP & OPERATIONS:
+
+1. PREM PRASAD PRADHAN – Founder & Operations Lead
+   Role: Founder – QuantumCoders Data Solutions
+   Responsibilities: Team operations, project execution, quality control
+   Email: mr.prem2006@gmail.com
+   LinkedIn: prem-prasad-pradhan-18472b295
+   GitHub: MRPREM31
+   Expertise: Project management, team leadership, quality oversight
+
+═══════════════════════════════════════════════════════════
+
+TRANSCRIPTION SPECIALISTS (Multi-speaker, Complex Audio, Formatting):
+
+2. BIKASH BISOYI – Audio Transcription Specialist
+   Expertise: Complex audio transcription, multi-speaker handling, accuracy
+   Focus: High-quality transcription for challenging audio files
+   Skills: Audio transcription, multi-speaker analysis, formatting
+
+3. SANKAR PRASAD ACHARYA – Data Processing Specialist
+   Expertise: File processing, data formatting, workflow support
+   Focus: Data preparation and file management
+   Skills: Data processing, formatting, file management, productivity
+
+4. SUBHASISH SAHU – Transcription Specialist
+   Expertise: Accurate transcription, formatting, quality standards
+   Focus: Maintaining project quality and deadlines
+   Skills: Transcription, formatting, accuracy, productivity
+
+5. SATYA NARAYAN PADHI – Transcription & Data Processing Specialist
+   Expertise: Transcription and data processing, formatting consistency
+   Focus: Proper file organization and timely delivery
+   Skills: Transcription, data processing, formatting, productivity
+
+═══════════════════════════════════════════════════════════
+
+SEGMENTATION & MULTI-SPEAKER SPECIALISTS:
+
+6. SRIDHAR PATRO – Segmentation & Transcription Specialist
+   Expertise: Audio segmentation, speaker separation, timing accuracy
+   Focus: Precise speaker identification and timing
+   Skills: Segmentation, transcription, timing accuracy, quality focus
+
+7. ASHIS GOUDA – Audio Transcription & Segmentation Specialist
+   Expertise: Audio transcription, segmentation, speaker tagging
+   Focus: Accurate speaker identification and quality maintenance
+   Skills: Audio transcription, segmentation, speaker tagging, quality
+
+═══════════════════════════════════════════════════════════
+
+DATA ANNOTATION SPECIALISTS:
+
+8. CHANDAN BISWAL – Data Annotator & Transcription Specialist
+   Expertise: Data annotation, transcription, quality maintenance
+   Focus: Daily production targets with quality assurance
+   Skills: Transcription, data annotation, quality focus, productivity
+
+9. SAMIR KUMAR DASH – Data Annotation & Transcription Specialist
+   Expertise: Data annotation, transcription, file processing
+   Focus: Project workflow efficiency and accuracy
+   Skills: Data annotation, transcription, formatting, quality
+
+10. SIDDHARTH KHUNTIA – Data Annotator
+    Expertise: Data annotation and transcription
+    Focus: Contributing to production targets efficiently
+    Skills: Annotation, transcription, productivity, team work
+
+11. AMIT RANJAN SAHU – Data Processing & Annotation Specialist
+    Expertise: Data annotation and processing
+    Focus: Formatting and timely completion of work
+    Skills: Data processing, annotation, formatting, team work
+
+═══════════════════════════════════════════════════════════
+
+QUALITY ASSURANCE & SUPPORT:
+
+12. MADHUSHMITA DAS – Senior Annotator & QC Support
+    Expertise: Annotation, quality control, consistency maintenance
+    Focus: Accuracy, consistency, workflow efficiency
+    Skills: Annotation, QC support, Hindi/English, accuracy
+
+═══════════════════════════════════════════════════════════
+
+ADDITIONAL TEAM MEMBERS (Extended Team):
+
+The team also includes 8+ additional data specialists working on:
+• Transcription and data annotation tasks
+• Audio processing and formatting
+• Quality control and verification
+• Data collection and processing
+• Production target management
+
+Total Active Team: 20+ dedicated members
+Current Capacity: Multiple simultaneous large-scale projects
+Average Team: Varies by project, 5-15 members per engagement
+
+═══════════════════════════════════════════════════════════
+`;
+
+export const QCDS_CONTACT = `
+QUANTUMCODERS DATA SOLUTIONS - CONTACT INFORMATION:
+
+PRIMARY CONTACT:
+• Email: quantumcoderstechlab@gmail.com (Recommended for all inquiries)
+• Website: https://quantumcoders.vercel.app/data-solutions
+• Contact Form: Available on website
+
+CONTACT DETAILS:
+• Organization: QuantumCoders Data Solutions
+• Parent Organization: QuantumCoders Tech Lab
+• Location: Berhampur, Odisha, India
+• Available for: Transcription, annotation, data processing projects
+
+WHAT TO INCLUDE IN PROJECT INQUIRIES:
+1. Project description and scope
+2. Languages required
+3. Volume of data/audio
+4. Turnaround timeline needed
+5. Quality requirements
+6. Budget/rate expectations
+7. Any specific formatting requirements
+
+COMMUNICATION:
+• Primary Method: Email
+• Response: Within 24-48 hours typically
+• For Large Projects: Can schedule calls to discuss details
+`;
+
+export const QCDS_PARTNERSHIP_INFO = `
+QUANTUMCODERS DATA SOLUTIONS - DESICREW PARTNERSHIP:
+
+PARTNERSHIP OVERVIEW:
+• Partner Company: DesiCrew Solutions
+• Partnership Start: 2023
+• Duration: 1.5+ years of active collaboration
+• Status: Active and ongoing
+• Partner Website: www.desicrew.in
+• Partnership Type: Extended vendor network for language data services
+
+ABOUT DESICREW SOLUTIONS:
+DesiCrew Solutions is an India-based business process outsourcing (BPO) and language data services company that:
+• Supports AI and machine learning projects
+• Provides data annotation, transcription, and data processing
+• Operates delivery centers across India
+• Serves global enterprise clients
+• Focuses on language data and AI training dataset preparation
+
+QCDS ROLE IN PARTNERSHIP:
+QuantumCoders Data Solutions functions as a specialized delivery unit within DesiCrew's network:
+• Handles multilingual transcription and annotation projects
+• Supports language data collection and processing
+• Delivers AI training datasets (speech, text, audio)
+• Works on enterprise-level data projects
+• Maintains professional quality standards
+
+PROJECT TYPES WE HANDLE:
+• Language Data for AI/ML Models
+• Multilingual Transcription Projects
+• Audio Annotation & Segmentation
+• Data Processing & Formatting
+• Voice Data Collection
+• ASR (Automatic Speech Recognition) Datasets
+• NLP Training Data Preparation
+
+PARTNERSHIP BENEFITS:
+• Access to large-scale enterprise projects
+• Professional project management
+• Structured work processes and quality standards
+• Regular workflow and consistent project pipeline
+• Professional growth opportunities
+• Industry experience with global clients
+`;
+
+export const QCDS_CAPACITY_METRICS = `
+QUANTUMCODERS DATA SOLUTIONS - TEAM & CAPABILITIES:
+
+TEAM SIZE:
+• Active Team Members: 20+ dedicated specialists
+• Team Composition: Transcription specialists, annotation experts, data processing staff
+
+SERVICES & LANGUAGES:
+• Languages: English, Hindi, Odia
+• Service Types: Audio transcription, data annotation, audio segmentation, voice over, data processing
+• Quality Focus: High-quality deliverables with accuracy as priority
+
+PROJECT HANDLING:
+• Handles multiple simultaneous projects
+• Scalable team assignments based on project requirements
+• Professional project coordination and delivery
+
+SPECIALIZATIONS:
+• Audio Transcription: Multi-speaker audio, complex files
+• Data Annotation: Text and audio labeling
+• Audio Segmentation: Speaker separation and timing
+• Voice Over: Professional recording
+• Data Processing: File formatting and preparation
+
+WORK RELATIONSHIP:
+• Partnership: DesiCrew Solutions (1.5+ years)
+• Delivery: Enterprise-level data projects
+• Collaboration: Professional, structured workflows
+`;
+
+export const QCDS_FAQ = `
+FREQUENTLY ASKED QUESTIONS - QUANTUMCODERS DATA SOLUTIONS:
+
+Q: What services does QuantumCoders Data Solutions provide?
+A: We provide audio transcription, data annotation, audio segmentation, voice over recording, and data processing services in English, Hindi, and Odia.
+
+Q: What languages do you support?
+A: We work with English, Hindi, Odia, and other Indian languages.
+
+Q: Do you handle complex audio files?
+A: Yes, our team has experience with multi-speaker audio and complex transcription projects.
+
+Q: What types of projects do you work on?
+A: We handle transcription, data annotation, audio segmentation, voice recording, and data preparation for AI projects.
+
+Q: How do I contact you for a project?
+A: Email: quantumcoderstechlab@gmail.com with your project details for a discussion about scope, timeline, and requirements.
+
+Q: What is your team size?
+A: We have 20+ dedicated team members specializing in different aspects of data services.
+
+Q: How long is your partnership?
+A: We've been working with DesiCrew Solutions for 1.5+ years on language data and AI dataset projects.
+
+Q: What output formats do you provide?
+A: We can provide deliverables in various formats based on your project requirements.
+
+Q: Are projects handled confidentially?
+A: Yes, we handle all projects professionally with attention to data privacy.
+
+Q: Can you handle multiple projects simultaneously?
+A: Yes, we can scale our team based on project requirements and handle multiple engagements.
+
+Q: What makes your team different?
+A: Our team combines dedicated specialists with experience in multilingual data services and AI dataset preparation.
 `;
