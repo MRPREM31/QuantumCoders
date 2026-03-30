@@ -459,36 +459,45 @@ Best Practices We Follow:
    ═══════════════════════════════════════════════════════════ */
 
 export const QCDS_COMPLETE_INFO = `
-QUANTUMCODERS DATA SOLUTIONS (QCDS) – COMPLETE OVERVIEW:
+QUANTUMCODERS DATA SOLUTIONS (QCDS) – OVERVIEW:
 
 Official Name: QuantumCoders Data Solutions
-Parent Organization: QuantumCoders Tech Lab
-Division Type: Professional Language Data & AI Dataset Services
-Founded: 2023 (as DesiCrew vendor partnership)
-Current Status: Active with 20+ dedicated team members
+Type: Professional language data services team
+Partnership: DesiCrew Solutions vendor (1.5+ years collaboration)
+Location: Berhampur, Odisha, India
+Contact: quantumcoderstechlab@gmail.com
 
-PRIMARY FOCUS:
-QuantumCoders Data Solutions is a professional language data services team specializing in:
-• Audio Transcription (English, Hindi, Odia)
-• Data Annotation (Text and audio labeling)
-• Audio Segmentation (Speaker separation, timing)
-• Voice Over Recording (Multilingual voice talent)
-• AI Dataset Preparation (Training data for AI/ML models)
-• Data Processing & Quality Assurance
+PRIMARY SERVICES:
+• Audio Transcription (Speech-to-text with segmentation, speaker labeling, timestamps)
+• Data Annotation (NLP and speech dataset labeling, intent/entity/sentiment tagging)
+• Voice Over (Multilingual voice recording, native speakers)
+• Audio Segmentation (Audio splitting, timestamp alignment, sentence-level segmentation)
+• AI Data Collection (Voice, image, video data collection for AI/ML projects)
+• Review & Quality Control (Multi-stage review, guideline compliance, QC workflow)
+• Bulk & Long-Term Projects (Dedicated teams, structured workflows, regular delivery)
 
-ENTERPRISE PARTNERSHIP:
-• Partner: DesiCrew Solutions (www.desicrew.in)
-• Partnership Duration: 1.5+ years of active collaboration
-• Project Type: Language data and AI training datasets
-• Service Capacity: 20+ team members for simultaneous projects
-• Focus: Professional, quality-focused deliverables
+LANGUAGES SUPPORTED:
+• Hindi (Primary)
+• English / Indian English (Primary)
+• Odia (Primary)
+• Bengali (On request)
 
-KEY INFORMATION:
+TEAM DETAILS:
 • Team Size: 20+ dedicated members
-• Languages Supported: Hindi, English, Odia
-• Project Experience: 1.5+ years with DesiCrew Solutions
-• Primary Contact: quantumcoderstechlab@gmail.com
-• Response Time: 4-8 hours for inquiries
+• Team Composition: Transcription specialists, annotation experts, data processors
+• Project Capacity: Multiple simultaneous projects with dedicated team assignments
+
+DELIVERY FORMATS:
+• Transcription: TXT, DOCX, SRT, custom formats
+• Audio Segmentation: JSON, CSV, custom formats
+• Voice Over: WAV, MP3 delivery formats
+• Data: Ready for AI training datasets, project-specific requirements
+
+PARTNERSHIP INFORMATION:
+• Partner: DesiCrew Solutions (www.desicrew.in)
+• Duration: 1.5+ years active collaboration
+• Specialized Role: Language data services, AI dataset preparation
+• Industry Focus: Enterprise-level data projects, AI/ML training datasets
 `;
 
 
