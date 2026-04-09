@@ -17,6 +17,12 @@
     <lastmod>2026-01-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
+
+    <image:image>
+      <image:loc>https://quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDS_poster.png</image:loc>
+      <image:title>QuantumCoders Data Solutions Poster</image:title>
+      <image:caption>AI Data Annotation and Student Work Platform</image:caption>
+    </image:image>
   </url>
 
 
