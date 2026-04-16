@@ -459,87 +459,294 @@ Best Practices We Follow:
    ═══════════════════════════════════════════════════════════ */
 
 export const QCDS_COMPLETE_INFO = `
-QUANTUMCODERS DATA SOLUTIONS (QCDS) – OVERVIEW:
+═══════════════════════════════════════════════════════════════════════════════
+QUANTUMCODERS DATA SOLUTIONS (QCDS) – COMPREHENSIVE INFORMATION
+═══════════════════════════════════════════════════════════════════════════════
 
-Official Name: QuantumCoders Data Solutions
-Type: Professional language data services team
-Partnership: DesiCrew Solutions vendor (1.5+ years collaboration)
-Location: Berhampur, Odisha, India
-Contact: quantumcoderstechlab@gmail.com
-Website: https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html
+OFFICIAL IDENTITY:
+• Official Name: QuantumCoders Data Solutions
+• Acronym: QCDS
+• Type: Professional language data services and AI dataset preparation team
+• Parent Organization: QuantumCoders Tech Lab
+• Classification: Enterprise-level data services division
 
-PRIMARY SERVICES:
-• Audio Transcription (Speech-to-text with segmentation, speaker labeling, timestamps)
-• Data Annotation (NLP and speech dataset labeling, intent/entity/sentiment tagging)
-• Voice Over (Multilingual voice recording, native speakers)
-• Audio Segmentation (Audio splitting, timestamp alignment, sentence-level segmentation)
-• AI Data Collection (Voice, image, video data collection for AI/ML projects)
-• Review & Quality Control (Multi-stage review, guideline compliance, QC workflow)
-• Bulk & Long-Term Projects (Dedicated teams, structured workflows, regular delivery)
-
-LANGUAGES SUPPORTED:
-• Hindi (Primary)
-• English / Indian English (Primary)
-• Odia (Primary)
-• Bengali (On request)
-
-TEAM DETAILS:
-• Team Size: 30+ dedicated members
-• Team Composition: Transcription specialists, annotation experts, data processors
-• Project Capacity: Multiple simultaneous projects with dedicated team assignments
-
-DELIVERY FORMATS:
-• Transcription: TXT, DOCX, SRT, custom formats
-• Audio Segmentation: JSON, CSV, custom formats
-• Voice Over: WAV, MP3 delivery formats
-• Data: Ready for AI training datasets, project-specific requirements
-
-PARTNERSHIP INFORMATION:
-• Partner: DesiCrew Solutions (www.desicrew.in)
-• Duration: 1.5+ years active collaboration
-• Specialized Role: Language data services, AI dataset preparation
+BUSINESS MODEL & PARTNERSHIP:
+• Partnership: Official DesiCrew Solutions vendor (www.desicrew.in)
+• Partnership Duration: 1.5+ years of verified collaboration
+• Specialized Role: Language data services, audio transcription, data annotation, AI dataset preparation
+• Partnership Type: Vendor relationship for enterprise data projects
 • Industry Focus: Enterprise-level data projects, AI/ML training datasets
+• Vendor Status: Certified and verified DesiCrew partner
+
+CORE BUSINESS INFORMATION:
+• Location: Berhampur, Odisha, India – 760001
+• Email: quantumcoderstechlab@gmail.com
+• Phone: +91 9827775230
+• Website: https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html
+• Operational Years: 1.5+ years active in data services
+• Capacity: Handles multiple simultaneous enterprise projects
+
+PRIMARY SERVICES OFFERED:
+1. AUDIO TRANSCRIPTION
+   - Speech-to-text conversion with high accuracy
+   - Includes: Timestamps, speaker labels, formatting, punctuation
+   - Multiple audio formats supported
+   - Custom formatting options available
+   
+2. DATA ANNOTATION & LABELING
+   - NLP dataset annotation (intent, entity, sentiment tagging)
+   - Audio and speech dataset labeling
+   - Image annotation support
+   - Text classification and categorization
+   
+3. VOICE OVER & VOICE RECORDING
+   - Professional voice recording services
+   - Multilingual native speakers
+   - Audio quality control and post-processing
+   - Multiple delivery formats
+   
+4. AUDIO SEGMENTATION
+   - Speaker segmentation and identification
+   - Sentence-level alignment and timing
+   - Audio splitting and boundary detection
+   - Multi-speaker handling
+   
+5. AI DATA COLLECTION
+   - Voice data collection for AI training
+   - Image data collection and curation
+   - Video data processing
+   - Structured data collection workflows
+   
+6. QUALITY ASSURANCE & REVIEW
+   - Multi-stage quality control process
+   - Guideline compliance verification
+   - Expert review and validation
+   - Dedicated QC team
+   
+7. BULK & LONG-TERM PROJECTS
+   - Dedicated teams for large projects
+   - Structured project workflows
+   - Regular delivery schedules
+   - Custom SLA agreements
+
+LANGUAGES & MULTILINGUAL SUPPORT:
+Primary Languages:
+• Hindi – Full support, native speakers
+• English / Indian English – Full support, native speakers
+• Odia – Full support, native speakers
+
+Additional Languages Available:
+• Bengali – On request basis
+• Other Indian languages – Custom availability
+
+TEAM & WORKFORCE DETAILS:
+• Team Size: 30+ dedicated specialists
+• Team Composition: Transcription specialists, annotation experts, data processors
+• Specialist Roles: Audio transcription specialists, data annotation specialists, audio segmentation specialists, voice over artists, data quality specialists
+• Management: Led by Prem Prasad Pradhan (Vendor Manager & QuantumCoders Founder)
+• Project Capacity: Multiple simultaneous projects with individual team assignments
+
+KEY TEAM SPECIALISTS & THEIR ROLES:
+• Prem Prasad Pradhan – Founder & Vendor Manager
+• Chandan Biswal – Data Annotation Specialist
+• Madhushmita Das – Senior Annotator
+• Subhasish Sahu – Transcription Specialist
+• Samir Kumar Dash – Data Annotation Specialist
+• Sridhar Patro – Segmentation Specialist
+• Satya Narayan Padhi – Transcription Specialist
+• Ashis Gouda – Audio Transcription Specialist
+• Siddharth Khuntia – Data Annotator
+• Bikash Bisoyi – Audio Transcription Specialist
+• Sankar Prasad Acharya – Data Processing Specialist
+• Amit Ranjan Sahu – Data Processing & Annotation
+• Plus 18+ additional specialists
+
+DELIVERY FORMATS & SPECIFICATIONS:
+• Transcription Delivery: TXT, DOCX, SRT, VTT, custom formats
+• Annotation Delivery: JSON, CSV, XML, JSONL, custom formats
+• Voice Over Delivery: WAV, MP3, AAC, FLAC, custom formats
+• Data Packages: Ready for AI training, project-specific requirements met
+• Quality Standards: Enterprise-grade, guideline-compliant
+
+WORKFLOW & PROCESS:
+1. Project Intake: Requirement discussion and planning
+2. Team Assignment: Dedicated team allocation
+3. Processing: Data handling by specialist teams
+4. Quality Assurance: Multi-stage review and validation
+5. Delivery: Formatted data ready for deployment
+6. Post-Delivery: Ongoing support and modifications
+
+TECHNICAL CAPABILITIES:
+• Large-scale project handling (thousands to millions of data points)
+• Complex annotation guidelines support
+• Custom format and delivery specifications
+• Real-time project tracking and reporting
+• Scalable infrastructure for bulk operations
+
+QUALITY ASSURANCE:
+• Multi-layer QC process
+• Guideline compliance verification
+• Expert validation by senior specialists
+• Accuracy metrics tracking
+• Regular performance monitoring
+
+PRICING MODEL:
+• Project-based pricing
+• Per-unit pricing (per audio minute, per image, per annotation)
+• Package discounts for bulk projects
+• Custom SLA rates
+• Competitive enterprise pricing
+
+WHY CHOOSE QUANTUMCODERS DATA SOLUTIONS:
+✓ 1.5+ years proven track record with DesiCrew
+✓ 30+ dedicated specialists
+✓ Multilingual support (Hindi, English, Odia, Bengali)
+✓ Enterprise-grade quality assurance
+✓ Multiple simultaneous project capacity
+✓ Flexible delivery formats
+✓ Cost-effective pricing
+✓ Professional team with student tech lab backing
+✓ Student-driven quality with professional operations
+✓ Located in India - timezone advantages for global clients
+
+PARTNERSHIP ADVANTAGES:
+• Access to QuantumCoders Tech Lab's technology expertise
+• AI-driven data processing capabilities
+• Integration with modern tech stack
+• Student innovation meets professional service delivery
+• Scalable solutions with technology backing
 `;
 
 
 export const QCDS_SERVICES = `
-QUANTUMCODERS DATA SOLUTIONS - SERVICE OFFERINGS:
+═══════════════════════════════════════════════════════════════════════════════
+QUANTUMCODERS DATA SOLUTIONS - COMPLETE SERVICE OFFERINGS
+═══════════════════════════════════════════════════════════════════════════════
 
-1. AUDIO TRANSCRIPTION
-   • Converts audio to text transcripts
-   • Languages: English, Hindi, Odia
-   • Includes: Formatting, punctuation, readability
+1. AUDIO TRANSCRIPTION SERVICE
+   What: Professional speech-to-text conversion service
+   Includes:
+   • Accurate transcription of audio files
+   • Timestamps for each spoken segment
+   • Speaker identification and labels
+   • Proper punctuation and formatting
+   • Multiple file format support
+   Languages: English, Hindi, Odia, Bengali (on request)
+   Deliverables: TXT, DOCX, SRT, VTT, custom formats
+   Quality: Enterprise-grade accuracy
+   Use Cases: Podcasts, interviews, meetings, customer calls, video subtitles
 
-2. DATA ANNOTATION / LABELING
-   • Text labeling and classification
-   • Audio tagging and marking
-   • Support for NLP and AI training
+2. DATA ANNOTATION & LABELING SERVICE
+   What: Strategic data labeling for AI/ML model training
+   Includes:
+   • Text classification and categorization
+   • NLP annotation (intent, entity, sentiment)
+   • Audio event detection and tagging
+   • Image annotation and bounding boxes
+   • Custom labeling schemas
+   Formats: JSON, CSV, XML, JSONL delivered
+   Expertise: NLP, computer vision, audio processing
+   Quality: Guideline-compliant, multi-stage review
+   Use Cases: Training AI models, dataset preparation, machine learning projects
 
-3. AUDIO SEGMENTATION
-   • Speaker separation and identification
-   • Timing and synchronization
-   • Multi-speaker handling
+3. AUDIO SEGMENTATION SERVICE
+   What: Intelligent audio breaking and alignment
+   Includes:
+   • Speaker segmentation and separation
+   • Silence detection and removal
+   • Sentence-level boundary detection
+   • Timestamp precision alignment
+   • Multi-speaker scenario handling
+   • Audio cleanup and noise reduction
+   Deliverables: JSON format with precise timings
+   Use Cases: Podcast editing, video segment creation, speech analysis
 
-4. VOICE OVER / VOICE RECORDING
-   • Professional voice recording
-   • Native speakers for multiple languages
-   • Audio quality preparation
+4. VOICE OVER & VOICE RECORDING SERVICE
+   What: Professional voice talent and recording services
+   Includes:
+   • Professional voice artists (native speakers)
+   • Audio recording in studio quality
+   • Multiple language support
+   • Post-processing and enhancement
+   • Custom tone and style options
+   Languages: English, Hindi, Odia, Bengali
+   Quality: Studio-grade audio production
+   Formats: WAV, MP3, AAC, FLAC
+   Use Cases: Video narration, audiobooks, educational content, commercials
 
-5. DATA PROCESSING & FORMATTING
-   • File organization and standardization
-   • Format conversion and handling
-   • Data preparation for projects
+5. AI DATA COLLECTION SERVICE
+   What: Structured data gathering for AI training
+   Includes:
+   • Voice data collection and curation
+   • Image data collection and labeling
+   • Video data processing and tagging
+   • Structured data organization
+   • Dataset validation and cleaning
+   Scale: Supports large-scale collections (millions of data points)
+   Quality: Diversity and accuracy maintained
+   Use Cases: AI model training, dataset building, research projects
 
-6. AI DATASET PREPARATION
-   • Data preparation for ML/AI models
-   • Multilingual dataset support
-   • Project-ready deliverables
+6. QUALITY ASSURANCE & REVIEW SERVICE
+   What: Professional QA and validation service
+   Includes:
+   • Multi-stage review process
+   • Guideline compliance checking
+   • Accuracy verification
+   • Expert validation
+   • Performance metrics reporting
+   Process: Initial QA → Senior review → Final validation
+   Reporting: Detailed quality metrics and analytics
+   Use Cases: Ensuring data quality, compliance verification, final validation
 
-GENERAL APPROACH:
-• Professional project handling
-• Focus on quality deliverables
-• Support for multilingual projects
-• Dedicated team collaboration
+7. BULK & LONG-TERM PROJECT HANDLING
+   What: Large-scale, sustained project delivery
+   Includes:
+   • Dedicated team assignment
+   • Structured workflow management
+   • Regular delivery schedules
+   • Project tracking and reporting
+   • Custom SLA agreements
+   • Scalable capacity for growing projects
+   Scale: Handles projects from thousands to millions of data points
+   Timeline: Short-term sprints to long-term engagements
+   Management: Dedicated project manager, regular communication
+   Use Cases: Enterprise data projects, AI dataset building, ongoing support
+
+GENERAL SERVICE APPROACH:
+✓ Professional project handling and management
+✓ Customer-focused quality deliverables
+✓ Multilingual support across projects
+✓ Dedicated team collaboration per project
+✓ Flexible formats and custom requirements
+✓ Financial transparency and fair pricing
+✓ Regular communication and updates
+✓ Post-delivery support included
+
+SERVICE QUALITY GUARANTEES:
+• Accuracy standards met and verified
+• Guideline compliance ensured
+• Timely delivery as per agreement
+• Professional team handling
+• Quality assurance at multiple stages
+• Customer satisfaction focused
+• Post-delivery modifications available
+
+TECHNICAL SPECIFICATIONS:
+• File formats: MP3, WAV, FLAC, OGG, M4A, WebM
+• Transcription accuracy: 95%+ for clear audio
+• Annotation accuracy: Subject to guidelines and complexity
+• Delivery format flexibility: JSON, CSV, XML, JSONL, custom
+• Project tracking: Real-time dashboard and reporting
+• Data security: Confidentiality maintained, secure transfer
+
+PRICING STRUCTURE:
+• Audio Transcription: Per audio minute
+• Data Annotation: Per item/image/text unit
+• Voice Over: Per minute of recording
+• Audio Segmentation: Per audio hour
+• Bulk Projects: Custom package pricing
+• Volume Discounts: Available for large projects
+• SLA Agreements: Custom rates negotiable
 `;
 
 export const QCDS_TEAM_COMPLETE = `
