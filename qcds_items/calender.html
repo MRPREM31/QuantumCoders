@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCDS Calendar Generator — QuantumCoders Data Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<!-- html2canvas + jsPDF for export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   CSS VARIABLES — DARK (default) & LIGHT themes
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --bg-page:       #030812;
+  --bg-panel:      #070f24;
+  --bg-card:       #0a1535;
+  --bg-card2:      #060e27;
+  --bg-header:     #04183a;
+  --border:        #0d2d60;
+  --border-bright: #0a4a8a;
+  --cyan:          #00d4ff;
+  --cyan-dim:      #0099cc;
+  --cyan-glow:     rgba(0,212,255,0.12);
+  --cyan-glow2:    rgba(0,212,255,0.06);
+  --white:         #eaf2ff;
+  --off-white:     #b8cce0;
+  --gray:          #5a7a9a;
+  --gray-dim:      #2a3a50;
+  --sunday:        #ff5555;
+  --sunday-bg:     rgba(255,60,60,0.08);
+  --today-bg:      rgba(0,212,255,0.18);
+  --today-border:  #00d4ff;
+  --gold:          #ffc840;
+  --holiday-bg:    rgba(255,200,60,0.08);
+  --text-main:     #eaf2ff;
+  --text-sub:      #7a9abf;
+  --shadow:        0 8px 32px rgba(0,0,0,0.7);
+  --radius:        12px;
+  --transition:    0.25s cubic-bezier(.4,0,.2,1);
+}
+
+[data-theme="light"] {
+  --bg-page:       #e8f0f8;
+  --bg-panel:      #f0f6ff;
+  --bg-card:       #ffffff;
+  --bg-card2:      #f4f8ff;
+  --bg-header:     #dce8f5;
+  --border:        #c0d4e8;
+  --border-bright: #90b8d8;
+  --cyan:          #0077aa;
+  --cyan-dim:      #0099cc;
+  --cyan-glow:     rgba(0,120,180,0.10);
+  --cyan-glow2:    rgba(0,120,180,0.05);
+  --white:         #0d2040;
+  --off-white:     #1a3050;
+  --gray:          #6080a0;
+  --gray-dim:      #d0dce8;
+  --sunday:        #cc2222;
+  --sunday-bg:     rgba(200,0,0,0.06);
+  --today-bg:      rgba(0,120,180,0.12);
+  --today-border:  #0077aa;
+  --gold:          #c07800;
+  --holiday-bg:    rgba(180,120,0,0.08);
+  --text-main:     #0a1a2e;
+  --text-sub:      #4a6a8a;
+  --shadow:        0 4px 20px rgba(0,50,120,0.12);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE RESET & GLOBAL
+   ═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Exo 2', sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* Animated BG grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════════ */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+
+.site-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-hex {
+  width: 48px; height: 48px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.logo-hex svg { width: 100%; height: 100%; }
+
+.logo-text { line-height: 1.2; }
+
+.logo-text .company-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+}
+
+.logo-text .company-name span { color: var(--cyan); }
+
+.logo-text .tagline {
+  font-size: 11px;
+  color: var(--text-sub);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Theme toggle */
+.theme-toggle {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 6px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-sub);
+  font-size: 13px;
+  font-family: 'Exo 2', sans-serif;
+  transition: all var(--transition);
+}
+.theme-toggle:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN LAYOUT
+   ═══════════════════════════════════════════════════════════ */
+.app-layout {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  min-height: calc(100vh - 72px);
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────── */
+.sidebar {
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  transition: border-color var(--transition);
+}
+.sidebar-section:hover { border-color: var(--border-bright); }
+
+.section-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::before {
+  content: '';
+  width: 3px; height: 14px;
+  background: var(--cyan);
+  border-radius: 2px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-sub);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.form-control {
+  width: 100%;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text-main);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  -webkit-appearance: none;
+}
+.form-control:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-glow);
+}
+.form-control option { background: var(--bg-card2); color: var(--text-main); }
+
+.view-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.view-btn {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-sub);
+  transition: all var(--transition);
+}
+.view-btn.active, .view-btn:hover {
+  background: var(--cyan-glow);
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+/* Generate button */
+.btn-generate {
+  width: 100%;
+  background: linear-gradient(135deg, #004d80, #006699);
+  border: 1px solid var(--cyan-dim);
+  border-radius: 10px;
+  padding: 13px;
+  color: var(--cyan);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.btn-generate::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.15), transparent);
+  transition: left 0.5s;
+}
+.btn-generate:hover::before { left: 100%; }
+.btn-generate:hover {
+  background: linear-gradient(135deg, #005d99, #0088bb);
+  box-shadow: 0 0 20px var(--cyan-glow);
+  transform: translateY(-1px);
+}
+.btn-generate:active { transform: translateY(0); }
+
+/* Download/export buttons */
+.export-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.btn-export {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 8px;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-sub);
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.btn-export:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: var(--cyan-glow2);
+}
+.btn-export .icon { font-size: 18px; }
+.btn-export.full-width {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  justify-content: center;
+  padding: 12px;
+  font-size: 13px;
+}
+
+/* Month navigation (month view) */
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.month-nav .form-control { flex: 1; }
+.nav-arrow {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--cyan);
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+.nav-arrow:hover { background: var(--cyan-glow); border-color: var(--cyan); }
+
+/* Legend */
+.legend { display: flex; flex-direction: column; gap: 8px; }
+.legend-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--text-sub);
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── MAIN CONTENT ─────────────────────────────────────── */
+.main-content {
+  padding: 28px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── CALENDAR OUTPUT AREA ─────────────────────────────── */
+#calendar-output {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* Calendar Header (inside output) */
+.cal-header {
+  background: var(--bg-header);
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.cal-header::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--cyan-dim), var(--cyan));
+}
+/* Circuit lines in header */
+.cal-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.cal-header-info { position: relative; z-index: 1; }
+.cal-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 2px;
+}
+.cal-title span { color: var(--cyan); }
+.cal-subtitle {
+  font-size: 12px;
+  color: var(--text-sub);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.cal-year-badge {
+  position: relative; z-index: 1;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 60px;
+  color: var(--cyan);
+  opacity: 0.4;
+  line-height: 1;
+  letter-spacing: 4px;
+}
+
+/* ── YEAR VIEW (12 months grid) ───────────────────────── */
+.year-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  padding: 1px;
+}
+
+.month-card {
+  background: var(--bg-card);
+  padding: 14px 12px 12px;
+  transition: background var(--transition);
+}
+.month-card:hover { background: var(--bg-card2); }
+
+.month-name-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.month-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-main);
+}
+
+.month-num {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  background: var(--cyan-glow);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.day-headers {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 4px;
+}
+
+.day-header {
+  text-align: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--gray);
+  padding: 3px 0;
+}
+.day-header:first-child { color: var(--sunday); }
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.day-cell {
+  text-align: center;
+  padding: 3px 1px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--off-white);
+  border-radius: 4px;
+  cursor: default;
+  transition: all var(--transition);
+  line-height: 1.6;
+  position: relative;
+}
+.day-cell:hover:not(.empty) {
+  background: var(--cyan-glow);
+  color: var(--cyan);
+}
+.day-cell.empty { color: transparent; pointer-events: none; }
+.day-cell.sunday { color: var(--sunday); background: var(--sunday-bg); }
+.day-cell.today {
+  background: var(--today-bg) !important;
+  color: var(--cyan) !important;
+  border-radius: 50%;
+  outline: 1.5px solid var(--today-border);
+  font-weight: 700;
+}
+.day-cell.holiday {
+  color: var(--gold) !important;
+  background: var(--holiday-bg) !important;
+}
+.day-cell.holiday::after {
+  content: '•';
+  position: absolute;
+  bottom: 0; right: 2px;
+  font-size: 8px;
+  color: var(--gold);
+}
+
+/* ── MONTH VIEW (single large month) ─────────────────── */
+.month-view {
+  padding: 24px;
+}
+
+.month-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.month-view-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--text-main);
+}
+.month-view-title span { color: var(--cyan); }
+
+.month-view-nav { display: flex; gap: 10px; }
+.mnav-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: var(--cyan);
+  font-size: 16px;
+  font-family: 'Exo 2', sans-serif;
+  transition: all var(--transition);
+}
+.mnav-btn:hover { background: var(--cyan-glow); border-color: var(--cyan); }
+
+.mv-day-headers {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: var(--bg-header);
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+
+.mv-day-hdr {
+  text-align: center;
+  padding: 14px 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gray);
+  border-right: 1px solid var(--border);
+}
+.mv-day-hdr:last-child { border-right: none; }
+.mv-day-hdr.sun-hdr { color: var(--sunday); }
+
+.mv-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.mv-day-cell {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  min-height: 80px;
+  padding: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--off-white);
+  font-family: 'Rajdhani', sans-serif;
+  cursor: default;
+  transition: all var(--transition);
+  position: relative;
+}
+.mv-day-cell:hover:not(.mv-empty) {
+  background: var(--cyan-glow);
+  border-color: var(--cyan-dim);
+}
+.mv-day-cell.mv-empty {
+  background: var(--bg-card2);
+  opacity: 0.3;
+}
+.mv-day-cell.mv-sunday {
+  color: var(--sunday);
+  background: var(--sunday-bg);
+}
+.mv-day-cell.mv-today {
+  background: var(--today-bg) !important;
+  border-color: var(--today-border) !important;
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+.mv-day-cell.mv-today .mv-day-num {
+  color: var(--cyan);
+}
+.mv-day-cell.mv-holiday { background: var(--holiday-bg) !important; }
+.mv-day-cell.mv-holiday .mv-day-num { color: var(--gold) !important; }
+
+.mv-day-num { display: block; }
+.mv-holiday-label {
+  font-size: 9px;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 400;
+  color: var(--gold);
+  opacity: 0.8;
+  line-height: 1.2;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* ── STATUS BAR ───────────────────────────────────────── */
+.status-bar {
+  background: var(--bg-header);
+  border-top: 1px solid var(--border);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-sub);
+  font-family: 'Share Tech Mono', monospace;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 6px #00ff88;
+  display: inline-block;
+  margin-right: 6px;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── EXPORT PROGRESS OVERLAY ──────────────────────────── */
+.overlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(3,8,18,0.85);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(6px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.overlay.active { opacity: 1; pointer-events: all; }
+
+.overlay-box {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 36px 44px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+.overlay-spinner {
+  width: 48px; height: 48px;
+  border: 3px solid var(--border);
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.overlay-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--cyan);
+  letter-spacing: 2px;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 900px) {
+  .app-layout { grid-template-columns: 1fr; }
+  .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+  .year-grid { grid-template-columns: repeat(2, 1fr); }
+  .cal-year-badge { display: none; }
+}
+@media (max-width: 600px) {
+  .year-grid { grid-template-columns: 1fr; }
+  .main-content { padding: 12px; }
+}
+
+/* ── ANIMATIONS ───────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.month-card { animation: fadeInUp 0.3s ease both; }
+.month-card:nth-child(1)  { animation-delay: 0.02s; }
+.month-card:nth-child(2)  { animation-delay: 0.04s; }
+.month-card:nth-child(3)  { animation-delay: 0.06s; }
+.month-card:nth-child(4)  { animation-delay: 0.08s; }
+.month-card:nth-child(5)  { animation-delay: 0.10s; }
+.month-card:nth-child(6)  { animation-delay: 0.12s; }
+.month-card:nth-child(7)  { animation-delay: 0.14s; }
+.month-card:nth-child(8)  { animation-delay: 0.16s; }
+.month-card:nth-child(9)  { animation-delay: 0.18s; }
+.month-card:nth-child(10) { animation-delay: 0.20s; }
+.month-card:nth-child(11) { animation-delay: 0.22s; }
+.month-card:nth-child(12) { animation-delay: 0.24s; }
+
+/* tooltip on holiday */
+.day-cell[data-holiday]:hover::before,
+.mv-day-cell[data-holiday]:hover::before {
+  content: attr(data-holiday);
+  position: absolute;
+  bottom: 110%; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-header);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  white-space: nowrap;
+  z-index: 50;
+  pointer-events: none;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 400;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     HEADER
+     ════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="logo-area">
+    <div class="logo-hex">
+      <div class="company-name">
+        <img src="../assets/Data Solutions/Logo/QCDL.png" alt="QCDS Logo" style="height:40px;">
+      </div>
+    </div>
+    <div class="logo-text">
+      <div class="company-name">Quantum<span>Coders</span> Data Solutions</div>
+      <div class="tagline">Empowering AI with Quality Data</div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+      🌙 Dark Mode
+    </button>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════
+     APP LAYOUT
+     ════════════════════════════════════════════════ -->
+<div class="app-layout">
+
+  <!-- ── SIDEBAR ─────────────────────────────────── -->
+  <aside class="sidebar">
+
+    <!-- Calendar Config -->
+    <div class="sidebar-section">
+      <div class="section-title">Calendar Config</div>
+
+      <div class="form-group">
+        <label>Year</label>
+        <input type="number" class="form-control" id="inputYear"
+          value="2026" min="1900" max="2100">
+      </div>
+
+      <div class="form-group">
+        <label>View Mode</label>
+        <div class="view-toggle">
+          <div class="view-btn active" id="vbYear" onclick="setView('year')">
+            📅 Full Year
+          </div>
+          <div class="view-btn" id="vbMonth" onclick="setView('month')">
+            📆 Month
+          </div>
+        </div>
+      </div>
+
+      <!-- Month selector (shown in month view) -->
+      <div class="form-group" id="monthSelectorGroup" style="display:none;">
+        <label>Month</label>
+        <div class="month-nav">
+          <button class="nav-arrow" onclick="shiftMonth(-1)">‹</button>
+          <select class="form-control" id="inputMonth">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          <button class="nav-arrow" onclick="shiftMonth(1)">›</button>
+        </div>
+      </div>
+
+      <button class="btn-generate" onclick="generateCalendar()">
+        ⚡ Generate Calendar
+      </button>
+    </div>
+
+    <!-- Export -->
+    <div class="sidebar-section">
+      <div class="section-title">Export & Print</div>
+      <div class="export-grid">
+        <div class="btn-export" onclick="exportAs('png')">
+          <span class="icon">🖼️</span> PNG
+        </div>
+        <div class="btn-export" onclick="exportAs('jpg')">
+          <span class="icon">📷</span> JPG
+        </div>
+        <div class="btn-export" onclick="exportAs('pdf')">
+          <span class="icon">📄</span> PDF
+        </div>
+        <div class="btn-export" onclick="printCalendar()">
+          <span class="icon">🖨️</span> Print
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="sidebar-section">
+      <div class="section-title">Legend</div>
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--cyan);box-shadow:0 0 6px var(--cyan)"></div>
+          Today's Date
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--sunday)"></div>
+          Sunday
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--gold)"></div>
+          Public Holiday
+        </div>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="sidebar-section">
+      <div class="section-title">About</div>
+      <div style="font-size:12px;color:var(--text-sub);line-height:1.7;">
+        <strong style="color:var(--cyan)">QCDS</strong> Calendar Generator<br>
+        Week starts from <strong style="color:var(--text-main)">Sunday</strong><br>
+        Supports any year 1900–2100<br>
+        Leap year auto-detection<br><br>
+        <em>QuantumCoders Data Solutions</em><br>
+        A division of QuantumCoders Tech Lab
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ─────────────────────────────── -->
+  <main class="main-content">
+    <div id="calendar-output">
+
+      <!-- Calendar Header -->
+      <div class="cal-header">
+        <div class="cal-header-info">
+          <div class="cal-title" id="calTitle">
+            2026 <span>Calendar</span>
+          </div>
+          <div class="cal-subtitle">
+            QuantumCoders Data Solutions · QCDS
+          </div>
+        </div>
+        <div class="cal-year-badge" id="calYearBadge">2026</div>
+      </div>
+
+      <!-- Calendar Body -->
+      <div id="calendarBody"></div>
+
+      <!-- Footer / status -->
+      <div class="status-bar">
+        <div>
+          <span class="status-dot"></span>
+          <span id="statusText">Ready — 2026 Full Year Calendar</span>
+        </div>
+        <div id="statusRight">Week starts: Sunday · Indian holidays marked</div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Export overlay -->
+<div class="overlay" id="exportOverlay">
+  <div class="overlay-box">
+    <div class="overlay-spinner"></div>
+    <div class="overlay-text" id="overlayText">GENERATING…</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     JAVASCRIPT
+     ════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ────────────────────────────────────────────────────
+   CONSTANTS
+   ──────────────────────────────────────────────────── */
+const MONTH_NAMES = [
+  'January','February','March','April','May','June',
+  'July','August','September','October','November','December'
+];
+const MONTH_SHORT = ['JAN','FEB','MAR','APR','MAY','JUN',
+                     'JUL','AUG','SEP','OCT','NOV','DEC'];
+const DAY_NAMES  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+// Indian public holidays (fixed dates only; key = "M-D")
+const HOLIDAYS = {
+  '1-1':  'New Year\'s Day',
+  '1-14': 'Makar Sankranti',
+  '1-26': 'Republic Day',
+  '3-8':  'Holi',         // approx 2026
+  '4-3':  'Good Friday',
+  '4-14': 'Dr. Ambedkar Jayanti',
+  '5-1':  'Labour Day',
+  '6-29': 'Eid ul-Adha',  // approx 2026
+  '8-15': 'Independence Day',
+  '8-25': 'Janmashtami',
+  '10-2': 'Gandhi Jayanti',
+  '10-24':'Dussehra',
+  '11-14':'Diwali',
+  '11-15':'Children\'s Day',
+  '12-25':'Christmas Day',
+};
+
+/* ────────────────────────────────────────────────────
+   DATE UTILITIES
+   ──────────────────────────────────────────────────── */
+
+/* Is a year a leap year? */
+function isLeapYear(y) {
+  return (y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0);
+}
+
+/** Days in a given month (1-based month) */
+function daysInMonth(year, month) {
+  return new Date(year, month, 0).getDate();  // month is 1-based here
+}
+
+/**
+ * Get first weekday of a month.
+ * Returns 0=Sun, 1=Mon, ..., 6=Sat
+ */
+function firstWeekday(year, month) {
+  // JS Date: month is 0-based
+  return new Date(year, month - 1, 1).getDay();
+}
+
+/** Get today's date components */
+function today() {
+  const d = new Date();
+  return { y: d.getFullYear(), m: d.getMonth() + 1, d: d.getDate() };
+}
+
+/* ────────────────────────────────────────────────────
+   STATE
+   ──────────────────────────────────────────────────── */
+let currentView  = 'year';  // 'year' | 'month'
+let currentYear  = 2026;
+let currentMonth = 1;
+let isDark       = true;
+
+/* ────────────────────────────────────────────────────
+   VIEW TOGGLE
+   ──────────────────────────────────────────────────── */
+function setView(v) {
+  currentView = v;
+  document.getElementById('vbYear').classList.toggle('active', v === 'year');
+  document.getElementById('vbMonth').classList.toggle('active', v === 'month');
+  document.getElementById('monthSelectorGroup').style.display =
+    v === 'month' ? 'block' : 'none';
+}
+
+function shiftMonth(dir) {
+  let m = parseInt(document.getElementById('inputMonth').value, 10) + dir;
+  let y = parseInt(document.getElementById('inputYear').value,  10);
+  if (m < 1)  { m = 12; y--; document.getElementById('inputYear').value = y; }
+  if (m > 12) { m = 1;  y++; document.getElementById('inputYear').value = y; }
+  document.getElementById('inputMonth').value = m;
+}
+
+/* ────────────────────────────────────────────────────
+   GENERATE CALENDAR
+   ──────────────────────────────────────────────────── */
+function generateCalendar() {
+  currentYear  = parseInt(document.getElementById('inputYear').value, 10) || 2026;
+  currentMonth = parseInt(document.getElementById('inputMonth').value, 10) || 1;
+
+  // Validate year
+  if (currentYear < 1 || currentYear > 9999) {
+    alert('Please enter a valid year (1–9999)');
+    return;
+  }
+
+  // Update header
+  if (currentView === 'year') {
+    document.getElementById('calTitle').innerHTML =
+      `${currentYear} <span>Calendar</span>`;
+    document.getElementById('calYearBadge').textContent = currentYear;
+    document.getElementById('statusText').textContent =
+      `${currentYear} Full Year Calendar · ${isLeapYear(currentYear) ? 'Leap Year' : 'Regular Year'}`;
+  } else {
+    document.getElementById('calTitle').innerHTML =
+      `${MONTH_NAMES[currentMonth-1]} <span>${currentYear}</span>`;
+    document.getElementById('calYearBadge').textContent = currentYear;
+    document.getElementById('statusText').textContent =
+      `${MONTH_NAMES[currentMonth-1]} ${currentYear}`;
+  }
+
+  // Render
+  const body = document.getElementById('calendarBody');
+  body.innerHTML = '';
+
+  if (currentView === 'year') {
+    body.appendChild(renderYearView(currentYear));
+  } else {
+    body.appendChild(renderMonthView(currentYear, currentMonth));
+  }
+}
+
+/* ────────────────────────────────────────────────────
+   RENDER YEAR VIEW (4×3 grid)
+   ──────────────────────────────────────────────────── */
+function renderYearView(year) {
+  const grid = document.createElement('div');
+  grid.className = 'year-grid';
+
+  for (let m = 1; m <= 12; m++) {
+    grid.appendChild(buildMonthCard(year, m));
+  }
+  return grid;
+}
+
+function buildMonthCard(year, month) {
+  const t     = today();
+  const total = daysInMonth(year, month);
+  const start = firstWeekday(year, month);  // 0=Sun
+
+  const card = document.createElement('div');
+  card.className = 'month-card';
+
+  // Month header
+  card.innerHTML = `
+    <div class="month-name-bar">
+      <div class="month-name">${MONTH_SHORT[month-1]}</div>
+      <div class="month-num">${String(month).padStart(2,'0')}</div>
+    </div>
+    <div class="day-headers">
+      ${DAY_NAMES.map((d,i) =>
+        `<div class="day-header" ${i===0?'style="color:var(--sunday)"':''}>${d[0]}</div>`
+      ).join('')}
+    </div>
+    <div class="days-grid" id="dg_${year}_${month}"></div>
+  `;
+
+  // Build days
+  const grid = card.querySelector('.days-grid');
+
+  // Leading empty cells
+  for (let e = 0; e < start; e++) {
+    const ec = document.createElement('div');
+    ec.className = 'day-cell empty';
+    grid.appendChild(ec);
+  }
+
+  // Day cells
+  for (let d = 1; d <= total; d++) {
+    const dc = document.createElement('div');
+    const wd = (start + d - 1) % 7;  // weekday of this day
+    const hKey = `${month}-${d}`;
+    const isToday = (year === t.y && month === t.m && d === t.d);
+
+    let classes = 'day-cell';
+    if (wd === 0) classes += ' sunday';
+    if (isToday)  classes += ' today';
+    if (HOLIDAYS[hKey]) classes += ' holiday';
+
+    dc.className = classes;
+    dc.textContent = d;
+    if (HOLIDAYS[hKey]) dc.setAttribute('data-holiday', HOLIDAYS[hKey]);
+
+    grid.appendChild(dc);
+  }
+
+  return card;
+}
+
+/* ────────────────────────────────────────────────────
+   RENDER MONTH VIEW (large single month)
+   ──────────────────────────────────────────────────── */
+function renderMonthView(year, month) {
+  const t     = today();
+  const total = daysInMonth(year, month);
+  const start = firstWeekday(year, month);
+
+  const wrap = document.createElement('div');
+  wrap.className = 'month-view';
+
+  // Month view header with nav
+  wrap.innerHTML = `
+    <div class="month-view-header">
+      <div class="month-view-title">
+        ${MONTH_NAMES[month-1]} <span>${year}</span>
+      </div>
+      <div class="month-view-nav">
+        <button class="mnav-btn" onclick="navigateMonth(-1)">‹ Prev</button>
+        <button class="mnav-btn" onclick="navigateMonth(1)">Next ›</button>
+      </div>
+    </div>
+
+    <div class="mv-day-headers">
+      ${DAY_NAMES.map((d,i) =>
+        `<div class="mv-day-hdr${i===0?' sun-hdr':''}">${d}</div>`
+      ).join('')}
+    </div>
+
+    <div class="mv-days-grid" id="mvGrid"></div>
+  `;
+
+  const grid = wrap.querySelector('#mvGrid');
+
+  // Leading empties
+  for (let e = 0; e < start; e++) {
+    const ec = document.createElement('div');
+    ec.className = 'mv-day-cell mv-empty';
+    grid.appendChild(ec);
+  }
+
+  // Days
+  for (let d = 1; d <= total; d++) {
+    const dc = document.createElement('div');
+    const wd = (start + d - 1) % 7;
+    const hKey = `${month}-${d}`;
+    const isToday = (year === t.y && month === t.m && d === t.d);
+
+    let classes = 'mv-day-cell';
+    if (wd === 0)      classes += ' mv-sunday';
+    if (isToday)       classes += ' mv-today';
+    if (HOLIDAYS[hKey]) classes += ' mv-holiday';
+
+    dc.className = classes;
+    if (HOLIDAYS[hKey]) dc.setAttribute('data-holiday', HOLIDAYS[hKey]);
+
+    dc.innerHTML = `<span class="mv-day-num">${d}</span>`;
+    if (HOLIDAYS[hKey]) {
+      dc.innerHTML += `<span class="mv-holiday-label">${HOLIDAYS[hKey]}</span>`;
+    }
+
+    grid.appendChild(dc);
+  }
+
+  // Trailing empties to complete last row
+  const totalCells = start + total;
+  const remainder  = totalCells % 7;
+  if (remainder !== 0) {
+    for (let e = 0; e < (7 - remainder); e++) {
+      const ec = document.createElement('div');
+      ec.className = 'mv-day-cell mv-empty';
+      grid.appendChild(ec);
+    }
+  }
+
+  return wrap;
+}
+
+/* Navigate month view */
+function navigateMonth(dir) {
+  let m = currentMonth + dir;
+  let y = currentYear;
+  if (m < 1)  { m = 12; y--; }
+  if (m > 12) { m = 1;  y++; }
+  currentMonth = m;
+  currentYear  = y;
+  document.getElementById('inputYear').value  = y;
+  document.getElementById('inputMonth').value = m;
+  generateCalendar();
+}
+
+/* ────────────────────────────────────────────────────
+   THEME TOGGLE
+   ──────────────────────────────────────────────────── */
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? '' : 'light');
+  document.getElementById('themeBtn').textContent =
+    isDark ? '🌙 Dark Mode' : '☀️ Light Mode';
+}
+
+/* ────────────────────────────────────────────────────
+   EXPORT FUNCTIONS
+   ──────────────────────────────────────────────────── */
+function showOverlay(msg) {
+  document.getElementById('overlayText').textContent = msg;
+  document.getElementById('exportOverlay').classList.add('active');
+}
+function hideOverlay() {
+  document.getElementById('exportOverlay').classList.remove('active');
+}
+
+async function exportAs(format) {
+  const el = document.getElementById('calendar-output');
+  showOverlay(`GENERATING ${format.toUpperCase()}…`);
+
+  try {
+    await new Promise(r => setTimeout(r, 100)); // allow repaint
+
+    const canvas = await html2canvas(el, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: isDark ? '#030812' : '#e8f0f8',
+      logging: false,
+    });
+
+    const yearStr  = currentYear;
+    const viewStr  = currentView === 'year' ? 'Full_Year' : MONTH_NAMES[currentMonth-1];
+    const filename = `QCDS_Calendar_${yearStr}_${viewStr}`;
+
+    if (format === 'png') {
+      const link = document.createElement('a');
+      link.download = filename + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+    } else if (format === 'jpg') {
+      const link = document.createElement('a');
+      link.download = filename + '.jpg';
+      link.href = canvas.toDataURL('image/jpeg', 0.92);
+      link.click();
+
+    } else if (format === 'pdf') {
+      const { jsPDF } = window.jspdf;
+      const imgData = canvas.toDataURL('image/png');
+      const cw = canvas.width, ch = canvas.height;
+      // Landscape A4 if wide, portrait if tall
+      const orientation = cw > ch ? 'l' : 'p';
+      const pdf = new jsPDF({ orientation, unit: 'px', format: [cw/2, ch/2] });
+      pdf.addImage(imgData, 'PNG', 0, 0, cw/2, ch/2);
+      pdf.save(filename + '.pdf');
+    }
+  } catch(err) {
+    alert('Export failed: ' + err.message);
+  } finally {
+    hideOverlay();
+  }
+}
+function printCalendar() {
+  window.print();
+}
+
+
+
+/* ────────────────────────────────────────────────────
+   INIT — generate on load
+   ──────────────────────────────────────────────────── */
+(function init() {
+  // Set current month in selector
+  const t = today();
+  const urlYear = new URLSearchParams(window.location.search).get('year');
+  if (urlYear) document.getElementById('inputYear').value = urlYear;
+
+  generateCalendar();
+
+  // Keyboard shortcut: G = generate, P = print
+  document.addEventListener('keydown', e => {
+    if (e.key === 'g' && !e.ctrlKey) generateCalendar();
+    if (e.key === 'p' && e.ctrlKey) { e.preventDefault(); printCalendar(); }
+  });
+})();
+</script>
+</body>
+</html>
