@@ -416,6 +416,54 @@ img { max-width: 100%; height: auto; }
         }
         .btn-ghost:hover { border-color:var(--primary); color:var(--primary); }
 
+        .btn-secondary {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            color: var(--text);
+            box-shadow: var(--shadow-sm); /* light shadow like others */
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-md), var(--shadow-glow);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(0,180,216,0.3);
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .hero-actions .btn {
+            flex: 1 1 200px;   /* equal width */
+            max-width: 220px;  /* optional limit */
+            justify-content: center;
+        }
+
+        /* ✅ Mobile + Tablet Fix */
+        @media (max-width: 1024px) {
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+                max-width: 100%;
+                flex: none;
+            }
+        }
+
         /* ── Navbar ── */
         .navbar {
             position:fixed; top:0; left:0; width:100%;
@@ -1173,6 +1221,9 @@ img { max-width: 100%; height: auto; }
                         </a>
                         <a href="mailto:quantumcoderstechlab@gmail.com" class="btn btn-accent">
                             <i class="fas fa-envelope"></i> Email Us Now
+                        </a>
+                        <a href="./qcds_items/calender.html" class="btn btn-secondary">
+                            <i class="fas fa-calendar-alt"></i> Calendar
                         </a>
                     </div>
 
