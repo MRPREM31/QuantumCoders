@@ -1083,16 +1083,26 @@ body::after {
 'use strict';
 
 const API_URL = "https://script.google.com/macros/s/AKfycbymuwX6sf3uhh1pmU2SpSp9N7OuCYsEd7r78hBttEGQXzBf2PtDamN8EnqFHLUoIYApGg/exec";
-const SECRET = "mypassword123";
+
+function askAuth() {
+  const name = prompt("Enter your name:");
+  const email = prompt("Enter company email:");
+  const password = prompt("Enter company password:");
+
+  if (!name || !email || !password) {
+    alert("All fields required!");
+    return null;
+  }
+
+  return { name, email, password };
+}
 
 
 async function saveEventToSheet(data) {
   await fetch(API_URL, {
     method: "POST",
-    body: JSON.stringify({
-      ...data,
-      secret: SECRET
-    })
+    mode: "no-cors",   // 🔥 IMPORTANT FIX
+    body: JSON.stringify(data)
   });
 }
 
@@ -1444,9 +1454,15 @@ function saveEventFromModal() {
     };
 
     // Save to Google Sheet
+    const auth = askAuth();
+    if (!auth) return;
+
     saveEventToSheet({
       action: "add",
-      ...newEvent
+      ...newEvent,
+      name: auth.name,
+      email: auth.email,
+      password: auth.password
     });
 
     // Save locally also
@@ -1525,9 +1541,14 @@ async function deleteEvent(evId, key) {
   renderCalendar();
 
   // Delete from Google Sheet
+  const auth = askAuth();
+  if (!auth) return;
+
   await saveEventToSheet({
     action: "delete",
-    id: evId
+    id: evId,
+    email: auth.email,
+    password: auth.password
   });
 
   // Refresh detail modal
@@ -1541,27 +1562,27 @@ async function deleteEvent(evId, key) {
 
 
 async function loadEventsFromSheet() {
-  const res = await fetch(API_URL);
-  const data = await res.json();
+  try {
+    const res = await fetch(API_URL);
+    const text = await res.text();
 
-  state.userEvents = {};
+    const data = JSON.parse(text); // safe parse
 
-  data.slice(1).forEach(row => {
-    const [id, title, date, note, color] = row;
+    state.userEvents = {};
 
-    if (!state.userEvents[date]) {
-      state.userEvents[date] = [];
-    }
+    data.slice(1).forEach(row => {
+      const [id, title, date, note, color] = row;
 
-    state.userEvents[date].push({
-      id: Number(id),
-      title,
-      note,
-      color
+      if (!state.userEvents[date]) state.userEvents[date] = [];
+
+      state.userEvents[date].push({
+        id, title, date, note, color
+      });
     });
-  });
 
-  renderCalendar();
+  } catch (err) {
+    console.error("Load error:", err);
+  }
 }
 
 
@@ -1722,7 +1743,7 @@ function updateNamePrint(name) {
   loadEvents();
   setTheme(loadTheme());
 
-  loadEventsFromSheet();
+  // loadEventsFromSheet();
 
   // Bind all events
   bindEvents();
