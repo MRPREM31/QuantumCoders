@@ -1197,7 +1197,7 @@ img { max-width: 100%; height: auto; }
                     
                     <div class="hero-badge fade-up">
                         <span class="dot"></span>
-                        <span>Trusted DesiCrew Vendor · 1.5+ Years Active</span>
+                        <span id="festival-message">Trusted DesiCrew Vendor · 1.5+ Years Active</span>
                     </div>
 
                     <h1 class="display-font">
@@ -2453,6 +2453,111 @@ img { max-width: 100%; height: auto; }
     </a>
 
     <script>
+
+    const API_URL = "https://script.google.com/macros/s/AKfycbyzHudH8CCelv8e22EGQxdHg1oRIOdPg-GAqofoIUQRAh-MDxPyAw7KR5Y3KuZYQ8_VDA/exec"; // paste your URL
+
+            const PERMANENT_EVENTS = {
+            '0000-01-01': [{ title: "New Year's Day", color: 'c4', permanent: true }],
+            '0000-01-14': [{ title: 'Makar Sankranti', color: 'c4', permanent: true }],
+            '0000-01-26': [{ title: 'Republic Day', color: 'c4', permanent: true }],
+            '0000-04-14': [{ title: 'Dr. Ambedkar Jayanti', color: 'c4', permanent: true }],
+            '0000-05-01': [{ title: 'Labour Day', color: 'c4', permanent: true }],
+            '0000-08-15': [{ title: 'Independence Day', color: 'c4', permanent: true }],
+            '0000-10-02': [{ title: 'Gandhi Jayanti', color: 'c4', permanent: true }],
+            '0000-11-14': [{ title: "Children's Day", color: 'c4', permanent: true }],
+            '0000-12-25': [{ title: 'Christmas Day', color: 'c4', permanent: true }],
+
+            // QCDS events
+            '2023-01-01': [{ title: 'QCDS Founded', color: 'c1', permanent: true }],
+            '2026-01-01': [{ title: 'QCDS 3rd Year!', color: 'c3', permanent: true }],
+            };
+
+            const EVENT_MESSAGES = {
+            "HBD MR.PREM": "🎂 Happy Birthday MR. PREM! Wishing you success 🚀",
+            "Buddha Purnima": "🧘 Peace, wisdom & enlightenment.",
+            "Mother’s Day": "💐 Celebrating love of mothers.",
+            "Father’s Day": "👨‍👧 Honoring fathers.",
+            "Diwali": "🪔 Light over darkness — Happy Diwali!",
+            "Raksha Bandhan": "🎁 Bond of protection & love.",
+            "Janmashtami": "🦚 Jai Shri Krishna!",
+            "Ganesh Chaturthi": "🐘 Ganpati Bappa Morya!",
+            "Dussehra": "🏹 Victory of good over evil.",
+            "Christmas": "🎄 Merry Christmas!",
+            "New Year's": "🎆 Happy New Year!",
+            "Independence Day": "🇮🇳 Proud to be Indian!",
+            "Republic Day": "🇮🇳 Celebrating our constitution!"
+            };
+
+            function getMessage(title) {
+                const cleanTitle = title.toLowerCase().replace(/[^a-z0-9 ]/g, "");
+
+                let key = Object.keys(EVENT_MESSAGES).find(k =>
+                    cleanTitle.includes(k.toLowerCase().replace(/[^a-z0-9 ]/g, ""))
+                );
+
+                if (key) return EVENT_MESSAGES[key];
+
+                return `🎉 Happy ${title}!`;
+            }
+
+            async function loadTodayEvent() {
+                const box = document.getElementById("festival-message");
+
+                try {
+                    const res = await fetch(API_URL);
+                    const data = await res.json();
+
+                    const today = new Date();
+                    const fullDate = today.toISOString().split("T")[0];
+                    const shortDate = "0000-" + fullDate.slice(5);
+
+                    let events = [];
+
+                    // Sheet events
+                    if (data.status === "success") {
+                        events = data.events.filter(e => e.date === fullDate);
+                    }
+
+                    // Permanent events
+                    if (PERMANENT_EVENTS[shortDate]) {
+                        events.push(...PERMANENT_EVENTS[shortDate]);
+                    }
+                    if (PERMANENT_EVENTS[fullDate]) {
+                        events.push(...PERMANENT_EVENTS[fullDate]);
+                    }
+
+                    // ✅ Show message
+                    // Remove duplicate titles
+                    events = events.filter((v, i, a) =>
+                        a.findIndex(t => t.title === v.title && t.date === v.date) === i
+                    );
+
+                    if (events.length > 0) {
+                        box.innerHTML = events.map(e =>
+                            `<div style="
+                                padding:6px 10px;
+                            ">
+                                ${getMessage(e.title)}
+                            </div>`
+                        ).join("");
+                    } else {
+                            // ✅ DEFAULT (NO EVENT)
+                            box.innerHTML = `
+                                🏆 <strong>Trusted DesiCrew Vendor</strong> · 
+                                <span style="color:#4CAF50; font-weight:600;">1.5+ Years Active</span>
+                            `;
+                        }
+                        } catch (err) {
+                            box.innerHTML = "⚠️ Unable to load events.";
+                        }
+                    }
+
+            // Run on load
+            loadTodayEvent();
+
+            // Auto refresh every 1 hour (safe + lightweight)
+            setInterval(loadTodayEvent, 60 * 60 * 1000);
+
     document.addEventListener('DOMContentLoaded', () => {
         initTheme();
         initNav();
