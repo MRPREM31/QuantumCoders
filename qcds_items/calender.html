@@ -1082,6 +1082,20 @@ body::after {
 <script>
 'use strict';
 
+const API_URL = "https://script.google.com/macros/s/AKfycbymuwX6sf3uhh1pmU2SpSp9N7OuCYsEd7r78hBttEGQXzBf2PtDamN8EnqFHLUoIYApGg/exec";
+const SECRET = "mypassword123";
+
+
+async function saveEventToSheet(data) {
+  await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      ...data,
+      secret: SECRET
+    })
+  });
+}
+
 /* ============================================================
    CONSTANTS
    ============================================================ */
@@ -1421,12 +1435,23 @@ function saveEventFromModal() {
   } else {
     // New event
     if (!state.userEvents[dateVal]) state.userEvents[dateVal] = [];
-    state.userEvents[dateVal].push({
-      id:    uid(),
+    const newEvent = {
+      id: Date.now(), // IMPORTANT
       title: titleVal,
-      note:  $('eventNote').value.trim(),
-      color: state.selectedColor,
+      date: dateVal,
+      note: $('eventNote').value.trim(),
+      color: state.selectedColor
+    };
+
+    // Save to Google Sheet
+    saveEventToSheet({
+      action: "add",
+      ...newEvent
     });
+
+    // Save locally also
+    if (!state.userEvents[dateVal]) state.userEvents[dateVal] = [];
+    state.userEvents[dateVal].push(newEvent);
     toast('✅ Event added', 'success');
   }
 
@@ -1488,19 +1513,57 @@ function openDetailModal(y, m, d) {
   openModal('detailModal');
 }
 
-function deleteEvent(evId, key) {
+async function deleteEvent(evId, key) {
   const arr = state.userEvents[key] || [];
-  state.userEvents[key] = arr.filter(e => e.id !== evId);
+
+  // FIX: convert both to string
+  state.userEvents[key] = arr.filter(e => String(e.id) !== String(evId));
+
   if (state.userEvents[key].length === 0) delete state.userEvents[key];
+
   saveEvents();
   renderCalendar();
+
+  // Delete from Google Sheet
+  await saveEventToSheet({
+    action: "delete",
+    id: evId
+  });
+
   // Refresh detail modal
   if (state.selectedDate) {
     const { y, m, d } = state.selectedDate;
     openDetailModal(y, m, d);
   }
+
   toast('🗑️ Event deleted', 'info');
 }
+
+
+async function loadEventsFromSheet() {
+  const res = await fetch(API_URL);
+  const data = await res.json();
+
+  state.userEvents = {};
+
+  data.slice(1).forEach(row => {
+    const [id, title, date, note, color] = row;
+
+    if (!state.userEvents[date]) {
+      state.userEvents[date] = [];
+    }
+
+    state.userEvents[date].push({
+      id: Number(id),
+      title,
+      note,
+      color
+    });
+  });
+
+  renderCalendar();
+}
+
 
 /* ============================================================
    TOAST
@@ -1658,6 +1721,8 @@ function updateNamePrint(name) {
   // Load persisted state
   loadEvents();
   setTheme(loadTheme());
+
+  loadEventsFromSheet();
 
   // Bind all events
   bindEvents();
