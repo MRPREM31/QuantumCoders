@@ -872,6 +872,7 @@ body::after {
       </button>
     </div>
     <div class="toolbar-right">
+      <button class="btn btn-ghost" onclick="logout()">Logout</button>
       <!-- Export dropdown -->
       <div class="export-wrap" id="exportWrap">
         <button class="btn btn-ghost" id="exportBtn">
@@ -1082,28 +1083,63 @@ body::after {
 <script>
 'use strict';
 
-const API_URL = "https://script.google.com/macros/s/AKfycbymuwX6sf3uhh1pmU2SpSp9N7OuCYsEd7r78hBttEGQXzBf2PtDamN8EnqFHLUoIYApGg/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyzHudH8CCelv8e22EGQxdHg1oRIOdPg-GAqofoIUQRAh-MDxPyAw7KR5Y3KuZYQ8_VDA/exec";
 
 function askAuth() {
-  const name = prompt("Enter your name:");
-  const email = prompt("Enter company email:");
-  const password = prompt("Enter company password:");
+  let name = localStorage.getItem("name");
+  let email = localStorage.getItem("email");
+  let password = localStorage.getItem("password");
+
+  // If already saved → don't ask again
+  if (name && email && password) {
+    return { name, email, password };
+  }
+
+  // Ask only first time
+  name = prompt("Enter your name:");
+  email = prompt("Enter company email:");
+  password = prompt("Enter company password:");
 
   if (!name || !email || !password) {
     alert("All fields required!");
     return null;
   }
 
+  // Save for future
+  localStorage.setItem("name", name);
+  localStorage.setItem("email", email);
+  localStorage.setItem("password", password);
+
   return { name, email, password };
 }
 
 
 async function saveEventToSheet(data) {
-  await fetch(API_URL, {
-    method: "POST",
-    mode: "no-cors",   // 🔥 IMPORTANT FIX
-    body: JSON.stringify(data)
-  });
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (result.status === "error") {
+      alert("❌ Unauthorized! Wrong email or password");
+
+      // clear wrong credentials
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+
+      return false;
+    }
+
+    return true;
+
+  } catch (err) {
+    alert("⚠️ Server error or CORS issue");
+    return false;
+  }
 }
 
 /* ============================================================
@@ -1423,7 +1459,7 @@ function selectColor(c) {
   });
 }
 
-function saveEventFromModal() {
+async function saveEventFromModal() {
   const dateVal  = $('eventDate').value;
   const titleVal = $('eventTitle').value.trim();
   if (!dateVal || !titleVal) {
@@ -1457,7 +1493,7 @@ function saveEventFromModal() {
     const auth = askAuth();
     if (!auth) return;
 
-    saveEventToSheet({
+    const success = await saveEventToSheet({
       action: "add",
       ...newEvent,
       name: auth.name,
@@ -1465,15 +1501,32 @@ function saveEventFromModal() {
       password: auth.password
     });
 
-    // Save locally also
+    if (!success) return;
+
+    // Save locally only if success
     if (!state.userEvents[dateVal]) state.userEvents[dateVal] = [];
     state.userEvents[dateVal].push(newEvent);
+
     toast('✅ Event added', 'success');
   }
 
   saveEvents();
   closeModal('eventModal');
   renderCalendar();
+}
+
+/* ============================================================
+   logout
+   ============================================================ */
+
+function logout() {
+  localStorage.removeItem("email");
+  localStorage.removeItem("password");
+  localStorage.removeItem("name");
+
+  alert("Logged out successfully");
+
+  location.reload();
 }
 
 /* ============================================================
@@ -1529,59 +1582,55 @@ function openDetailModal(y, m, d) {
   openModal('detailModal');
 }
 
-async function deleteEvent(evId, key) {
-  const arr = state.userEvents[key] || [];
-
-  // FIX: convert both to string
-  state.userEvents[key] = arr.filter(e => String(e.id) !== String(evId));
-
-  if (state.userEvents[key].length === 0) delete state.userEvents[key];
-
-  saveEvents();
-  renderCalendar();
-
-  // Delete from Google Sheet
+async function deleteEvent(id, dateKey) {
   const auth = askAuth();
   if (!auth) return;
 
-  await saveEventToSheet({
+  const success = await saveEventToSheet({
     action: "delete",
-    id: evId,
+    id: id,
     email: auth.email,
     password: auth.password
   });
 
-  // Refresh detail modal
-  if (state.selectedDate) {
-    const { y, m, d } = state.selectedDate;
-    openDetailModal(y, m, d);
-  }
+  if (!success) return;
 
-  toast('🗑️ Event deleted', 'info');
+  state.userEvents[dateKey] =
+    (state.userEvents[dateKey] || []).filter(e => e.id !== id);
+
+  renderCalendar();
+  toast("🗑️ Event deleted", "success");
 }
 
 
 async function loadEventsFromSheet() {
   try {
     const res = await fetch(API_URL);
-    const text = await res.text();
+    const result = await res.json();
 
-    const data = JSON.parse(text); // safe parse
+    if (result.status !== "success") return;
+
+    const data = result.events; // ✅ FIX
 
     state.userEvents = {};
 
-    data.slice(1).forEach(row => {
-      const [id, title, date, note, color] = row;
+    data.forEach(ev => {
+      if (!state.userEvents[ev.date]) {
+        state.userEvents[ev.date] = [];
+      }
 
-      if (!state.userEvents[date]) state.userEvents[date] = [];
-
-      state.userEvents[date].push({
-        id, title, date, note, color
+      state.userEvents[ev.date].push({
+        id: ev.id,
+        title: ev.title,
+        note: ev.note,
+        color: ev.color
       });
     });
 
+    renderCalendar();
+
   } catch (err) {
-    console.error("Load error:", err);
+    console.log("Error:", err);
   }
 }
 
@@ -1735,6 +1784,12 @@ function updateNamePrint(name) {
   $('namePrint').textContent = name ? `Prepared for: ${name}` : '';
 }
 
+function startRealtimeSync() {
+  setInterval(() => {
+    loadEventsFromSheet();
+  }, 5000); // every 5 seconds
+}
+
 /* ============================================================
    INIT
    ============================================================ */
@@ -1743,7 +1798,8 @@ function updateNamePrint(name) {
   loadEvents();
   setTheme(loadTheme());
 
-  // loadEventsFromSheet();
+  loadEventsFromSheet();
+  startRealtimeSync();
 
   // Bind all events
   bindEvents();
