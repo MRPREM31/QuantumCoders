@@ -406,6 +406,23 @@
             font-weight: 600;
         }
 
+        .powered-by {
+            text-align: center;
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        [data-theme="light"] .powered-by {
+            color: rgba(0,0,0,0.5);
+        }
+
+        .powered-by span {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
         /* ===== CHAT CONTAINER ===== */
         .chat-container {
             height: 100vh;
@@ -1615,6 +1632,9 @@
                         <button class="input-action" onclick="clearInput()" title="Clear Input" aria-label="Clear input">
                             <i class="fas fa-times"></i>
                         </button>
+                    </div>
+                    <div class="powered-by">
+                        Powered by <span>Groq API</span>
                     </div>
                 </div>
                 
