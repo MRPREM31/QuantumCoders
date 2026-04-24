@@ -422,6 +422,15 @@
             font-weight: 600;
             color: var(--primary);
         }
+        .powered-by a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .powered-by a:hover {
+            text-decoration: underline;
+        }
 
         /* ===== CHAT CONTAINER ===== */
         .chat-container {
@@ -1634,9 +1643,10 @@
                         </button>
                     </div>
                     <div class="powered-by">
-                        Powered by <span>Groq API</span>
+                        Powered by 
+                        <a href="https://groq.com" target="_blank">Groq API</a>
+                        </div>
                     </div>
-                </div>
                 
                 <button class="send-btn" onclick="sendMessage()" id="sendBtn" title="Send Message" aria-label="Send message">
                     <i class="fas fa-paper-plane"></i>
