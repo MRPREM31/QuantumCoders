@@ -287,13 +287,55 @@ html, body {
   padding: 16px 20px 0; overflow: hidden;
 }
 .back-wm {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  opacity: 0.035; pointer-events: none; text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    pointer-events: none;
+    z-index: 0; /* keep behind content */
+    
+    opacity: 0.06; /* perfect watermark visibility */
 }
-.back-wm .wm-atom { font-size: 7rem; color: white; }
-.back-wm .wm-txt {
-  font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 900;
-  letter-spacing: 2px; color: white; white-space: nowrap; line-height: 1.4;
+
+/* LOGO */
+/* BIG LOGO */
+.wm-logo {
+    width: 260px;        /* 🔥 increased size */
+    max-width: 90%;
+    object-fit: contain;
+
+    filter: 
+        grayscale(100%) 
+        brightness(200%) 
+        contrast(120%);
+    
+    margin-bottom: 12px;
+}
+
+/* TEXT BELOW LOGO */
+.wm-txt {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-align: center;
+
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.4;
+
+    text-transform: uppercase;
+}
+.wm-logo {
+    filter: 
+        grayscale(100%) 
+        brightness(200%) 
+        drop-shadow(0 0 20px rgba(0,180,216,0.2));
 }
 .back-abar {
   width: 75%; height: 2px; border-radius: 2px; flex-shrink: 0;
@@ -595,9 +637,9 @@ html, body {
         <div class="back-inner">
           <div class="back-wm">
             <img src="https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDL.png" 
-         alt="QCDS Logo"
-         class="wm-logo">
-            <div class="wm-txt">QUANTUMCODERS<br>DATA SOLUTION</div>
+            alt="QCDS Logo"
+            class="wm-logo">
+                <div class="wm-txt">QUANTUMCODERS<br>DATA SOLUTION</div>
           </div>
 
           <div class="back-abar"></div>
@@ -665,8 +707,7 @@ html, body {
 
   <div class="dl-row" id="dlRow" style="display:none;">
     <button class="dl-btn png"   onclick="downloadPNG()"><i class="fas fa-image"></i> Download PNG</button>
-    <button class="dl-btn pdf"   onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button>
-    <button class="dl-btn print" onclick="printCard()"><i class="fas fa-print"></i> Print Card</button>
+    <button class="dl-btn pdf"   onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button> 
   </div>
 
   <div class="blink-wrap" id="blinkWrap" style="display:none;">
