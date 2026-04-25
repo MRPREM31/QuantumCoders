@@ -2,136 +2,788 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QCDS Identity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>QCDS Digital Identity Card</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 <style>
-body {
-    margin:0;
-    font-family: 'Segoe UI', sans-serif;
-    background:#f2f2f2;
-}
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* HEADER */
-.header {
-    background: linear-gradient(135deg,#cfa95d,#8b6b2f);
-    text-align:center;
-    padding:40px 20px;
-    color:white;
-}
+  :root {
+    --navy:    #0a2d52;
+    --primary: #0f4c81;
+    --plight:  #1a6bb5;
+    --cyan:    #00b4d8;
+    --orange:  #f77f00;
+    --gold:    #fcbf49;
+    --white:   #ffffff;
+    --offwhite:#f0f6ff;
+    --muted:   #8ba5c2;
+    --card-bg: rgba(255,255,255,0.05);
+    --border:  rgba(255,255,255,0.12);
+  }
 
-.profile-img {
-    width:120px;
-    height:120px;
-    border-radius:50%;
-    border:4px solid white;
-    object-fit:cover;
-}
+  html, body {
+    min-height: 100%;
+    font-family: 'Sora', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
 
-/* CARD */
-.container {
-    max-width:500px;
-    margin:-40px auto 20px;
-    background:white;
-    padding:20px;
-    border-radius:12px;
-}
+  /* ── BACKGROUND ── */
+  .page-bg {
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(160deg, #041525 0%, #0a2d52 40%, #0d3a66 70%, #061c33 100%);
+    z-index: 0;
+  }
+  .page-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.025) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.025) 40px);
+  }
+  .page-bg::after {
+    content: '';
+    position: absolute;
+    top: -30%; left: -20%;
+    width: 80%; height: 80%;
+    background: radial-gradient(ellipse, rgba(0,180,216,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .orb2 {
+    position: fixed;
+    bottom: -20%; right: -10%;
+    width: 60%; height: 60%;
+    background: radial-gradient(ellipse, rgba(247,127,0,0.07) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-/* LINKS */
-.link {
-    display:flex;
-    justify-content:space-between;
-    padding:12px;
-    margin:10px 0;
-    background:#f5f5f5;
-    border-radius:10px;
-    text-decoration:none;
-    color:black;
-}
+  /* ── LOADING ── */
+  #loader {
+    position: fixed; inset: 0; z-index: 999;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 20px;
+    background: #041525;
+    transition: opacity 0.5s, visibility 0.5s;
+  }
+  #loader.hidden { opacity: 0; visibility: hidden; }
+  .loader-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem; font-weight: 900; letter-spacing: 4px;
+    background: linear-gradient(135deg, #00b4d8, #0f4c81);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .loader-bar {
+    width: 200px; height: 3px; background: rgba(255,255,255,0.1);
+    border-radius: 2px; overflow: hidden;
+  }
+  .loader-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #0f4c81, #00b4d8, #f77f00);
+    border-radius: 2px;
+    animation: loadfill 1.8s ease forwards;
+  }
+  @keyframes loadfill { to { width: 100%; } }
 
-/* QR */
-#qrcode {
-    margin-top:20px;
-    text-align:center;
-}
+  /* ── WRAPPER ── */
+  .wrapper {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 28px 16px 48px;
+  }
+
+  /* ── TOP STRIP ── */
+  .top-strip {
+    width: 100%; max-width: 460px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+    opacity: 0; animation: fadeUp 0.6s 0.2s ease forwards;
+  }
+  .company-link {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .company-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--cyan));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; color: white;
+    box-shadow: 0 4px 16px rgba(0,180,216,0.3);
+  }
+  .company-icon img { width: 28px; height: 28px; object-fit: contain; }
+  .company-name-wrap { display: flex; flex-direction: column; line-height: 1.2; }
+  .company-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--primary), var(--cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .company-sub { font-size: 0.6rem; font-weight: 600; color: var(--orange); letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .verified-badge {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 50px;
+    background: rgba(6,214,160,0.12); border: 1px solid rgba(6,214,160,0.3);
+    font-size: 0.7rem; font-weight: 700; color: #06d6a0;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .verified-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #06d6a0;
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity: 0.3; } }
+
+  /* ── MAIN CARD ── */
+  .id-card {
+    width: 100%; max-width: 460px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 28px;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,180,216,0.08);
+    opacity: 0; animation: fadeUp 0.6s 0.4s ease forwards;
+  }
+
+  /* ── CARD HEADER ── */
+  .card-header {
+    position: relative;
+    background: linear-gradient(135deg, var(--navy), var(--primary));
+    padding: 36px 28px 100px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .card-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 0% 100%, rgba(0,180,216,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 0%, rgba(247,127,0,0.1) 0%, transparent 50%);
+  }
+  .card-header::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0; height: 60px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
+
+  /* decorative hex pattern */
+  .hex-pattern {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 0L28 7v14l-14 7L0 21V7z' fill='none' stroke='white' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 28px 28px;
+  }
+
+  .header-id-num {
+    position: relative; z-index: 1;
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 3px;
+    color: rgba(255,255,255,0.4); text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  /* ── PHOTO ── */
+  .photo-frame {
+    position: relative; z-index: 1;
+    display: inline-block; margin-bottom: 0;
+  }
+  .photo-ring {
+    width: 120px; height: 120px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan), var(--orange), var(--primary));
+    padding: 3px; margin: 0 auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 6px rgba(0,180,216,0.1);
+    animation: ringPulse 3s ease-in-out infinite;
+  }
+  @keyframes ringPulse {
+    0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 6px rgba(0,180,216,0.1); }
+    50%       { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 10px rgba(0,180,216,0.05); }
+  }
+  .photo-inner {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .photo-inner img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .photo-placeholder {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem; font-weight: 900;
+    background: linear-gradient(135deg, var(--cyan), var(--primary));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  /* photo corner chevrons */
+  .photo-corner {
+    position: absolute;
+    width: 18px; height: 18px;
+  }
+  .photo-corner.tl { top: -4px; left: -4px; border-top: 2px solid var(--orange); border-left: 2px solid var(--orange); }
+  .photo-corner.tr { top: -4px; right: -4px; border-top: 2px solid var(--orange); border-right: 2px solid var(--orange); }
+  .photo-corner.bl { bottom: -4px; left: -4px; border-bottom: 2px solid var(--orange); border-left: 2px solid var(--orange); }
+  .photo-corner.br { bottom: -4px; right: -4px; border-bottom: 2px solid var(--orange); border-right: 2px solid var(--orange); }
+
+  /* ── CARD BODY ── */
+  .card-body { padding: 0 28px 28px; }
+
+  /* Name block floats above body */
+  .name-block {
+    margin-top: -52px;
+    text-align: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .member-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem; font-weight: 800; letter-spacing: 1px;
+    color: var(--white); margin-bottom: 4px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  .member-role {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+    color: var(--cyan); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .member-tags {
+    display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+  }
+  .tag {
+    padding: 3px 10px; border-radius: 50px;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px;
+    background: rgba(0,180,216,0.12); border: 1px solid rgba(0,180,216,0.3);
+    color: var(--cyan); text-transform: uppercase;
+  }
+  .tag.orange { background: rgba(247,127,0,0.12); border-color: rgba(247,127,0,0.3); color: var(--gold); }
+
+  /* ── INFO ROWS ── */
+  .info-section { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .info-section:last-of-type { border-bottom: none; }
+  .info-section-label {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .info-section-label::after {
+    content: ''; flex: 1; height: 1px; background: rgba(247,127,0,0.2);
+  }
+
+  .info-row {
+    display: flex; align-items: center;
+    gap: 12px; padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-icon {
+    width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; color: var(--cyan);
+  }
+  .info-label { font-size: 0.65rem; color: var(--muted); margin-bottom: 1px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .info-value { font-size: 0.85rem; font-weight: 600; color: var(--white); }
+  .info-value a { color: var(--cyan); text-decoration: none; }
+  .info-value a:hover { color: var(--gold); }
+
+  /* ── ACTION BUTTONS ── */
+  .action-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin: 20px 0;
+  }
+  .action-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 16px; border-radius: 12px;
+    text-decoration: none; font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer; border: none; font-family: 'Sora', sans-serif;
+  }
+  .action-btn:hover { transform: translateY(-2px); }
+  .action-btn.call {
+    background: linear-gradient(135deg, #0f4c81, #1a6bb5);
+    color: white; box-shadow: 0 6px 20px rgba(15,76,129,0.4);
+  }
+  .action-btn.call:hover { box-shadow: 0 10px 30px rgba(15,76,129,0.5); }
+  .action-btn.whatsapp {
+    background: linear-gradient(135deg, #128c7e, #25d366);
+    color: white; box-shadow: 0 6px 20px rgba(37,211,102,0.3);
+  }
+  .action-btn.whatsapp:hover { box-shadow: 0 10px 30px rgba(37,211,102,0.4); }
+  .action-btn.email {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: white; box-shadow: 0 6px 20px rgba(231,76,60,0.3);
+  }
+  .action-btn.email:hover { box-shadow: 0 10px 30px rgba(231,76,60,0.4); }
+  .action-btn.upi {
+    background: linear-gradient(135deg, #6a0dad, #9b59b6);
+    color: white; box-shadow: 0 6px 20px rgba(155,89,182,0.3);
+  }
+  .action-btn.upi:hover { box-shadow: 0 10px 30px rgba(155,89,182,0.4); }
+  .action-btn.site {
+    background: linear-gradient(135deg, var(--orange), var(--gold));
+    color: var(--navy); box-shadow: 0 6px 20px rgba(247,127,0,0.3);
+    grid-column: 1 / -1;
+  }
+  .action-btn.site:hover { box-shadow: 0 10px 30px rgba(247,127,0,0.4); }
+  .btn-icon { font-size: 0.95rem; }
+
+  /* ── UPI COPY ── */
+  .upi-copy-row {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 10px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: -4px; gap: 10px;
+  }
+  .upi-id-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem; color: var(--gold);
+    flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .copy-btn {
+    padding: 4px 12px; border-radius: 6px; border: 1px solid rgba(247,127,0,0.3);
+    background: rgba(247,127,0,0.1); color: var(--orange);
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 1px;
+    cursor: pointer; font-family: 'Sora', sans-serif; text-transform: uppercase;
+    transition: background 0.2s;
+  }
+  .copy-btn:hover { background: rgba(247,127,0,0.2); }
+
+  /* ── QR SECTION ── */
+  .qr-section {
+    margin-top: 20px; padding: 20px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px; text-align: center;
+  }
+  .qr-label {
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 2px;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 14px;
+  }
+  #qrcode canvas {
+    border-radius: 12px;
+    padding: 10px; background: white;
+    max-width: 130px; max-height: 130px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .qr-hint {
+    font-size: 0.65rem; color: var(--muted); margin-top: 10px; line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  .card-footer {
+    padding: 16px 28px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.15);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 8px;
+  }
+  .footer-brand {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem; font-weight: 800; letter-spacing: 2px;
+    color: rgba(255,255,255,0.25);
+  }
+  .footer-copy {
+    font-size: 0.62rem; color: rgba(255,255,255,0.2);
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 50px; font-size: 0.6rem; font-weight: 700;
+    background: rgba(247,127,0,0.12); border: 1px solid rgba(247,127,0,0.25);
+    color: var(--gold); letter-spacing: 0.5px;
+  }
+
+  /* ── NOT FOUND / ERROR ── */
+  .error-card {
+    width: 100%; max-width: 460px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px; padding: 48px 32px; text-align: center;
+    opacity: 0; animation: fadeUp 0.6s 0.4s ease forwards;
+  }
+  .error-icon { font-size: 3rem; margin-bottom: 16px; }
+  .error-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 800; margin-bottom: 10px; color: var(--orange); }
+  .error-sub { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 420px) {
+    .wrapper { padding: 20px 12px 40px; }
+    .member-name { font-size: 1.1rem; }
+    .action-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* UPI Toast */
+  .toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: rgba(6,214,160,0.15); border: 1px solid rgba(6,214,160,0.4);
+    color: #06d6a0; padding: 10px 24px; border-radius: 50px;
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px;
+    backdrop-filter: blur(12px); z-index: 100;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .toast.show { opacity: 1; }
 </style>
 </head>
 
 <body>
+<div class="page-bg"></div>
+<div class="orb2"></div>
 
-<div class="header">
-    <h2>QCDS</h2>
-    <img id="img" class="profile-img">
-    <h3 id="name"></h3>
-    <p id="role"></p>
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">QCDS</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <div style="font-size:0.65rem; color:rgba(255,255,255,0.3); letter-spacing:2px; text-transform:uppercase; font-family:'Sora',sans-serif;">Loading Profile</div>
 </div>
 
-<div class="container">
+<div class="wrapper" id="main" style="display:none;">
 
-    <p id="bio"></p>
+  <!-- TOP STRIP -->
+  <div class="top-strip">
+    <a class="company-link" href="https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html" target="_blank">
+      <div class="company-icon">
+        <i class="fas fa-atom" style="font-size:1rem;"></i>
+      </div>
+      <div class="company-name-wrap">
+        <span class="company-name">QuantumCoders</span>
+        <span class="company-sub">Data Solutions</span>
+      </div>
+    </a>
+    <div class="verified-badge">
+      <div class="verified-dot"></div>
+      Verified Member
+    </div>
+  </div>
 
-    <div id="links"></div>
+  <!-- ERROR STATE (hidden by default) -->
+  <div class="error-card" id="errorCard" style="display:none;">
+    <div class="error-icon">🔍</div>
+    <div class="error-title">Profile Not Found</div>
+    <div class="error-sub">No team member matched this ID.<br>Please verify the link or contact<br><a href="mailto:quantumcoderstechlab@gmail.com" style="color:var(--cyan);">quantumcoderstechlab@gmail.com</a></div>
+  </div>
 
-    <div id="qrcode"></div>
+  <!-- IDENTITY CARD -->
+  <div class="id-card" id="idCard" style="display:none;">
 
-</div>
+    <!-- Header -->
+    <div class="card-header">
+      <div class="hex-pattern"></div>
+      <div class="header-id-num" id="idNum">QCDS-MEMBER</div>
+
+      <div class="photo-frame" id="photoFrame">
+        <div class="photo-ring">
+          <div class="photo-inner">
+            <div class="photo-placeholder" id="initials">?</div>
+          </div>
+        </div>
+        <div class="photo-corner tl"></div>
+        <div class="photo-corner tr"></div>
+        <div class="photo-corner bl"></div>
+        <div class="photo-corner br"></div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body">
+
+      <!-- Name -->
+      <div class="name-block">
+        <div class="member-name" id="memberName">Loading…</div>
+        <div class="member-role" id="memberRole">QCDS Team Member</div>
+        <div class="member-tags" id="memberTags"></div>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="info-section">
+        <div class="info-section-label"><i class="fas fa-address-card" style="font-size:0.7rem;"></i> Contact Details</div>
+
+        <div class="info-row">
+          <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+          <div>
+            <div class="info-label">Phone</div>
+            <div class="info-value" id="infoPhone">—</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon" style="color:#25d366;"><i class="fab fa-whatsapp"></i></div>
+          <div>
+            <div class="info-label">WhatsApp</div>
+            <div class="info-value" id="infoWA">—</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon" style="color:#ea4335;"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div class="info-label">Email</div>
+            <div class="info-value" id="infoEmail">—</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon" style="color:var(--gold);"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="info-label">Location</div>
+            <div class="info-value" id="infoLoc">Berhampur, Odisha, India</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Work Info -->
+      <div class="info-section">
+        <div class="info-section-label"><i class="fas fa-briefcase" style="font-size:0.7rem;"></i> Work Profile</div>
+
+        <div class="info-row">
+          <div class="info-icon" style="color:var(--cyan);"><i class="fas fa-tasks"></i></div>
+          <div>
+            <div class="info-label">Work Type</div>
+            <div class="info-value" id="infoWorkType">—</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon" style="color:var(--orange);"><i class="fas fa-language"></i></div>
+          <div>
+            <div class="info-label">English Proficiency</div>
+            <div class="info-value" id="infoEnglish">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="info-section-label" style="padding:16px 0 12px; font-size:0.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--orange); display:flex; align-items:center; gap:8px;">
+        <i class="fas fa-bolt" style="font-size:0.7rem;"></i> Quick Actions
+        <span style="flex:1; height:1px; background:rgba(247,127,0,0.2); display:block;"></span>
+      </div>
+
+      <div class="action-grid" id="actionGrid">
+        <a class="action-btn call" id="btnCall" href="#"><span class="btn-icon"><i class="fas fa-phone-alt"></i></span> Call</a>
+        <a class="action-btn whatsapp" id="btnWA" href="#" target="_blank"><span class="btn-icon"><i class="fab fa-whatsapp"></i></span> WhatsApp</a>
+        <a class="action-btn email" id="btnEmail" href="#"><span class="btn-icon"><i class="fas fa-envelope"></i></span> Email</a>
+        <a class="action-btn upi" id="btnUPI" href="#" onclick="return false;"><span class="btn-icon"><i class="fas fa-rupee-sign"></i></span> UPI Pay</a>
+        <a class="action-btn site" href="https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html" target="_blank">
+          <span class="btn-icon"><i class="fas fa-globe"></i></span> Visit QCDS Company Page
+        </a>
+      </div>
+
+      <!-- UPI ID Copy Row -->
+      <div class="upi-copy-row" id="upiCopyRow" style="display:none;">
+        <div class="upi-id-text" id="upiIdDisplay">—</div>
+        <button class="copy-btn" onclick="copyUPI()">Copy</button>
+      </div>
+
+      <!-- QR Code -->
+      <div class="qr-section">
+        <div class="qr-label"><i class="fas fa-qrcode" style="margin-right:6px;"></i> Scan to Share Profile</div>
+        <div id="qrcode"></div>
+        <div class="qr-hint">Scan this QR code to open this profile<br>or share the link directly</div>
+      </div>
+
+    </div><!-- /card-body -->
+
+    <!-- Footer -->
+    <div class="card-footer">
+      <span class="footer-brand">QUANTUMCODERS</span>
+      <div class="chip"><i class="fas fa-shield-alt" style="font-size:0.55rem;"></i> Official ID</div>
+      <span class="footer-copy">© 2025 QCDS</span>
+    </div>
+
+  </div><!-- /id-card -->
+
+  <!-- Bottom company link -->
+  <div style="text-align:center; margin-top:24px; opacity:0; animation:fadeUp 0.6s 0.7s ease forwards;">
+    <a href="https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html" target="_blank"
+       style="display:inline-flex; align-items:center; gap:8px; font-size:0.72rem; color:var(--muted); text-decoration:none; letter-spacing:1px; text-transform:uppercase; font-weight:600; transition:color 0.2s;"
+       onmouseover="this.style.color='#00b4d8'" onmouseout="this.style.color='#8ba5c2'">
+      <i class="fas fa-external-link-alt" style="font-size:0.65rem;"></i>
+      quantumcoderstechlab.codes
+    </a>
+  </div>
+
+</div><!-- /wrapper -->
+
+<div class="toast" id="toast">✓ UPI ID copied!</div>
 
 <script>
-const API = "https://opensheet.elk.sh/1Pu2Hyx7rwOpeY10r0E762QezCj_PbSTvW24IUctW8-c/Team%20Details";
+const API_URL = "https://opensheet.elk.sh/1Pu2Hyx7rwOpeY10r0E762QezCj_PbSTvW24IUctW8-c/Team%20Details";
 
-const params = new URLSearchParams(window.location.search);
-const uid = (params.get("uid") || "").replace(/\D/g,"").slice(-10);
+const safe = v => (v && v.toString().trim() !== "" && v !== "N/A") ? v.trim() : null;
+const initials = name => name ? name.split(" ").map(n => n[0]).slice(0,2).join("").toUpperCase() : "?";
+let currentUPI = "";
 
-// N/A handler
-const safe = (v) => v && v !== "" ? v : "N/A";
+function copyUPI() {
+  if (!currentUPI) return;
+  navigator.clipboard.writeText(currentUPI).then(() => {
+    const t = document.getElementById("toast");
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2500);
+  }).catch(() => {
+    const t = document.getElementById("toast");
+    t.textContent = "✗ Copy failed";
+    t.classList.add("show");
+    setTimeout(() => { t.classList.remove("show"); t.textContent = "✓ UPI ID copied!"; }, 2500);
+  });
+}
 
-fetch(API)
-.then(res => res.json())
-.then(data => {
+function loadImageWithFallback(url, fallbackInitials) {
+  const photoInner = document.querySelector(".photo-inner");
+  if (!url) { renderInitials(photoInner, fallbackInitials); return; }
+  const img = new Image();
+  img.onload = () => {
+    photoInner.innerHTML = "";
+    photoInner.appendChild(img);
+    img.style.cssText = "width:100%;height:100%;object-fit:cover;object-position:top;";
+  };
+  img.onerror = () => renderInitials(photoInner, fallbackInitials);
+  img.src = url;
+}
 
+function renderInitials(container, text) {
+  container.innerHTML = `<div class="photo-placeholder">${initials(text)}</div>`;
+}
+
+function setField(id, val, fallback = "—") {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val || fallback;
+}
+
+function generateMemberID(phone) {
+  const digits = phone ? phone.replace(/\D/g,"").slice(-4) : "0000";
+  return "QCDS-" + digits + "-25";
+}
+
+function buildTags(workType, english) {
+  const tags = [];
+  if (workType) {
+    workType.split(",").forEach(w => {
+      const t = w.trim();
+      if (t) tags.push({ label: t, style: "" });
+    });
+  }
+  if (english && english.toLowerCase() !== "no") {
+    tags.push({ label: "English ✓", style: "orange" });
+  }
+  return tags;
+}
+
+function renderCard(user) {
+  const name = safe(user["Name"]) || "Team Member";
+  const phone = safe(user["Contact Number"]);
+  const waNum = safe(user["WhatsApp Number"]) || (phone ? phone.replace(/\D/g,"").slice(-10) : null);
+  const email = safe(user["Email ID"]);
+  const workType = safe(user["Work Type"]);
+  const english = safe(user["Do you know English?"]);
+  const upiId = safe(user["UPI ID (For Payment)"]);
+  const image = safe(user["Image"]);
+  const loc = safe(user["Location"]) || "Berhampur, Odisha, India";
+
+  setField("memberName", name);
+  setField("idNum", generateMemberID(phone));
+  document.title = name + " | QCDS Identity";
+
+  const phone10 = phone ? phone.replace(/\D/g,"").slice(-10) : null;
+  setField("infoPhone", phone10 ? "+91 " + phone10.replace(/(\d{5})(\d{5})/, "$1 $2") : null);
+  if (phone10) document.getElementById("btnCall").href = "tel:+91" + phone10;
+  else document.getElementById("btnCall").style.opacity = "0.4";
+
+  setField("infoWA", waNum ? "+91 " + waNum.replace(/\D/g,"").slice(-10).replace(/(\d{5})(\d{5})/, "$1 $2") : null);
+  const waFinal = waNum ? waNum.replace(/\D/g,"").slice(-10) : phone10;
+  if (waFinal) document.getElementById("btnWA").href = "https://wa.me/91" + waFinal;
+  else document.getElementById("btnWA").style.opacity = "0.4";
+
+  if (email) {
+    document.getElementById("infoEmail").innerHTML = `<a href="mailto:${email}">${email}</a>`;
+    document.getElementById("btnEmail").href = "mailto:" + email;
+  } else {
+    setField("infoEmail", null);
+    document.getElementById("btnEmail").style.opacity = "0.4";
+  }
+
+  setField("infoLoc", loc);
+  setField("infoWorkType", workType);
+  setField("infoEnglish", english);
+
+  if (upiId) {
+    currentUPI = upiId;
+    document.getElementById("upiCopyRow").style.display = "flex";
+    document.getElementById("upiIdDisplay").textContent = upiId;
+    document.getElementById("btnUPI").onclick = () => { copyUPI(); return false; };
+  } else {
+    document.getElementById("btnUPI").style.opacity = "0.4";
+  }
+
+  loadImageWithFallback(image, name);
+
+  const tagsEl = document.getElementById("memberTags");
+  buildTags(workType, english).forEach(tag => {
+    const span = document.createElement("span");
+    span.className = "tag " + tag.style;
+    span.textContent = tag.label;
+    tagsEl.appendChild(span);
+  });
+
+  // QR Code
+  const profileURL = window.location.href;
+  const canvas = document.createElement("canvas");
+  QRCode.toCanvas(canvas, profileURL, { width: 130, margin: 1, color: { dark: "#0a2d52", light: "#ffffff" } }, err => {
+    if (!err) document.getElementById("qrcode").appendChild(canvas);
+  });
+
+  document.getElementById("idCard").style.display = "block";
+}
+
+async function init() {
+  const params = new URLSearchParams(window.location.search);
+  const uidRaw = (params.get("uid") || "").replace(/\D/g, "").slice(-10);
+
+  if (!uidRaw) {
+    showError();
+    return;
+  }
+
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
     const user = data.find(row => {
-        const phone = (row["Contact Number"] || "").replace(/\D/g,"").slice(-10);
-        return phone === uid;
+      const p = (row["Contact Number"] || "").replace(/\D/g, "").slice(-10);
+      return p === uidRaw;
     });
 
-    if(!user){
-        document.body.innerHTML = "<h2>User Not Found</h2>";
-        return;
-    }
+    if (!user) { showError(); return; }
+    renderCard(user);
+  } catch (e) {
+    showError("Connection error. Please try again.");
+  }
+}
 
-    document.getElementById("name").innerText = safe(user["Name"]);
-    document.getElementById("role").innerText = "QCDS Team";
+function showError(msg) {
+  document.getElementById("errorCard").style.display = "block";
+  if (msg) document.querySelector(".error-sub").textContent = msg;
+}
 
-    document.getElementById("img").src =
-        safe(user["Image"]) !== "N/A"
-        ? user["Image"]
-        : "https://via.placeholder.com/150";
-
-    document.getElementById("bio").innerText =
-        `${safe(user["Work Type"])} | English: ${safe(user["Do you know English?"])}`;
-
-    let links = `
-        <a class="link" href="tel:${safe(user["Contact Number"])}">📞 Call</a>
-        <a class="link" href="https://wa.me/91${safe(user["WhatsApp Number"])}">💬 WhatsApp</a>
-        <a class="link" href="mailto:${safe(user["Email ID"])}">📧 Email</a>
-        <a class="link">💳 UPI: ${safe(user["UPI ID (For Payment)"])}</a>
-    `;
-
-    document.getElementById("links").innerHTML = links;
-
-    // QR
-    const profileURL = window.location.href;
-    QRCode.toCanvas(document.createElement('canvas'), profileURL, function (err, canvas) {
-        document.getElementById("qrcode").appendChild(canvas);
-    });
-
-})
-.catch(err => {
-    document.body.innerHTML = "<h2>Error loading data</h2>";
+// Kick off
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.getElementById("loader").classList.add("hidden");
+    document.getElementById("main").style.display = "flex";
+    init();
+  }, 1900);
 });
 </script>
-
 </body>
 </html>
