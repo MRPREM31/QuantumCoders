@@ -79,28 +79,34 @@ body {
 </div>
 
 <script>
-const API = "https://script.google.com/macros/s/AKfycbyzHudH8CCelv8e22EGQxdHg1oRIOdPg-GAqofoIUQRAh-MDxPyAw7KR5Y3KuZYQ8_VDA/exec"; // 🔥 paste your script URL
+const API = "https://opensheet.elk.sh/1Pu2Hyx7rwOpeY10r0E762QezCj_PbSTvW24IUctW8-c/Team%20Details";
 
 const params = new URLSearchParams(window.location.search);
-const uid = params.get("uid");
+const uid = (params.get("uid") || "").replace(/\D/g,"").slice(-10);
 
 // N/A handler
 const safe = (v) => v && v !== "" ? v : "N/A";
 
-fetch(`${API}?type=profile&uid=${uid}`)
+fetch(API)
 .then(res => res.json())
-.then(user => {
+.then(data => {
 
-    if(user.error){
+    const user = data.find(row => {
+        const phone = (row["Contact Number"] || "").replace(/\D/g,"").slice(-10);
+        return phone === uid;
+    });
+
+    if(!user){
         document.body.innerHTML = "<h2>User Not Found</h2>";
         return;
     }
 
-    document.getElementById("name").innerText = safe(user.Name);
+    document.getElementById("name").innerText = safe(user["Name"]);
     document.getElementById("role").innerText = "QCDS Team";
+
     document.getElementById("img").src =
-        safe(user.Image) !== "N/A"
-        ? user.Image
+        safe(user["Image"]) !== "N/A"
+        ? user["Image"]
         : "https://via.placeholder.com/150";
 
     document.getElementById("bio").innerText =
@@ -115,12 +121,15 @@ fetch(`${API}?type=profile&uid=${uid}`)
 
     document.getElementById("links").innerHTML = links;
 
-    // 🔥 QR CODE
+    // QR
     const profileURL = window.location.href;
     QRCode.toCanvas(document.createElement('canvas'), profileURL, function (err, canvas) {
         document.getElementById("qrcode").appendChild(canvas);
     });
 
+})
+.catch(err => {
+    document.body.innerHTML = "<h2>Error loading data</h2>";
 });
 </script>
 
