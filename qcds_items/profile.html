@@ -3,49 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile</title>
+<title>QCDS Identity</title>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 <style>
 body {
-    margin: 0;
-    font-family: Arial;
-    background: #f5f5f5;
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background:#f2f2f2;
 }
 
+/* HEADER */
 .header {
-    background: linear-gradient(135deg, #cfa95d, #8b6b2f);
-    text-align: center;
-    padding: 40px 20px;
-    color: white;
+    background: linear-gradient(135deg,#cfa95d,#8b6b2f);
+    text-align:center;
+    padding:40px 20px;
+    color:white;
 }
 
 .profile-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid white;
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    border:4px solid white;
+    object-fit:cover;
 }
 
+/* CARD */
 .container {
-    max-width: 500px;
-    margin: -40px auto 20px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
+    max-width:500px;
+    margin:-40px auto 20px;
+    background:white;
+    padding:20px;
+    border-radius:12px;
 }
 
-.info {
-    margin-bottom: 15px;
+/* LINKS */
+.link {
+    display:flex;
+    justify-content:space-between;
+    padding:12px;
+    margin:10px 0;
+    background:#f5f5f5;
+    border-radius:10px;
+    text-decoration:none;
+    color:black;
 }
 
-.link-btn {
-    display: block;
-    padding: 12px;
-    margin: 10px 0;
-    background: #eee;
-    border-radius: 10px;
-    text-decoration: none;
-    color: black;
+/* QR */
+#qrcode {
+    margin-top:20px;
+    text-align:center;
 }
 </style>
 </head>
@@ -53,69 +62,66 @@ body {
 <body>
 
 <div class="header">
+    <h2>QCDS</h2>
     <img id="img" class="profile-img">
-    <h2 id="name"></h2>
+    <h3 id="name"></h3>
     <p id="role"></p>
 </div>
 
 <div class="container">
+
     <p id="bio"></p>
 
     <div id="links"></div>
+
+    <div id="qrcode"></div>
+
 </div>
 
 <script>
-// 🔥 DATABASE (ADD ALL PEOPLE HERE)
-const users = {
-    prem: {
-        name: "Prem Prasad Pradhan",
-        role: "Founder",
-        img: "assets/prem.jpg",
-        bio: "Founder of QuantumCoders Data Solution.",
-        links: [
-            {name: "WhatsApp", url: "https://wa.me/919827775230"},
-            {name: "Website", url: "https://mrprem.in"},
-            {name: "Email", url: "mailto:mr.prem2006@gmail.com"}
-        ]
-    },
+const API = "https://script.google.com/macros/s/AKfycbyzHudH8CCelv8e22EGQxdHg1oRIOdPg-GAqofoIUQRAh-MDxPyAw7KR5Y3KuZYQ8_VDA/exec"; // 🔥 paste your script URL
 
-    sandip: {
-        name: "Sandip Kumar Mohanty",
-        role: "Photographer",
-        img: "assets/sandip.jpg",
-        bio: "Creative photographer.",
-        links: [
-            {name: "Instagram", url: "#"},
-            {name: "Telegram", url: "#"}
-        ]
-    }
-};
-
-// 🔍 GET UID FROM URL
 const params = new URLSearchParams(window.location.search);
 const uid = params.get("uid");
 
-// 🚨 IF USER NOT FOUND
-if (!users[uid]) {
-    document.body.innerHTML = "<h2>User Not Found</h2>";
-} else {
-    const user = users[uid];
+// N/A handler
+const safe = (v) => v && v !== "" ? v : "N/A";
 
-    document.getElementById("name").innerText = user.name;
-    document.getElementById("role").innerText = user.role;
-    document.getElementById("img").src = user.img;
-    document.getElementById("bio").innerText = user.bio;
+fetch(`${API}?type=profile&uid=${uid}`)
+.then(res => res.json())
+.then(user => {
 
-    const linkDiv = document.getElementById("links");
+    if(user.error){
+        document.body.innerHTML = "<h2>User Not Found</h2>";
+        return;
+    }
 
-    user.links.forEach(link => {
-        linkDiv.innerHTML += `
-            <a class="link-btn" href="${link.url}" target="_blank">
-                ${link.name}
-            </a>
-        `;
+    document.getElementById("name").innerText = safe(user.Name);
+    document.getElementById("role").innerText = "QCDS Team";
+    document.getElementById("img").src =
+        safe(user.Image) !== "N/A"
+        ? user.Image
+        : "https://via.placeholder.com/150";
+
+    document.getElementById("bio").innerText =
+        `${safe(user["Work Type"])} | English: ${safe(user["Do you know English?"])}`;
+
+    let links = `
+        <a class="link" href="tel:${safe(user["Contact Number"])}">📞 Call</a>
+        <a class="link" href="https://wa.me/91${safe(user["WhatsApp Number"])}">💬 WhatsApp</a>
+        <a class="link" href="mailto:${safe(user["Email ID"])}">📧 Email</a>
+        <a class="link">💳 UPI: ${safe(user["UPI ID (For Payment)"])}</a>
+    `;
+
+    document.getElementById("links").innerHTML = links;
+
+    // 🔥 QR CODE
+    const profileURL = window.location.href;
+    QRCode.toCanvas(document.createElement('canvas'), profileURL, function (err, canvas) {
+        document.getElementById("qrcode").appendChild(canvas);
     });
-}
+
+});
 </script>
 
 </body>
