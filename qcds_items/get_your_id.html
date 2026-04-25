@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>QCDS • ID Link Generator</title>
+  <link rel="icon" type="image/png" href="https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDL.png">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #041525;
+      --primary: #0f4c81;
+      --plight: #1a6bb5;
+      --cyan: #00b4d8;
+      --orange: #f77f00;
+      --gold: #fcbf49;
+      --green: #06d6a0;
+      --white: #ffffff;
+      --muted: #8ba5c2;
+      --card-radius: 28px;
+      --safe-bottom: env(safe-area-inset-bottom, 16px);
+    }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      background: var(--navy);
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      margin: 0;
+      position: relative;
+      overflow-x: hidden;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* animated background */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(circle at 30% 40%, #0a2d52 0%, #020d1a 90%);
+    }
+
+    .bg-layer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 12px);
+      pointer-events: none;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb1 {
+      width: 50vw;
+      height: 50vw;
+      background: #00b4d8;
+      top: -15%;
+      left: -10%;
+    }
+
+    .orb2 {
+      width: 40vw;
+      height: 40vw;
+      background: #f77f00;
+      bottom: -12%;
+      right: -8%;
+    }
+
+    /* Main container */
+    .main-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 540px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* Back button */
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--muted);
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      width: fit-content;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateX(-3px);
+    }
+
+    .back-button i {
+      font-size: 0.9rem;
+    }
+
+    .card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      background: rgba(8, 22, 40, 0.75);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(0, 180, 216, 0.18);
+      border-radius: var(--card-radius);
+      padding: 2rem 1.8rem;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+      animation: fadeSlide 0.7s ease-out;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .logo-container {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0f4c81, #1a6bb5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 8px 18px rgba(0,180,216,0.25);
+    }
+
+    .logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 4px;
+    }
+
+    .logo-fallback {
+      font-size: 1.8rem;
+      color: white;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .brand-name {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      background: linear-gradient(to right, #fff, #c0e0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.3;
+    }
+
+    .brand-sub {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--orange);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .uid-input-wrapper {
+      display: flex;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50px;
+      padding: 0.1rem 0.1rem 0.1rem 1.5rem;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .uid-input-wrapper:focus-within {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,180,216,0.25);
+    }
+
+    .uid-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 0.9rem 0;
+      font-size: 1.1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      color: white;
+      outline: none;
+      letter-spacing: 1px;
+      min-width: 0;
+    }
+
+    .uid-input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    .clear-btn {
+      background: rgba(255,255,255,0.05);
+      border: none;
+      color: var(--muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.4rem;
+      cursor: pointer;
+      transition: 0.2s;
+      flex-shrink: 0;
+    }
+
+    .clear-btn:hover {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+
+    .link-preview {
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      word-break: break-all;
+    }
+
+    .preview-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .dynamic-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--cyan);
+      font-weight: 500;
+      line-height: 1.6;
+      user-select: all;
+      -webkit-user-select: all;
+    }
+
+    .validation-message {
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.2rem;
+      min-height: 1.2rem;
+    }
+
+    .error-text {
+      color: #e74c3c;
+    }
+
+    .success-text {
+      color: var(--green);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 0.2rem;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.1);
+      flex: 1 1 auto;
+      font-family: 'Sora', sans-serif;
+      white-space: nowrap;
+    }
+
+    .btn-copy {
+      background: linear-gradient(135deg, #0f4c81, #1a6bb5);
+      border: 1px solid rgba(0,180,216,0.4);
+      color: white;
+      box-shadow: 0 8px 18px rgba(0,180,216,0.2);
+    }
+
+    .btn-open {
+      background: rgba(247, 127, 0, 0.1);
+      border: 1px solid rgba(247, 127, 0, 0.4);
+      color: var(--gold);
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translateY(2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      transform: none;
+      filter: grayscale(0.4);
+    }
+
+    .note-box {
+      background: rgba(252, 191, 73, 0.08);
+      border-left: 3px solid var(--gold);
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+      margin-top: 0.2rem;
+    }
+
+    .note-box i {
+      color: var(--gold);
+      margin-right: 0.3rem;
+    }
+
+    .thanks-message {
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--green);
+      background: rgba(6, 214, 160, 0.08);
+      padding: 0.7rem;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      opacity: 0;
+      transition: 0.3s;
+      min-height: 0;
+      overflow: hidden;
+      max-height: 0;
+      padding: 0;
+      margin: 0;
+    }
+
+    .thanks-message.show {
+      opacity: 1;
+      max-height: 60px;
+      padding: 0.7rem;
+      margin: 0;
+    }
+
+    /* Footer */
+    .footer {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 540px;
+      text-align: center;
+      padding: 1rem 0.5rem;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.25);
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .footer i {
+      color: var(--cyan);
+      font-size: 0.6rem;
+      opacity: 0.6;
+    }
+
+    .footer .footer-logo {
+      height: 16px;
+      width: 16px;
+      object-fit: contain;
+      opacity: 0.5;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      body {
+        padding: 0.8rem;
+        gap: 0.8rem;
+      }
+
+      .card {
+        padding: 1.5rem 1.2rem;
+        gap: 1.4rem;
+        border-radius: 24px;
+      }
+
+      .header {
+        gap: 0.8rem;
+        padding-bottom: 1rem;
+      }
+
+      .logo-container {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+      }
+
+      .brand-name {
+        font-size: 1rem;
+      }
+
+      .brand-sub {
+        font-size: 0.6rem;
+      }
+
+      .uid-input {
+        font-size: 1rem;
+        padding: 0.8rem 0;
+      }
+
+      .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+      }
+
+      .dynamic-link {
+        font-size: 0.75rem;
+      }
+
+      .back-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .card {
+        padding: 1.2rem 1rem;
+      }
+
+      .button-row {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .header {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .brand-text {
+        align-items: center;
+      }
+    }
+
+    /* Landscape phones */
+    @media (max-height: 600px) and (orientation: landscape) {
+      body {
+        padding: 0.5rem;
+        gap: 0.5rem;
+      }
+
+      .card {
+        padding: 1rem 1.2rem;
+        gap: 0.8rem;
+      }
+
+      .header {
+        padding-bottom: 0.6rem;
+      }
+
+      .note-box {
+        font-size: 0.7rem;
+        padding: 0.6rem 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-layer"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <!-- Back Button -->
+  <div class="main-container">
+    <button class="back-button" onclick="goBack()" aria-label="Go back">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <div class="card">
+      <!-- Header with Logo -->
+      <div class="header">
+        <div class="logo-container" id="logoContainer">
+          <img 
+            src="../assets/Data Solutions/Logo/QCDL.png" 
+            alt="QCDS Logo" 
+            id="logoImage"
+            onerror="handleLogoError()"
+          >
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">QCDS ID LINK</span>
+          <span class="brand-sub">QuantumCoders Data Solution</span>
+        </div>
+      </div>
+
+      <!-- Input UID -->
+      <div class="input-group">
+        <div class="label">
+          <i class="fas fa-mobile-alt"></i> Enter 10‑digit UID
+        </div>
+        <div class="uid-input-wrapper">
+          <input type="text" id="uidInput" class="uid-input" placeholder="e.g. 9827775230" inputmode="numeric" maxlength="10" autofocus>
+          <button class="clear-btn" id="clearBtn" title="Clear"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="validationMessage" class="validation-message"></div>
+      </div>
+
+      <!-- Live link preview -->
+      <div class="link-preview">
+        <div class="preview-label"><i class="fas fa-link"></i> Your profile link</div>
+        <div class="dynamic-link" id="generatedLink">https://www.quantumcoderstechlab.codes/qcds_items/profile.html?uid=________</div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="button-row">
+        <button id="copyBtn" class="btn btn-copy" disabled>
+          <i class="fas fa-copy"></i> Copy Link
+        </button>
+        <button id="openBtn" class="btn btn-open" disabled>
+          <i class="fas fa-external-link-alt"></i> Open in New Tab
+        </button>
+      </div>
+
+      <!-- Important note -->
+      <div class="note-box">
+        <i class="fas fa-exclamation-triangle"></i> 
+        <strong>Important:</strong> This link works only if you are an active team member. If you're not working, the link will not display a profile. For image updates, please contact the manager.
+      </div>
+
+      <!-- Thanks message -->
+      <div id="thanksMessage" class="thanks-message">
+        <i class="fas fa-heart"></i> Thanks for connecting with us!
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <i class="fas fa-shield-alt"></i>
+      <span>QuantumCoders Data Solution</span>
+      <span>•</span>
+      <span>© 2025 QCDS</span>
+      <span>•</span>
+      <span>Berhampur, Odisha</span>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // DOM elements
+      const uidInput = document.getElementById('uidInput');
+      const clearBtn = document.getElementById('clearBtn');
+      const generatedLinkSpan = document.getElementById('generatedLink');
+      const copyBtn = document.getElementById('copyBtn');
+      const openBtn = document.getElementById('openBtn');
+      const validationMsg = document.getElementById('validationMessage');
+      const thanksDiv = document.getElementById('thanksMessage');
+
+      // Base URL
+      const BASE_URL = "https://www.quantumcoderstechlab.codes/qcds_items/profile.html?uid=";
+
+      // Handle logo loading error
+      window.handleLogoError = function() {
+        const logoContainer = document.getElementById('logoContainer');
+        const logoImage = document.getElementById('logoImage');
+        if (logoImage) {
+          logoImage.style.display = 'none';
+        }
+        // Add fallback icon
+        if (!logoContainer.querySelector('.logo-fallback')) {
+          const fallback = document.createElement('i');
+          fallback.className = 'fas fa-atom logo-fallback';
+          logoContainer.appendChild(fallback);
+        }
+      };
+
+      // Back button function
+      window.goBack = function() {
+        if (document.referrer && document.referrer !== window.location.href) {
+          window.history.back();
+        } else {
+          // Fallback: redirect to main site
+          window.location.href = '../quantumcoders-data-solutions.html';
+        }
+      };
+
+      // Update UI based on current UID value
+      function updateUI() {
+        const rawValue = uidInput.value.trim();
+        const digitsOnly = rawValue.replace(/\D/g, '');
+        
+        // Update input field to show only digits
+        if (rawValue !== digitsOnly) {
+          uidInput.value = digitsOnly;
+        }
+
+        const uidLength = digitsOnly.length;
+        let isValid = false;
+        let messageText = '';
+        let messageClass = '';
+
+        if (uidLength === 0) {
+          messageText = '';
+          messageClass = '';
+        } else if (uidLength < 10) {
+          messageText = `<i class="fas fa-circle"></i> ${uidLength}/10 digits · enter 10-digit number`;
+          messageClass = 'error-text';
+        } else if (uidLength === 10) {
+          messageText = `<i class="fas fa-check-circle"></i> Valid 10-digit UID`;
+          messageClass = 'success-text';
+          isValid = true;
+        }
+
+        validationMsg.innerHTML = messageText;
+        validationMsg.className = `validation-message ${messageClass}`;
+
+        // Update generated link display
+        if (uidLength === 10 && isValid) {
+          generatedLinkSpan.textContent = BASE_URL + digitsOnly;
+        } else if (uidLength > 0 && uidLength < 10) {
+          generatedLinkSpan.textContent = BASE_URL + digitsOnly + '_'.repeat(10 - uidLength);
+        } else {
+          generatedLinkSpan.textContent = BASE_URL + '________';
+        }
+
+        // Enable/disable buttons
+        const shouldEnable = isValid && uidLength === 10;
+        copyBtn.disabled = !shouldEnable;
+        openBtn.disabled = !shouldEnable;
+
+        // Show thanks message when valid
+        if (shouldEnable) {
+          thanksDiv.classList.add('show');
+        } else {
+          thanksDiv.classList.remove('show');
+        }
+      }
+
+      // Copy to clipboard - only on button click
+      async function copyLinkToClipboard() {
+        const linkText = generatedLinkSpan.textContent;
+        if (!linkText || linkText.includes('________') || copyBtn.disabled) {
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(linkText);
+          // Visual feedback
+          const originalHTML = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          copyBtn.style.background = 'linear-gradient(135deg, #06d6a0, #0f4c81)';
+          
+          // Show thanks
+          thanksDiv.classList.add('show');
+          
+          setTimeout(() => {
+            copyBtn.innerHTML = originalHTML;
+            copyBtn.style.background = 'linear-gradient(135deg, #0f4c81, #1a6bb5)';
+          }, 2000);
+        } catch (err) {
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = linkText;
+          textArea.style.position = 'fixed';
+          textArea.style.left = '-9999px';
+          document.body.appendChild(textArea);
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => {
+              copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Link';
+            }, 2000);
+          } catch (e) {
+            alert('Please copy the link manually.');
+          }
+          document.body.removeChild(textArea);
+        }
+      }
+
+      // Open in new tab
+      function openInNewTab() {
+        const linkText = generatedLinkSpan.textContent;
+        if (!linkText || linkText.includes('________') || openBtn.disabled) {
+          return;
+        }
+        window.open(linkText, '_blank', 'noopener,noreferrer');
+        thanksDiv.classList.add('show');
+      }
+
+      // Clear input
+      function clearInput() {
+        uidInput.value = '';
+        updateUI();
+        uidInput.focus();
+        thanksDiv.classList.remove('show');
+      }
+
+      // Event listeners
+      uidInput.addEventListener('input', updateUI);
+      clearBtn.addEventListener('click', clearInput);
+      copyBtn.addEventListener('click', copyLinkToClipboard);
+      openBtn.addEventListener('click', openInNewTab);
+
+      // Prevent non-digit characters
+      uidInput.addEventListener('keypress', (e) => {
+        const char = e.key;
+        if (!/^\d$/.test(char) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(char)) {
+          e.preventDefault();
+        }
+      });
+
+      // Handle paste events
+      uidInput.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pastedData = (e.clipboardData || window.clipboardData).getData('text');
+        const digits = pastedData.replace(/\D/g, '').slice(0, 10);
+        uidInput.value = digits;
+        updateUI();
+      });
+
+      // Initial setup
+      updateUI();
+      uidInput.focus();
+
+      // Test logo load
+      const logoImg = document.getElementById('logoImage');
+      if (logoImg) {
+        logoImg.addEventListener('error', handleLogoError);
+      }
+    })();
+  </script>
+</body>
+</html>
