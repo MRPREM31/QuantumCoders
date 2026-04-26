@@ -918,6 +918,45 @@ async function captureFace(which) {
     "z-index:-1"
   ].join(";");
 
+  // Fix QR Code rendering for html2canvas
+  var origQR = sourceEl.querySelector("#backQR canvas");
+  var cloneQRWrap = clone.querySelector("#backQR");
+  if (origQR && cloneQRWrap) {
+    cloneQRWrap.innerHTML = "";
+    var imgQR = document.createElement("img");
+    imgQR.src = origQR.toDataURL("image/png");
+    imgQR.style.display = "block";
+    imgQR.style.borderRadius = "4px";
+    imgQR.style.width = "100%";
+    cloneQRWrap.appendChild(imgQR);
+  }
+
+  // Fix Background Clip Text rendering for html2canvas
+  var gradTexts = clone.querySelectorAll(".back-coname, .photo-initials, .co-name-main");
+  for (var i = 0; i < gradTexts.length; i++) {
+    gradTexts[i].style.background = "none";
+    gradTexts[i].style.webkitBackgroundClip = "initial";
+    gradTexts[i].style.backgroundClip = "initial";
+    gradTexts[i].style.webkitTextFillColor = "initial";
+    gradTexts[i].style.color = "#00b4d8"; // Solid fallback color
+  }
+
+  // Fix signature color for html2canvas (invert black to white)
+  var sourceSigImg = sourceEl.querySelector(".sig-img-wrap img");
+  var cloneSigImg = clone.querySelector(".sig-img-wrap img");
+  if (sourceSigImg && cloneSigImg && sourceSigImg.complete && sourceSigImg.naturalWidth > 0) {
+    var cc = document.createElement("canvas");
+    cc.width = sourceSigImg.naturalWidth;
+    cc.height = sourceSigImg.naturalHeight;
+    var cx = cc.getContext("2d");
+    cx.drawImage(sourceSigImg, 0, 0);
+    cx.globalCompositeOperation = "source-in";
+    cx.fillStyle = "#ffffff";
+    cx.fillRect(0, 0, cc.width, cc.height);
+    cloneSigImg.src = cc.toDataURL("image/png");
+    cloneSigImg.style.filter = "none";
+  }
+
   document.body.appendChild(clone);
 
   // Wait for fonts / images inside clone to settle
@@ -933,14 +972,7 @@ async function captureFace(which) {
     foreignObjectRendering: false,
     imageTimeout: 15000,
     onclone: function(clonedDoc) {
-      // Make sure QR canvas is painted properly
-      var origQR   = sourceEl.querySelector("#backQR canvas");
-      var cloneQR  = clonedDoc.querySelector("#backQR canvas");
-      if (origQR && cloneQR) {
-        var ctx2 = cloneQR.getContext("2d");
-        ctx2.drawImage(origQR, 0, 0);
-      }
-      // Make back logo visible
+      // Make sure images have crossorigin
       var imgs = clonedDoc.querySelectorAll("img");
       imgs.forEach(function(img){ img.crossOrigin = "anonymous"; });
     }
