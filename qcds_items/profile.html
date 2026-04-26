@@ -409,6 +409,7 @@ html, body {
 }
 .dl-btn.png   { border: 1px solid rgba(0,180,216,0.3); color: var(--cyan); }
 .dl-btn.pdf   { border: 1px solid rgba(247,127,0,0.3); color: var(--gold); }
+.dl-btn.vcf   { border: 1px solid rgba(6,214,160,0.3); color: var(--green); }
 .dl-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.09); }
 .dl-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
@@ -596,7 +597,7 @@ html, body {
         <div class="front-footer">
           <span class="ff-brand">QUANTUMCODERS</span>
           <div class="ff-chip"><i class="fas fa-id-badge" style="font-size:0.46rem;"></i>&nbsp;Official ID</div>
-          <span class="ff-year">© 2025 QCDS</span>
+          <span class="ff-year">© 2026 QCDS</span>
         </div>
       </div><!-- /card-front -->
 
@@ -649,7 +650,7 @@ html, body {
             <div class="sig-right">
               <div class="sig-stamp">
                 <i class="fas fa-shield-alt"></i>
-                <div>QCDS<br>OFFICIAL<br>2025</div>
+                <div>QCDS<br>OFFICIAL<br>2026</div>
               </div>
             </div>
           </div>
@@ -657,7 +658,7 @@ html, body {
           <div class="back-bot">
             <span class="bbot-txt">QCDS · OFFICIAL IDENTITY</span>
             <div class="bbot-chip"><i class="fas fa-shield-alt" style="font-size:0.44rem;"></i>&nbsp;Verified</div>
-            <span class="bbot-txt">© 2025</span>
+            <span class="bbot-txt">© 2026</span>
           </div>
         </div>
       </div><!-- /card-back -->
@@ -676,6 +677,7 @@ html, body {
   <div class="dl-row" id="dlRow" style="display:none;">
     <button class="dl-btn png"   onclick="downloadPNG()"><i class="fas fa-image"></i> Download PNG</button>
     <button class="dl-btn pdf"   onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button>
+    <button class="dl-btn vcf"   onclick="downloadVCF()"><i class="fas fa-user-plus"></i> Save Contact</button>
   </div>
 
   <div class="blink-wrap" id="blinkWrap" style="display:none;">
@@ -698,6 +700,7 @@ var LOGO_URL = "https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/L
 var isFlipped  = false;
 var globalName = "QCDS-Member";
 var globalMemberName = ""; // for WhatsApp link
+var globalMemberData = null;
 
 /* ═══ UTILS ═══ */
 function safe(v) {
@@ -783,6 +786,7 @@ function toggleFlip() {
 
 /* ═══ RENDER ═══ */
 function renderCard(user) {
+  globalMemberData = user;
   var name      = safe(user["Name"])              || "Team Member";
   var phone     = safe(user["Contact Number"]);
   var wa        = safe(user["WhatsApp Number"]);
@@ -1055,7 +1059,7 @@ async function downloadPNG() {
     ctx.beginPath(); ctx.moveTo(0, botY); ctx.lineTo(totalW, botY); ctx.stroke();
     ctx.font = "12px Arial";
     ctx.fillStyle = "rgba(255,255,255,0.22)";
-    ctx.fillText("QuantumCoders Data Solution  ·  Berhampur, Odisha, India  ·  © 2025 QCDS", totalW / 2, botY + botH / 2 + 6);
+    ctx.fillText("QuantumCoders Data Solution  ·  Berhampur, Odisha, India  ·  © 2026 QCDS", totalW / 2, botY + botH / 2 + 6);
 
     var a = document.createElement("a");
     a.download = "QCDS-ID-" + globalName + ".png";
@@ -1109,6 +1113,66 @@ async function downloadPDF() {
     btn.innerHTML = ori;
     btn.disabled  = false;
   }
+}
+
+/* ═══ DOWNLOAD VCF ═══ */
+function downloadVCF() {
+  if (!globalMemberData) return;
+  var user = globalMemberData;
+  var name  = safe(user["Name"]) || "QCDS Member";
+  var phone = ex10(safe(user["Contact Number"]));
+  var wa    = ex10(safe(user["WhatsApp Number"]));
+  var email = safe(user["Email ID"]);
+  var pos   = safe(user["Position"]);
+  
+  var parts = name.split(" ");
+  var lastName = parts.length > 1 ? parts.pop() : "";
+  var firstName = parts.join(" ");
+  if (!firstName) firstName = lastName;
+
+  var vcard = "BEGIN:VCARD\n" +
+              "VERSION:3.0\n" +
+              "N:" + lastName + ";" + firstName + ";;;\n" +
+              "FN:" + name + "\n" +
+              "ORG:QuantumCoders Data Solution\n";
+
+  if (pos) vcard += "TITLE:" + pos + "\n";
+  if (phone) vcard += "TEL;TYPE=WORK,VOICE:+91" + phone + "\n";
+  if (wa && wa !== phone) vcard += "TEL;TYPE=CELL,VOICE:+91" + wa + "\n";
+  if (email) vcard += "EMAIL;TYPE=PREF,INTERNET:" + email + "\n";
+  
+  vcard += "URL:https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html\n";
+  vcard += "END:VCARD";
+
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  var file = new File([vcard], globalName + "-Contact.vcf", { type: "text/vcard" });
+  
+  // 1. Try Web Share API (native modal to save contact on Mobile)
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    navigator.share({
+      files: [file],
+      title: name,
+      text: "Save Contact"
+    }).catch(function(e){ console.log("Share skipped"); });
+    return;
+  }
+
+  // 2. Fallback: Data URI (iOS safely hooks this inside the browser without downloading)
+  if (isMobile) {
+    window.location.href = "data:text/x-vcard;charset=utf-8," + encodeURIComponent(vcard);
+    return;
+  }
+
+  // 3. Desktop Fallback: Download file
+  var blob = new Blob([vcard], { type: "text/vcard" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = globalName + "-Contact.vcf";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 500);
 }
 
 /* ═══ INIT ═══ */
