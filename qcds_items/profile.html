@@ -677,7 +677,7 @@ html, body {
   <div class="dl-row" id="dlRow" style="display:none;">
     <button class="dl-btn png"   onclick="downloadPNG()"><i class="fas fa-image"></i> Download PNG</button>
     <button class="dl-btn pdf"   onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button>
-    <button class="dl-btn vcf"   onclick="downloadVCF()"><i class="fas fa-user-plus"></i> Save Contact</button>
+    <a class="dl-btn vcf" id="vcfBtn" onclick="showToast('✓ Saved to Contacts!')" style="text-decoration:none;"><i class="fas fa-user-plus"></i> Save Contact</a>
   </div>
 
   <div class="blink-wrap" id="blinkWrap" style="display:none;">
@@ -891,6 +891,34 @@ function renderCard(user) {
   document.getElementById("flipBtnRow").style.display = "flex";
   document.getElementById("dlRow").style.display      = "flex";
   document.getElementById("blinkWrap").style.display  = "block";
+
+  // Pre-generate VCF and attach to anchor directly to bypass all synthetic click blocks
+  var parts = name.split(" ");
+  var lastName = parts.length > 1 ? parts.pop() : "";
+  var firstName = parts.join(" ");
+  if (!firstName) firstName = lastName;
+  
+  var vcard = "BEGIN:VCARD\r\nVERSION:3.0\r\n";
+  vcard += "N:" + lastName + ";" + firstName + ";;;\r\n";
+  vcard += "FN:" + name + "\r\n";
+  vcard += "ORG:QuantumCoders Data Solution\r\n";
+  if (position) vcard += "TITLE:" + position + "\r\n";
+  if (p10) vcard += "TEL;TYPE=WORK,VOICE:+91" + p10 + "\r\n";
+  if (w10 && w10 !== p10) vcard += "TEL;TYPE=CELL,VOICE:+91" + w10 + "\r\n";
+  if (email) vcard += "EMAIL;TYPE=PREF,INTERNET:" + email + "\r\n";
+  vcard += "URL:https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html\r\n";
+  vcard += "END:VCARD";
+
+  var vcfBtn = document.getElementById("vcfBtn");
+  if (vcfBtn) {
+    try {
+      var blob = new Blob([vcard], { type: "text/vcard" });
+      vcfBtn.href = window.URL.createObjectURL(blob);
+    } catch(e) {
+      vcfBtn.href = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcard);
+    }
+    vcfBtn.download = globalName + "-Contact.vcf";
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════
