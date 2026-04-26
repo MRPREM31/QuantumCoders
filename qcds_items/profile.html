@@ -824,7 +824,7 @@ function renderCard(user) {
   // WhatsApp — clickable link
   var fWAEl = document.getElementById("fWA");
   if (w10) {
-    var waText = "Hello, this is " + encodeURIComponent(name) + " from QuantumCoders";
+    var waText = encodeURIComponent("Hello, this is [Your Name]. I am contacting you from the QuantumCoders website.");
     var waLink = "https://wa.me/91" + w10 + "?text=" + waText;
     fWAEl.innerHTML = '<a href="' + waLink + '" target="_blank" style="color:#25d366;text-decoration:none;">' + fmt10(w10) + '</a>';
   } else {
