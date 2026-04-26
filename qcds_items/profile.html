@@ -1144,26 +1144,26 @@ function downloadVCF() {
   vcard += "URL:https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html\n";
   vcard += "END:VCARD";
 
-  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  var file = new File([vcard], globalName + "-Contact.vcf", { type: "text/vcard" });
-  
+  var fileSupported = false;
+  var file;
+  try {
+    file = new File([vcard], globalName + "-Contact.vcf", { type: "text/vcard" });
+    fileSupported = true;
+  } catch(e) {}
+
   // 1. Try Web Share API (native modal to save contact on Mobile)
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+  if (fileSupported && navigator.canShare && navigator.canShare({ files: [file] })) {
     navigator.share({
       files: [file],
       title: name,
       text: "Save Contact"
-    }).catch(function(e){ console.log("Share skipped"); });
+    }).then(function(){
+      showToast("✓ Shared!");
+    }).catch(function(e){ console.log("Share skipped/failed", e); });
     return;
   }
 
-  // 2. Fallback: Data URI (iOS safely hooks this inside the browser without downloading)
-  if (isMobile) {
-    window.location.href = "data:text/x-vcard;charset=utf-8," + encodeURIComponent(vcard);
-    return;
-  }
-
-  // 3. Desktop Fallback: Download file
+  // 2. Universal Fallback: Download file
   var blob = new Blob([vcard], { type: "text/vcard" });
   var url = URL.createObjectURL(blob);
   var a = document.createElement("a");
@@ -1173,6 +1173,8 @@ function downloadVCF() {
   a.click();
   document.body.removeChild(a);
   setTimeout(function(){ URL.revokeObjectURL(url); }, 500);
+
+  showToast("✓ Saved to Contacts!");
 }
 
 /* ═══ INIT ═══ */
