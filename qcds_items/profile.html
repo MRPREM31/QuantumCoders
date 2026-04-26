@@ -1117,64 +1117,80 @@ async function downloadPDF() {
 
 /* ═══ DOWNLOAD VCF ═══ */
 function downloadVCF() {
-  if (!globalMemberData) return;
-  var user = globalMemberData;
-  var name  = safe(user["Name"]) || "QCDS Member";
-  var phone = ex10(safe(user["Contact Number"]));
-  var wa    = ex10(safe(user["WhatsApp Number"]));
-  var email = safe(user["Email ID"]);
-  var pos   = safe(user["Position"]);
-  
-  var parts = name.split(" ");
-  var lastName = parts.length > 1 ? parts.pop() : "";
-  var firstName = parts.join(" ");
-  if (!firstName) firstName = lastName;
-
-  var vcard = "BEGIN:VCARD\n" +
-              "VERSION:3.0\n" +
-              "N:" + lastName + ";" + firstName + ";;;\n" +
-              "FN:" + name + "\n" +
-              "ORG:QuantumCoders Data Solution\n";
-
-  if (pos) vcard += "TITLE:" + pos + "\n";
-  if (phone) vcard += "TEL;TYPE=WORK,VOICE:+91" + phone + "\n";
-  if (wa && wa !== phone) vcard += "TEL;TYPE=CELL,VOICE:+91" + wa + "\n";
-  if (email) vcard += "EMAIL;TYPE=PREF,INTERNET:" + email + "\n";
-  
-  vcard += "URL:https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html\n";
-  vcard += "END:VCARD";
-
-  var fileSupported = false;
-  var file;
   try {
-    file = new File([vcard], globalName + "-Contact.vcf", { type: "text/vcard" });
-    fileSupported = true;
-  } catch(e) {}
+    if (!globalMemberData) return;
+    var user = globalMemberData;
+    var name  = safe(user["Name"]) || "QCDS Member";
+    var phone = ex10(safe(user["Contact Number"]));
+    var wa    = ex10(safe(user["WhatsApp Number"]));
+    var email = safe(user["Email ID"]);
+    var pos   = safe(user["Position"]);
+    
+    var parts = name.split(" ");
+    var lastName = parts.length > 1 ? parts.pop() : "";
+    var firstName = parts.join(" ");
+    if (!firstName) firstName = lastName;
 
-  // 1. Try Web Share API (native modal to save contact on Mobile)
-  if (fileSupported && navigator.canShare && navigator.canShare({ files: [file] })) {
-    navigator.share({
-      files: [file],
-      title: name,
-      text: "Save Contact"
-    }).then(function(){
-      showToast("✓ Shared!");
-    }).catch(function(e){ console.log("Share skipped/failed", e); });
-    return;
+    var vcard = "BEGIN:VCARD\r\n" +
+                "VERSION:3.0\r\n" +
+                "N:" + lastName + ";" + firstName + ";;;\r\n" +
+                "FN:" + name + "\r\n" +
+                "ORG:QuantumCoders Data Solution\r\n";
+
+    if (pos) vcard += "TITLE:" + pos + "\r\n";
+    if (phone) vcard += "TEL;TYPE=WORK,VOICE:+91" + phone + "\r\n";
+    if (wa && wa !== phone) vcard += "TEL;TYPE=CELL,VOICE:+91" + wa + "\r\n";
+    if (email) vcard += "EMAIL;TYPE=PREF,INTERNET:" + email + "\r\n";
+    
+    vcard += "URL:https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html\r\n";
+    vcard += "END:VCARD";
+
+    var fileName = globalName + "-Contact.vcf";
+
+    // 1. Try Web Share API carefully (some browsers throw fatal errors for .vcf files)
+    try {
+      if (navigator.share && navigator.canShare) {
+        var file = new File([vcard], fileName, { type: "text/vcard" });
+        if (navigator.canShare({ files: [file] })) {
+          navigator.share({
+            files: [file],
+            title: name,
+            text: "Save Contact"
+          }).then(function(){
+            showToast("✓ Shared!");
+          }).catch(function(e){});
+          return;
+        }
+      }
+    } catch(e) {
+      console.log("Share API unsupported/rejected for VCF, falling back to download.");
+    }
+
+    // 2. Universal Fallback: Download file
+    var blob = new Blob([vcard], { type: "text/vcard" });
+    var url = (window.URL || window.webkitURL).createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    
+    // Safety fallback for extremely old mobile browsers
+    if (typeof a.download === "undefined") {
+      a.href = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcard);
+      a.target = "_blank";
+    }
+
+    document.body.appendChild(a);
+    a.click();
+    
+    setTimeout(function(){
+      document.body.removeChild(a);
+      try { (window.URL || window.webkitURL).revokeObjectURL(url); } catch(err){}
+    }, 500);
+
+    showToast("✓ Saved to Contacts!");
+  } catch(err) {
+    showToast("✗ Error: " + err.message, true);
   }
-
-  // 2. Universal Fallback: Download file
-  var blob = new Blob([vcard], { type: "text/vcard" });
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement("a");
-  a.href = url;
-  a.download = globalName + "-Contact.vcf";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(function(){ URL.revokeObjectURL(url); }, 500);
-
-  showToast("✓ Saved to Contacts!");
 }
 
 /* ═══ INIT ═══ */
