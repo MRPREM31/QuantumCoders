@@ -29,7 +29,7 @@
   --white:   #ffffff;
   --muted:   #8ba5c2;
   --card-w:  390px;
-  --card-h:  720px;
+  --card-h:  740px;
 }
 
 html, body {
@@ -143,19 +143,15 @@ html, body {
   background-size: 30px 30px;
 }
 
-
-/* ── FRONT HEADER ──
-   Taller now (210px) so the photo circle is fully visible and centered
-*/
+/* ── FRONT HEADER ── */
 .front-header {
   position: relative;
   height: 210px;
   background: linear-gradient(130deg, #0b3060 0%, #1a6bb5 50%, #0f4c81 100%);
   display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-  padding-top: 22px; overflow: visible; /* visible so ring isn't clipped */
+  padding-top: 22px; overflow: visible;
   flex-shrink: 0;
 }
-/* Wave cut at bottom of header */
 .front-header::after {
   content: ''; position: absolute; bottom: -1px; left: -5%; right: -5%; height: 50px;
   background: linear-gradient(175deg, transparent 38%, #0d1e35 100%);
@@ -181,7 +177,6 @@ html, body {
 /* ── PHOTO ── */
 .photo-wrap {
   position: relative; z-index: 20;
-  /* No absolute positioning — flows naturally in the header flex column */
 }
 .photo-ring {
   width: 114px; height: 114px; border-radius: 50%; padding: 3px;
@@ -202,7 +197,6 @@ html, body {
   background: linear-gradient(135deg, var(--cyan), var(--plight));
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-/* Corner brackets around photo */
 .pc { position: absolute; width: 14px; height: 14px; }
 .pc.tl { top: -5px; left: -5px; border-top: 2px solid var(--orange); border-left: 2px solid var(--orange); }
 .pc.tr { top: -5px; right: -5px; border-top: 2px solid var(--orange); border-right: 2px solid var(--orange); }
@@ -211,19 +205,26 @@ html, body {
 
 /* ── FRONT BODY ── */
 .front-body {
-  padding: 18px 18px 70px; /* 70px bottom padding clears the footer */
+  padding: 18px 18px 70px;
   display: flex; flex-direction: column; align-items: center;
   flex: 1; overflow: hidden;
 }
 .mname {
   font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 900; letter-spacing: 1px;
-  color: var(--white); text-align: center; margin-bottom: 4px;
+  color: var(--white); text-align: center; margin-bottom: 2px;
   text-shadow: 0 2px 10px rgba(0,0,0,0.5);
   line-height: 1.3;
 }
 .mrole {
   font-size: 0.6rem; font-weight: 700; letter-spacing: 2.5px;
-  color: var(--cyan); text-transform: uppercase; margin-bottom: 8px;
+  color: var(--cyan); text-transform: uppercase; margin-bottom: 3px;
+}
+/* NEW: Position field */
+.mposition {
+  font-size: 0.62rem; font-weight: 600; letter-spacing: 1.5px;
+  color: var(--gold); text-transform: uppercase; margin-bottom: 6px;
+  padding: 2px 10px; border-radius: 50px;
+  background: rgba(252,191,73,0.1); border: 1px solid rgba(252,191,73,0.25);
 }
 .mtags {
   display: flex; flex-wrap: wrap; gap: 4px;
@@ -258,6 +259,7 @@ html, body {
 }
 .ival a { color: var(--cyan); text-decoration: none; }
 .ival a:hover { text-decoration: underline; }
+.ival.not-found { color: var(--muted); font-style: italic; font-size: 0.65rem; }
 
 /* ── FRONT FOOTER ── */
 .front-footer {
@@ -288,55 +290,22 @@ html, body {
   padding: 16px 20px 0; overflow: hidden;
 }
 .back-wm {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-    pointer-events: none;
-    z-index: 0; /* keep behind content */
-    
-    opacity: 0.06; /* perfect watermark visibility */
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  pointer-events: none; z-index: 0;
+  opacity: 0.06;
 }
-
-/* LOGO */
-/* BIG LOGO */
 .wm-logo {
-    width: 260px;        /* 🔥 increased size */
-    max-width: 90%;
-    object-fit: contain;
-
-    filter: 
-        grayscale(100%) 
-        brightness(200%) 
-        contrast(120%);
-    
-    margin-bottom: 12px;
+  width: 260px; max-width: 90%; object-fit: contain;
+  filter: grayscale(100%) brightness(200%) drop-shadow(0 0 20px rgba(0,180,216,0.2));
+  margin-bottom: 12px;
 }
-
-/* TEXT BELOW LOGO */
 .wm-txt {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 900;
-    letter-spacing: 3px;
-    text-align: center;
-
-    color: rgba(255, 255, 255, 0.6);
-    line-height: 1.4;
-
-    text-transform: uppercase;
-}
-.wm-logo {
-    filter: 
-        grayscale(100%) 
-        brightness(200%) 
-        drop-shadow(0 0 20px rgba(0,180,216,0.2));
+  font-family: 'Orbitron', sans-serif; font-size: 0.75rem; font-weight: 900;
+  letter-spacing: 3px; text-align: center;
+  color: rgba(255,255,255,0.6); line-height: 1.4; text-transform: uppercase;
 }
 .back-abar {
   width: 75%; height: 2px; border-radius: 2px; flex-shrink: 0;
@@ -440,7 +409,6 @@ html, body {
 }
 .dl-btn.png   { border: 1px solid rgba(0,180,216,0.3); color: var(--cyan); }
 .dl-btn.pdf   { border: 1px solid rgba(247,127,0,0.3); color: var(--gold); }
-.dl-btn.print { border: 1px solid rgba(6,214,160,0.3); color: var(--green); }
 .dl-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.09); }
 .dl-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
@@ -481,15 +449,18 @@ html, body {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 420px) {
-  :root { --card-w: 340px; --card-h: 700px; }
+  :root { --card-w: 340px; --card-h: 720px; }
   .wrapper { padding: 16px 10px 44px; }
   .flip-btn-row, .dl-row { gap: 8px; }
   .mname { font-size: 0.9rem; }
 }
 @media (max-width: 360px) {
-  :root { --card-w: 310px; --card-h: 700px; }
+  :root { --card-w: 310px; --card-h: 720px; }
   .dl-btn { padding: 9px 14px; font-size: 0.66rem; }
 }
+
+/* ── CAPTURE HELPER (used only during download) ── */
+.capture-mode { transform: none !important; backface-visibility: visible !important; -webkit-backface-visibility: visible !important; }
 </style>
 </head>
 <body>
@@ -542,7 +513,6 @@ html, body {
       <div class="card-face card-front" id="cardFront">
         <div class="hex-overlay"></div>
 
-        <!-- Header: company text + ID number + photo (all in normal flow) -->
         <div class="front-header">
           <div class="fh-glow"></div>
           <div class="hex-overlay"></div>
@@ -552,7 +522,6 @@ html, body {
             <div class="fh-dot"></div>
           </div>
           <div class="fh-idnum" id="frontIdNum">QCDS-XXXX-25</div>
-          <!-- Photo sits inside the header, will overflow down via overflow:visible -->
           <div class="photo-wrap">
             <div class="photo-ring">
               <div class="photo-inner" id="photoInner">
@@ -564,12 +533,12 @@ html, body {
           </div>
         </div>
 
-        <!-- Body -->
         <div class="front-body">
-          <!-- Name and role pushed down to clear the overflowing photo ring -->
           <div style="height:60px;flex-shrink:0;"></div>
           <div class="mname" id="memberName">—</div>
           <div class="mrole" id="memberRole">QCDS Team Member</div>
+          <!-- NEW: Position field -->
+          <div class="mposition" id="memberPosition" style="display:none;"></div>
           <div class="mtags" id="memberTags"></div>
           <div class="fdiv"></div>
 
@@ -577,42 +546,42 @@ html, body {
             <div class="iicon"><i class="fas fa-phone-alt"></i></div>
             <div class="itext">
               <div class="ilbl">Phone</div>
-              <div class="ival" id="fPhone">—</div>
+              <div class="ival" id="fPhone">Not in QCDS Database</div>
             </div>
           </div>
           <div class="irow">
             <div class="iicon" style="color:#25d366;"><i class="fab fa-whatsapp"></i></div>
             <div class="itext">
               <div class="ilbl">WhatsApp</div>
-              <div class="ival" id="fWA">—</div>
+              <div class="ival" id="fWA">Not in QCDS Database</div>
             </div>
           </div>
           <div class="irow">
             <div class="iicon" style="color:#ea4335;"><i class="fas fa-envelope"></i></div>
             <div class="itext">
               <div class="ilbl">Email</div>
-              <div class="ival"><a id="fEmail" href="#">—</a></div>
+              <div class="ival"><a id="fEmail" href="#">Not in QCDS Database</a></div>
             </div>
           </div>
           <div class="irow">
             <div class="iicon" style="color:var(--gold);"><i class="fas fa-map-marker-alt"></i></div>
             <div class="itext">
               <div class="ilbl">Location</div>
-              <div class="ival" id="fLoc">—</div>
+              <div class="ival" id="fLoc">Not in QCDS Database</div>
             </div>
           </div>
           <div class="irow">
             <div class="iicon" style="color:var(--cyan);"><i class="fas fa-tasks"></i></div>
             <div class="itext">
               <div class="ilbl">Work Type</div>
-              <div class="ival" id="fWork">—</div>
+              <div class="ival" id="fWork">Not in QCDS Database</div>
             </div>
           </div>
           <div class="irow">
             <div class="iicon" style="color:var(--lime);"><i class="fas fa-language"></i></div>
             <div class="itext">
               <div class="ilbl">Languages</div>
-              <div class="ival" id="fLang">Hindi · English · Odia</div>
+              <div class="ival" id="fLang">Not in QCDS Database</div>
             </div>
           </div>
           <div class="irow">
@@ -624,7 +593,6 @@ html, body {
           </div>
         </div>
 
-        <!-- Footer pinned to bottom -->
         <div class="front-footer">
           <span class="ff-brand">QUANTUMCODERS</span>
           <div class="ff-chip"><i class="fas fa-id-badge" style="font-size:0.46rem;"></i>&nbsp;Official ID</div>
@@ -637,17 +605,16 @@ html, body {
         <div class="hex-overlay"></div>
         <div class="back-inner">
           <div class="back-wm">
-            <img src="https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDL.png" 
-            alt="QCDS Logo"
-            class="wm-logo">
-                <div class="wm-txt">QUANTUMCODERS<br>DATA SOLUTION</div>
+            <img src="https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDL.png"
+            alt="QCDS Logo" class="wm-logo" crossorigin="anonymous">
+            <div class="wm-txt">QUANTUMCODERS<br>DATA SOLUTION</div>
           </div>
 
           <div class="back-abar"></div>
 
           <div class="back-logrow">
             <div class="back-logbox" id="backLogoBox">
-              <img src="https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDL.png" alt="QCDS" id="backLogoImg"
+              <img src="https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDL.png" alt="QCDS" id="backLogoImg" crossorigin="anonymous"
                 onerror="this.style.display='none';document.getElementById('backLogoBox').innerHTML='<i class=&quot;fas fa-atom&quot; style=&quot;font-size:1.1rem;color:white&quot;></i>'">
             </div>
             <div>
@@ -665,7 +632,7 @@ html, body {
             <div class="brow"><i class="fas fa-map-marker-alt"></i><span>Berhampur, Odisha, India – 760001</span></div>
             <div class="brow"><i class="fas fa-globe"></i><span><a href="https://quantumcoderstechlab.codes" target="_blank" style="color:var(--cyan);text-decoration:none;">quantumcoderstechlab.codes</a></span></div>
             <div class="brow"><i class="fas fa-envelope"></i><span>quantumcoderstechlab@gmail.com</span></div>
-            <div class="brow"><i class="fas fa-language"></i><span><strong>Languages:</strong>&nbsp;Hindi · English · Odia</span></div>
+            <div class="brow"><i class="fas fa-language"></i><span id="bLang"><strong>Languages:</strong>&nbsp;Hindi · English · Odia</span></div>
             <div class="brow"><i class="fas fa-home"></i><span><strong>Work Mode:</strong>&nbsp;Work From Home</span></div>
             <div class="bdiv"></div>
           </div>
@@ -708,7 +675,7 @@ html, body {
 
   <div class="dl-row" id="dlRow" style="display:none;">
     <button class="dl-btn png"   onclick="downloadPNG()"><i class="fas fa-image"></i> Download PNG</button>
-    <button class="dl-btn pdf"   onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button> 
+    <button class="dl-btn pdf"   onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button>
   </div>
 
   <div class="blink-wrap" id="blinkWrap" style="display:none;">
@@ -726,16 +693,22 @@ html, body {
 /* ═══ CONFIG ═══ */
 var API_URL = "https://opensheet.elk.sh/1Pu2Hyx7rwOpeY10r0E762QezCj_PbSTvW24IUctW8-c/Team%20Details";
 var SIG_URL = "https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/prem-signature.png";
+var LOGO_URL = "https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDL.png";
 
 var isFlipped  = false;
 var globalName = "QCDS-Member";
+var globalMemberName = ""; // for WhatsApp link
 
 /* ═══ UTILS ═══ */
-function safe(v)    { return (v && v.toString().trim() !== "" && v.toString().trim() !== "N/A") ? v.toString().trim() : null; }
-function getInits(n){ return n ? n.split(" ").filter(Boolean).map(function(x){return x[0];}).slice(0,2).join("").toUpperCase() : "?"; }
-function ex10(s)    { return s ? s.replace(/\D/g,"").slice(-10) : null; }
-function fmt10(n)   { return n ? "+91 " + n.replace(/(\d{5})(\d{5})/,"$1 $2") : "—"; }
-function genID(p)   { return "QCDS-" + (ex10(p)||"0000").slice(-4) + "-25"; }
+function safe(v) {
+  var s = v && v.toString().trim();
+  return (s && s !== "" && s !== "N/A" && s !== "n/a") ? s : null;
+}
+function getInits(n) { return n ? n.split(" ").filter(Boolean).map(function(x){return x[0];}).slice(0,2).join("").toUpperCase() : "?"; }
+function ex10(s)     { return s ? s.replace(/\D/g,"").slice(-10) : null; }
+function fmt10(n)    { return n ? "+91 " + n.replace(/(\d{5})(\d{5})/,"$1 $2") : null; }
+function genID(p)    { return "QCDS-" + (ex10(p)||"0000").slice(-4) + "-25"; }
+function notFound()  { return "Not in QCDS Database"; }
 
 function showToast(msg, isErr) {
   var t = document.getElementById("toast");
@@ -810,31 +783,81 @@ function toggleFlip() {
 
 /* ═══ RENDER ═══ */
 function renderCard(user) {
-  var name     = safe(user["Name"])           || "Team Member";
-  var phone    = safe(user["Contact Number"]);
-  var wa       = safe(user["WhatsApp Number"]);
-  var email    = safe(user["Email ID"]);
-  var workType = safe(user["Work Type"]);
-  var image    = safe(user["Image"]);
-  var loc      = safe(user["Location"])       || "Berhampur, Odisha, India";
+  var name      = safe(user["Name"])              || "Team Member";
+  var phone     = safe(user["Contact Number"]);
+  var wa        = safe(user["WhatsApp Number"]);
+  var email     = safe(user["Email ID"]);
+  var workType  = safe(user["Work Type"]);
+  var image     = safe(user["Image"]);
+  var loc       = safe(user["Location"]);
+  var position  = safe(user["Position"]);
 
-  globalName   = name.replace(/ /g, "-");
-  document.title = name + " | QCDS Identity";
+  // Determine languages — sheet doesn't have a Languages column so default to the known value
+  var languages = "Hindi · English · Odia";
+
+  globalName       = name.replace(/ /g, "-");
+  globalMemberName = name;
+  document.title   = name + " | QCDS Identity";
 
   var p10 = ex10(phone);
   var w10 = ex10(wa) || p10;
 
   document.getElementById("frontIdNum").textContent = genID(phone);
   document.getElementById("memberName").textContent = name;
-  document.getElementById("fPhone").textContent     = p10 ? fmt10(p10) : "—";
-  document.getElementById("fWA").textContent        = w10 ? fmt10(w10) : "—";
-  document.getElementById("fLoc").textContent       = loc;
-  document.getElementById("fWork").textContent      = workType || "—";
-  document.getElementById("fLang").textContent      = "Hindi · English · Odia";
 
+  // Position field
+  var posEl = document.getElementById("memberPosition");
+  if (position) {
+    posEl.textContent = position;
+    posEl.style.display = "inline-block";
+    document.getElementById("memberRole").style.display = "none"; // hide generic role if position exists
+  } else {
+    posEl.style.display = "none";
+    document.getElementById("memberRole").style.display = "block";
+  }
+
+  // Phone
+  var fPhoneEl = document.getElementById("fPhone");
+  fPhoneEl.textContent = p10 ? fmt10(p10) : notFound();
+  if (!p10) fPhoneEl.classList.add("not-found");
+
+  // WhatsApp — clickable link
+  var fWAEl = document.getElementById("fWA");
+  if (w10) {
+    var waText = "Hello, this is " + encodeURIComponent(name) + " from QuantumCoders";
+    var waLink = "https://wa.me/91" + w10 + "?text=" + waText;
+    fWAEl.innerHTML = '<a href="' + waLink + '" target="_blank" style="color:#25d366;text-decoration:none;">' + fmt10(w10) + '</a>';
+  } else {
+    fWAEl.textContent = notFound();
+    fWAEl.classList.add("not-found");
+  }
+
+  // Email
   var emailEl = document.getElementById("fEmail");
-  if (email) { emailEl.textContent = email; emailEl.href = "mailto:" + email; }
-  else { emailEl.textContent = "—"; }
+  if (email) {
+    emailEl.textContent = email;
+    emailEl.href = "mailto:" + email;
+  } else {
+    emailEl.textContent = notFound();
+    emailEl.href = "#";
+    emailEl.classList.add("not-found");
+  }
+
+  // Location
+  var fLocEl = document.getElementById("fLoc");
+  fLocEl.textContent = loc || notFound();
+  if (!loc) fLocEl.classList.add("not-found");
+
+  // Work Type
+  var fWorkEl = document.getElementById("fWork");
+  fWorkEl.textContent = workType || notFound();
+  if (!workType) fWorkEl.classList.add("not-found");
+
+  // Languages
+  document.getElementById("fLang").textContent = languages;
+
+  // Back card languages
+  document.getElementById("bLang").innerHTML = "<strong>Languages:</strong>&nbsp;" + languages;
 
   /* Tags */
   var tagsEl = document.getElementById("memberTags");
@@ -866,68 +889,64 @@ function renderCard(user) {
   document.getElementById("blinkWrap").style.display  = "block";
 }
 
-/* ═══ CAPTURE FACE (no mirror) ═══ */
+/* ══════════════════════════════════════════════════════════════
+   FIXED CAPTURE — renders each face into an off-screen container
+   so there is NO mirror / flip issue whatsoever.
+══════════════════════════════════════════════════════════════ */
 function wait(ms) { return new Promise(function(r){ setTimeout(r, ms); }); }
 function raf2()   { return new Promise(function(r){ requestAnimationFrame(function(){ requestAnimationFrame(r); }); }); }
 
 async function captureFace(which) {
-  var wasFlipped = isFlipped;
-  var flipCard   = document.getElementById("flipCard");
+  // 1. Clone the target element
+  var sourceEl = document.getElementById(which === "front" ? "cardFront" : "cardBack");
+  var clone    = sourceEl.cloneNode(true);
 
-  /* Disable CSS transition to avoid capturing mid-animation */
-  flipCard.style.transition = "none";
+  // 2. Strip ALL 3-D transforms — make it look exactly like the visible face
+  clone.style.cssText = [
+    "position:fixed",
+    "top:-9999px",
+    "left:-9999px",
+    "width:"  + sourceEl.offsetWidth  + "px",
+    "height:" + sourceEl.offsetHeight + "px",
+    "transform:none",
+    "backface-visibility:visible",
+    "-webkit-backface-visibility:visible",
+    "border-radius:26px",
+    "overflow:hidden",
+    "opacity:1",
+    "pointer-events:none",
+    "z-index:-1"
+  ].join(";");
 
-  if (which === "front") {
-    flipCard.classList.remove("flipped");
-    isFlipped = false;
-  } else {
-    flipCard.classList.add("flipped");
-    isFlipped = true;
-  }
+  document.body.appendChild(clone);
 
+  // Wait for fonts / images inside clone to settle
   await raf2();
-  await wait(200);
+  await wait(300);
 
-  var el = document.getElementById(which === "front" ? "cardFront" : "cardBack");
-  var origTransform  = el.style.transform;
-  var origBackface   = el.style.webkitBackfaceVisibility || el.style.backfaceVisibility;
-
-  /* Un-mirror the back so html2canvas sees it correctly */
-  if (which === "back") {
-    el.style.transform = "none";
-    el.style.webkitBackfaceVisibility = "visible";
-    el.style.backfaceVisibility = "visible";
-  }
-
-  await wait(80);
-
-  var cv = await html2canvas(el, {
+  var cv = await html2canvas(clone, {
     scale: 3,
     useCORS: true,
     allowTaint: true,
     backgroundColor: null,
     logging: false,
     foreignObjectRendering: false,
-    imageTimeout: 0
+    imageTimeout: 15000,
+    onclone: function(clonedDoc) {
+      // Make sure QR canvas is painted properly
+      var origQR   = sourceEl.querySelector("#backQR canvas");
+      var cloneQR  = clonedDoc.querySelector("#backQR canvas");
+      if (origQR && cloneQR) {
+        var ctx2 = cloneQR.getContext("2d");
+        ctx2.drawImage(origQR, 0, 0);
+      }
+      // Make back logo visible
+      var imgs = clonedDoc.querySelectorAll("img");
+      imgs.forEach(function(img){ img.crossOrigin = "anonymous"; });
+    }
   });
 
-  /* Restore back face */
-  if (which === "back") {
-    el.style.transform = origTransform;
-    el.style.webkitBackfaceVisibility = origBackface || "hidden";
-    el.style.backfaceVisibility = origBackface || "hidden";
-  }
-
-  /* Restore flip state */
-  flipCard.style.transition = "";
-  if (wasFlipped) {
-    flipCard.classList.add("flipped");
-    isFlipped = true;
-  } else {
-    flipCard.classList.remove("flipped");
-    isFlipped = false;
-  }
-
+  document.body.removeChild(clone);
   return cv;
 }
 
@@ -1046,7 +1065,7 @@ async function downloadPDF() {
       title:   "QCDS Identity — " + globalName.replace(/-/g," "),
       subject: "QuantumCoders Data Solution Official ID Card",
       author:  "QuantumCoders Data Solution",
-      creator: "QCDS ID System v4"
+      creator: "QCDS ID System v5"
     });
 
     pdf.save("QCDS-ID-" + globalName + ".pdf");
@@ -1059,9 +1078,6 @@ async function downloadPDF() {
     btn.disabled  = false;
   }
 }
-
-/* ═══ PRINT ═══ */
-
 
 /* ═══ INIT ═══ */
 async function init() {
