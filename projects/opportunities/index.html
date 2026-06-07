@@ -264,8 +264,38 @@
         .badge-active { background:rgba(6,214,160,0.15); color:var(--success); border:1px solid var(--success); }
         .badge-soon { background:rgba(239,71,111,0.15); color:var(--danger); border:1px solid var(--danger); }
 
-        .partner-symbol { font-size:2.8rem; font-weight:800; font-family:'Orbitron',sans-serif; line-height:1; }
-        .cross-symbol { color:var(--accent); font-family:sans-serif; font-size:2.2rem; vertical-align:middle; margin:0 8px; }
+        .partner-symbol {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 8px;
+            gap: 2px 8px;
+        }
+        .partner-qcds {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+        }
+        .partner-brand {
+            background: linear-gradient(135deg, var(--secondary-light), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+        }
+        .cross-symbol {
+            color: var(--accent);
+            font-family: sans-serif;
+            font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         .card-desc { font-size:0.95rem; color:var(--text-muted); line-height:1.6; margin-bottom:20px; }
 
@@ -407,8 +437,10 @@
                             <span class="badge badge-soon">Coming Soon</span>
                             <i class="fas fa-lock" style="color:var(--text-light); font-size:1.1rem;"></i>
                         </div>
-                        <div class="partner-symbol gradient-text">
-                            QCDS<span class="cross-symbol">&times;</span>DesiCrew
+                        <div class="partner-symbol">
+                            <span class="partner-qcds">QCDS</span>
+                            <span class="cross-symbol">&times;</span>
+                            <span class="partner-brand">DesiCrew</span>
                         </div>
                         <p class="card-desc">Professional enterprise transcription, annotation, and translation services. Direct integration with verified corporate BPO deliverables.</p>
                         
@@ -439,8 +471,10 @@
                             <span class="badge badge-active">Active</span>
                             <i class="fas fa-lock-open" style="color:var(--success); font-size:1.1rem;"></i>
                         </div>
-                        <div class="partner-symbol gradient-text">
-                            QCDS<span class="cross-symbol">&times;</span>Karya
+                        <div class="partner-symbol">
+                            <span class="partner-qcds">QCDS</span>
+                            <span class="cross-symbol">&times;</span>
+                            <span class="partner-brand">Karya</span>
                         </div>
                         <p class="card-desc">Participate in regional AI training speech collections, transcription, and validation tasks designed directly for Indian languages and accents.</p>
                         
