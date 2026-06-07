@@ -25,6 +25,20 @@
     </image:image>
   </url>
 
+  <!-- KARYA X QCDS AI LANGUAGE CONTRIBUTOR PROGRAM -->
+  <url>
+    <loc>https://quantumcoderstechlab.codes/projects/language-contributors</loc>
+    <lastmod>2026-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+
+    <image:image>
+      <image:loc>https://quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/Karya_QCDS.jpg</image:loc>
+      <image:title>Karya &amp; QCDS AI Language Contributor Recruitment Poster</image:title>
+      <image:caption>Recruitment poster for AI and language technology projects, speech data collection, transcription, and validation.</image:caption>
+    </image:image>
+  </url>
+
 
 
   <!-- SMART ATTENDANCE SYSTEM (PRODUCT PAGE) -->
