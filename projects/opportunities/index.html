@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Opportunities Portal | QuantumCoders Data Solutions</title>
+
+    <meta name="description" content="Explore and apply to professional data annotation, language collection, transcription, and translation opportunities with QuantumCoders Data Solutions.">
+    <meta name="keywords" content="QCDS opportunities, DesiCrew opportunities, Karya opportunities, data labeling jobs, transcription jobs, translation projects, speech data collection">
+    
+    <meta name="author" content="QuantumCoders Data Solutions">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow, imageindex">
+
+    <meta property="og:title" content="Opportunities Portal | QuantumCoders Data Solutions">
+    <meta property="og:description" content="Explore professional language data collection and annotation opportunities. Partners include Karya and DesiCrew.">
+    <meta property="og:image" content="https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDL.png">
+    <meta property="og:url" content="https://www.quantumcoderstechlab.codes/projects/opportunities">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Opportunities Portal | QuantumCoders Data Solutions">
+    <meta name="twitter:description" content="Participate in language transcription and validation programs with leading industry partners.">
+
+    <link rel="canonical" href="https://www.quantumcoderstechlab.codes/projects/opportunities">
+    <link rel="icon" type="image/png" href="https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDL.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #0f4c81;
+            --primary-light: #1a6bb5;
+            --primary-dark: #0a3459;
+            --primary-glow: rgba(15, 76, 129, 0.25);
+            --secondary: #00b4d8;
+            --secondary-light: #48cae4;
+            --accent: #f77f00;
+            --accent-light: #fcbf49;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+
+            --text: #0f1929;
+            --text-muted: #4a5568;
+            --text-light: #718096;
+            --bg: #ffffff;
+            --bg-2: #f7fafc;
+            --bg-3: #edf2f7;
+            --card: rgba(255,255,255,0.95);
+            --glass: rgba(255,255,255,0.08);
+            --border: rgba(15, 76, 129, 0.15);
+            --border-strong: rgba(15, 76, 129, 0.3);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-md: 0 16px 40px rgba(0,0,0,0.12);
+            --shadow-lg: 0 24px 60px rgba(0,0,0,0.16);
+            --shadow-glow: 0 0 30px rgba(15,76,129,0.25);
+
+            --tr: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            --tr-slow: background 0.5s ease, color 0.5s ease;
+
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b9edd;
+            --primary-light: #60b8f0;
+            --primary-dark: #2783c5;
+            --primary-glow: rgba(59,158,221,0.3);
+            --secondary: #00d4f5;
+            --secondary-light: #48e0ff;
+            --accent: #f77f00;
+            --accent-light: #fcbf49;
+
+            --text: #e8f4fd;
+            --text-muted: #a0aec0;
+            --text-light: #718096;
+            --bg: #060d18;
+            --bg-2: #0d1a2e;
+            --bg-3: #132338;
+            --card: rgba(13,26,46,0.95);
+            --glass: rgba(255,255,255,0.04);
+            --border: rgba(59,158,221,0.2);
+            --border-strong: rgba(59,158,221,0.4);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-md: 0 16px 40px rgba(0,0,0,0.5);
+            --shadow-lg: 0 24px 60px rgba(0,0,0,0.6);
+            --shadow-glow: 0 0 30px rgba(59,158,221,0.35);
+        }
+
+        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+        html, body { 
+            scroll-behavior:smooth; 
+            background:var(--bg);
+            scrollbar-width:none;
+            -ms-overflow-style:none;
+            overflow-x: hidden; 
+            width: 100%;
+            height: 100%;
+        }
+        html::-webkit-scrollbar { display:none !important; }
+        body::-webkit-scrollbar { display:none !important; }
+
+        body {
+            font-family:'Sora','Inter',sans-serif;
+            color:var(--text);
+            background:var(--bg);
+            line-height:1.65;
+            transition:var(--tr-slow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        body::before {
+            content:'';
+            position:fixed;
+            inset:0;
+            background:
+                radial-gradient(ellipse at 15% 50%, var(--primary-glow) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 15%, rgba(0,180,216,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 90%, rgba(247,127,0,0.08) 0%, transparent 50%);
+            z-index:-1;
+            pointer-events:none;
+        }
+
+        #particles-js { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+        .container { width:100%; max-width:1300px; margin:0 auto; padding:0 clamp(12px, 4vw, 24px); box-sizing:border-box; position:relative; z-index:1; }
+
+        /* Typography */
+        .display-font { font-family:'Orbitron',sans-serif; letter-spacing:1px; }
+        h1 { font-size:clamp(2rem,4.5vw,3.2rem); font-weight:800; line-height:1.2; margin-bottom:1rem; }
+        h2 { font-size:clamp(1.4rem,3vw,2.2rem); font-weight:700; line-height:1.2; margin-bottom:1rem; }
+        h3 { font-size:clamp(1.1rem,2.2vw,1.4rem); font-weight:700; line-height:1.3; margin-bottom:0.5rem; }
+        p { color:var(--text-muted); line-height:1.75; margin-bottom:1rem; }
+        
+        .gradient-text {
+            background:linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip:text; background-clip:text; color:transparent;
+        }
+
+        /* Navbar Styling */
+        header {
+            position:sticky; top:0; z-index:100;
+            background:rgba(var(--bg) == #ffffff ? '255,255,255' : '6,13,24', 0.8);
+            backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+            border-bottom:1px solid var(--border);
+            padding:16px 0;
+            transition:var(--tr-slow);
+        }
+
+        .nav-wrapper { display:flex; justify-content:space-between; align-items:center; }
+        
+        .logo-group { display:flex; align-items:center; gap:12px; text-decoration:none; }
+        .logo-img { width:42px; height:42px; object-fit:contain; }
+        .logo-text-group { display:flex; flex-direction:column; }
+        .logo-title { font-size:1.1rem; font-weight:800; color:var(--primary); }
+        .logo-subtitle { font-size:0.65rem; color:var(--text-light); text-transform:uppercase; letter-spacing:1px; margin-top:-2px; }
+
+        .nav-actions { display:flex; align-items:center; gap:16px; }
+
+        .btn-home {
+            text-decoration:none; color:var(--text-muted); font-weight:600; font-size:0.95rem;
+            display:flex; align-items:center; gap:8px; transition:color 0.2s ease;
+        }
+        .btn-home:hover { color:var(--primary); }
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            background:var(--bg-3); border:1px solid var(--border);
+            color:var(--text); width:40px; height:40px; border-radius:50%;
+            display:flex; align-items:center; justify-content:center; cursor:pointer;
+            transition:var(--tr); font-size:1.1rem;
+        }
+        .theme-toggle-btn:hover {
+            transform:rotate(30deg) scale(1.05);
+            background:var(--primary-glow);
+            border-color:var(--primary-light);
+        }
+        .theme-toggle-btn .fa-sun { display:none; }
+        [data-theme="dark"] .theme-toggle-btn .fa-moon { display:none; }
+        [data-theme="dark"] .theme-toggle-btn .fa-sun { display:block; }
+
+        /* Opportunities Grid Section */
+        .opportunities-section {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            padding: 60px 0;
+        }
+
+        .opp-header { text-align:center; max-width:700px; margin:0 auto 50px; }
+        .opp-header h1 { font-family:'Orbitron',sans-serif; }
+        .opp-header p { font-size:1.1rem; }
+
+        .opp-grid {
+            display:grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Glass Card */
+        .opp-card {
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:var(--radius-lg);
+            padding:40px 30px;
+            position:relative;
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+            overflow:hidden;
+            transition:var(--tr);
+            cursor:pointer;
+            box-shadow:var(--shadow);
+            backdrop-filter:blur(10px);
+            -webkit-backdrop-filter:blur(10px);
+        }
+
+        .opp-card::before {
+            content:'';
+            position:absolute;
+            inset:0;
+            background:linear-gradient(135deg, var(--primary-glow) 0%, transparent 100%);
+            opacity:0;
+            transition:opacity 0.3s ease;
+            z-index:-1;
+        }
+
+        .opp-card:hover {
+            transform:translateY(-8px);
+            box-shadow:var(--shadow-lg), var(--shadow-glow);
+            border-color:var(--border-strong);
+        }
+
+        .opp-card:hover::before {
+            opacity:1;
+        }
+
+        .card-top { display:flex; flex-direction:column; gap:20px; }
+
+        .badge-group { display:flex; justify-content:space-between; align-items:center; }
+        .badge {
+            padding:6px 14px; border-radius:50px; font-weight:700; font-size:0.75rem;
+            text-transform:uppercase; letter-spacing:0.5px;
+        }
+        .badge-active { background:rgba(6,214,160,0.15); color:var(--success); border:1px solid var(--success); }
+        .badge-soon { background:rgba(239,71,111,0.15); color:var(--danger); border:1px solid var(--danger); }
+
+        .partner-symbol { font-size:2.8rem; font-weight:800; font-family:'Orbitron',sans-serif; line-height:1; }
+        .cross-symbol { color:var(--accent); font-family:sans-serif; font-size:2.2rem; vertical-align:middle; margin:0 8px; }
+
+        .card-desc { font-size:0.95rem; color:var(--text-muted); line-height:1.6; margin-bottom:20px; }
+
+        .features-list { display:flex; flex-direction:column; gap:12px; margin-bottom:30px; }
+        .feature-item { display:flex; align-items:center; gap:10px; font-size:0.9rem; font-weight:500; }
+        .feature-item i { color:var(--primary); font-size:1rem; }
+
+        .btn-card {
+            width:100%; padding:14px 20px; border-radius:var(--radius-sm);
+            font-weight:700; font-size:0.95rem; display:flex; align-items:center;
+            justify-content:center; gap:10px; transition:var(--tr); border:none; text-decoration:none;
+        }
+
+        .btn-card-active {
+            background:linear-gradient(135deg, var(--primary), var(--secondary));
+            color:white;
+            box-shadow:var(--shadow-sm);
+        }
+        .btn-card-active:hover {
+            box-shadow:var(--shadow-md);
+            filter:brightness(1.05);
+        }
+
+        .btn-card-soon {
+            background:var(--bg-3);
+            color:var(--text-muted);
+            border:1px solid var(--border);
+            cursor:not-allowed;
+        }
+        .opp-card:hover .btn-card-soon {
+            background:var(--primary-glow);
+            color:var(--primary);
+            border-color:var(--primary-light);
+            cursor:pointer;
+        }
+
+        /* Footer */
+        footer {
+            padding:30px 0; border-top:1px solid var(--border);
+            background:rgba(var(--bg) == #ffffff ? '255,255,255' : '6,13,24', 0.6);
+            backdrop-filter:blur(10px);
+            text-align:center;
+            font-size:0.85rem; color:var(--text-light);
+            position:relative; z-index:1;
+        }
+
+        /* Custom Toast Notification System */
+        .toast-container {
+            position:fixed; bottom:30px; right:30px;
+            display:flex; flex-direction:column; gap:10px;
+            z-index:9999;
+        }
+
+        .toast {
+            background:var(--card);
+            border:1px solid var(--border-strong);
+            border-radius:var(--radius-sm);
+            padding:16px 24px;
+            box-shadow:var(--shadow-lg), var(--shadow-glow);
+            display:flex; align-items:center; gap:16px;
+            transform:translateY(100px); opacity:0;
+            transition:all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width:380px;
+            backdrop-filter:blur(15px);
+            -webkit-backdrop-filter:blur(15px);
+        }
+
+        .toast.show {
+            transform:translateY(0); opacity:1;
+        }
+
+        .toast-icon {
+            width:32px; height:32px; border-radius:50%;
+            background:rgba(247,127,0,0.15); color:var(--accent);
+            display:flex; align-items:center; justify-content:center;
+            font-size:1.1rem; flex-shrink:0;
+        }
+
+        .toast-body { display:flex; flex-direction:column; }
+        .toast-title { font-weight:700; font-size:0.95rem; color:var(--text); }
+        .toast-desc { font-size:0.85rem; color:var(--text-muted); margin-top:2px; line-height:1.4; }
+
+        .toast-close {
+            background:none; border:none; color:var(--text-light);
+            cursor:pointer; font-size:1rem; margin-left:auto;
+            transition:color 0.2s ease;
+        }
+        .toast-close:hover { color:var(--danger); }
+
+        /* Responsive Layout */
+        @media (max-width:768px) {
+            .opp-grid { grid-template-columns:1fr; max-width:450px; }
+            .opp-card { padding:30px 20px; }
+            .toast-container { left:20px; right:20px; bottom:20px; }
+            .toast { max-width:100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <!-- Header Navbar -->
+    <header>
+        <div class="container nav-wrapper">
+            <a href="https://www.quantumcoderstechlab.codes/quantumcoders-data-solutions.html" class="logo-group">
+                <img src="https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDL.png" alt="QCDS Logo" class="logo-img">
+                <div class="logo-text-group">
+                    <span class="logo-title display-font">QCDS</span>
+                    <span class="logo-subtitle">Data Solutions</span>
+                </div>
+            </a>
+            <div class="nav-actions">
+                <a href="https://www.quantumcoderstechlab.codes/quantumcoders-data-solutions.html" class="btn-home">
+                    <i class="fas fa-arrow-left"></i> QCDS Home
+                </a>
+                <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Opportunities Grid Section -->
+    <main class="opportunities-section">
+        <div class="container">
+            <div class="opp-header">
+                <h1 class="gradient-text">Choose Your Program</h1>
+                <div style="width:60px; height:4px; border-radius:2px; margin: 16px auto; background:linear-gradient(90deg,var(--primary),var(--secondary),var(--accent));"></div>
+                <p>Select a program below to explore and join our community-driven annotation and language collection collaborations.</p>
+            </div>
+
+            <div class="opp-grid">
+                <!-- Option 1: QCDS x DesiCrew (Coming Soon) -->
+                <div class="opp-card" id="desicrewCard">
+                    <div class="card-top">
+                        <div class="badge-group">
+                            <span class="badge badge-soon">Coming Soon</span>
+                            <i class="fas fa-lock" style="color:var(--text-light); font-size:1.1rem;"></i>
+                        </div>
+                        <div class="partner-symbol gradient-text">
+                            QCDS<span class="cross-symbol">&times;</span>DesiCrew
+                        </div>
+                        <p class="card-desc">Professional enterprise transcription, annotation, and translation services. Direct integration with verified corporate BPO deliverables.</p>
+                        
+                        <div class="features-list">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>1.5+ Years Verified Collaboration</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Advanced Audio Transcription Tasks</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Enterprise SLA Requirements</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-card btn-card-soon" id="desicrewBtn">
+                        <i class="fas fa-clock"></i> Access Coming Soon
+                    </button>
+                </div>
+
+                <!-- Option 2: QCDS x Karya (Active) -->
+                <div class="opp-card" onclick="window.location.href='/projects/language-contributors';">
+                    <div class="card-top">
+                        <div class="badge-group">
+                            <span class="badge badge-active">Active</span>
+                            <i class="fas fa-lock-open" style="color:var(--success); font-size:1.1rem;"></i>
+                        </div>
+                        <div class="partner-symbol gradient-text">
+                            QCDS<span class="cross-symbol">&times;</span>Karya
+                        </div>
+                        <p class="card-desc">Participate in regional AI training speech collections, transcription, and validation tasks designed directly for Indian languages and accents.</p>
+                        
+                        <div class="features-list">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>High Priority: Odia &amp; Regional Accents</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Earnings: ₹5 per Minute of Validated Speech</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Flexible Work From Home Scheduling</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="/projects/language-contributors" class="btn-card btn-card-active">
+                        <i class="fas fa-arrow-right"></i> Explore &amp; Apply Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p style="margin-bottom: 0;">&copy; 2026 QuantumCoders Data Solutions. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Particles Background Config
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 45, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#0f4c81" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.15, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#0f4c81", "opacity": 0.08, "width": 1 },
+                "move": { "enable": true, "speed": 1.5, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": {
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false } },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.2 } } }
+            },
+            "retina_detect": true
+        });
+
+        // Theme Switcher Sync Logic
+        const themeToggleBtn = document.getElementById('themeToggle');
+        
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            // Adjust particles color dynamically based on theme
+            if (window.pJSDom && window.pJSDom[0]) {
+                const color = theme === 'dark' ? '#3b9edd' : '#0f4c81';
+                window.pJSDom[0].pJS.particles.color.value = color;
+                window.pJSDom[0].pJS.particles.line_linked.color = color;
+                window.pJSDom[0].pJS.fn.particlesRefresh();
+            }
+        }
+
+        // Initialize theme from localStorage or default
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        });
+
+        // Toast System for DesiCrew Card
+        const desicrewCard = document.getElementById('desicrewCard');
+        const desicrewBtn = document.getElementById('desicrewBtn');
+        const toastContainer = document.getElementById('toastContainer');
+
+        function showComingSoonToast() {
+            // Prevent multiple identical toasts
+            if (document.querySelector('.toast-desicrew')) return;
+
+            const toast = document.createElement('div');
+            toast.className = 'toast toast-desicrew';
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="toast-body">
+                    <span class="toast-title">DesiCrew Opportunities</span>
+                    <span class="toast-desc">Registration is opening soon! We are currently finalising the portal onboarding details. Please check back.</span>
+                </div>
+                <button class="toast-close" aria-label="Close Toast">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 10);
+
+            // Auto-remove after 5 seconds
+            const autoRemove = setTimeout(() => removeToast(toast), 5000);
+
+            // Close button click listener
+            toast.querySelector('.toast-close').addEventListener('click', () => {
+                clearTimeout(autoRemove);
+                removeToast(toast);
+            });
+        }
+
+        function removeToast(toast) {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 400);
+        }
+
+        desicrewCard.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showComingSoonToast();
+        });
+
+        desicrewBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showComingSoonToast();
+        });
+    </script>
+</body>
+</html>

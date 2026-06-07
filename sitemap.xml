@@ -39,6 +39,13 @@
     </image:image>
   </url>
 
+  <!-- QCDS OPPORTUNITIES PORTAL -->
+  <url>
+    <loc>https://www.quantumcoderstechlab.codes/projects/opportunities</loc>
+    <lastmod>2026-06-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
 
 
   <!-- SMART ATTENDANCE SYSTEM (PRODUCT PAGE) -->
