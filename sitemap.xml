@@ -5,7 +5,7 @@
 
   <!-- HOME -->
   <url>
-    <loc>https://quantumcoderstechlab.codes/</loc>
+    <loc>https://www.quantumcoderstechlab.codes/</loc>
     <lastmod>2026-01-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -13,13 +13,13 @@
 
   <!-- QUANTUMCODERS DATA SOLUTIONS -->
   <url>
-    <loc>https://quantumcoderstechlab.codes/quantumcoders-data-solutions.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/quantumcoders-data-solutions.html</loc>
     <lastmod>2026-04-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
 
     <image:image>
-      <image:loc>https://quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDS_poster.png</image:loc>
+      <image:loc>https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/QCDS_poster.png</image:loc>
       <image:title>QuantumCoders Data Solutions Poster</image:title>
       <image:caption>AI Data Annotation and Student Work Platform</image:caption>
     </image:image>
@@ -27,13 +27,13 @@
 
   <!-- KARYA X QCDS AI LANGUAGE CONTRIBUTOR PROGRAM -->
   <url>
-    <loc>https://quantumcoderstechlab.codes/projects/language-contributors</loc>
+    <loc>https://www.quantumcoderstechlab.codes/projects/language-contributors</loc>
     <lastmod>2026-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
 
     <image:image>
-      <image:loc>https://quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/Karya_QCDS.jpg</image:loc>
+      <image:loc>https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/Karya_QCDS.jpg</image:loc>
       <image:title>Karya &amp; QCDS AI Language Contributor Recruitment Poster</image:title>
       <image:caption>Recruitment poster for AI and language technology projects, speech data collection, transcription, and validation.</image:caption>
     </image:image>
@@ -43,14 +43,14 @@
 
   <!-- SMART ATTENDANCE SYSTEM (PRODUCT PAGE) -->
   <url>
-    <loc>https://quantumcoderstechlab.codes/smart-attendance/smart_attendance_index.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/smart-attendance/smart_attendance_index.html</loc>
     <lastmod>2026-01-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
 
     <!-- Product Poster for Google Images -->
     <image:image>
-      <image:loc>https://quantumcoderstechlab.codes/smart-attendance/assets/poster/Smart-Attendance-System.png</image:loc>
+      <image:loc>https://www.quantumcoderstechlab.codes/smart-attendance/assets/poster/Smart-Attendance-System.png</image:loc>
       <image:title>Smart Attendance System - QR Code Attendance App</image:title>
       <image:caption>QR Code based Smart Attendance System for schools and colleges</image:caption>
     </image:image>
@@ -59,56 +59,56 @@
 
   <!-- CORE FEATURES -->
   <url>
-    <loc>https://quantumcoderstechlab.codes/chatbot.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/chatbot.html</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://quantumcoderstechlab.codes/all-members.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/all-members.html</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://quantumcoderstechlab.codes/certificates.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/certificates.html</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://quantumcoderstechlab.codes/learning-resources.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/learning-resources.html</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://quantumcoderstechlab.codes/project-ideas.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/project-ideas.html</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://quantumcoderstechlab.codes/get-help.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/get-help.html</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://quantumcoderstechlab.codes/join-quantumcoders.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/join-quantumcoders.html</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://quantumcoderstechlab.codes/ourmission.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/ourmission.html</loc>
     <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -116,27 +116,27 @@
 
   <!-- MPSO 1.0 – MY PORTFOLIO STANDS OUT (HACKATHON PAGE) -->
   <url>
-    <loc>https://quantumcoderstechlab.codes/MPSO/index.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/MPSO/index.html</loc>
     <lastmod>2026-01-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
 
     <image:image>
-      <image:loc>https://quantumcoderstechlab.codes/MPSO/assets/MPSO_1.0%20poster.png</image:loc>
+      <image:loc>https://www.quantumcoderstechlab.codes/MPSO/assets/MPSO_1.0%20poster.png</image:loc>
       <image:title>MPSO 1.0 – My Portfolio Stands Out National Hackathon</image:title>
       <image:caption>National level student portfolio hackathon organized by QuantumCoders Tech Lab and R3S Interactive</image:caption>
     </image:image>
   </url>
 
   <url>
-    <loc>https://quantumcoderstechlab.codes/smart-attendance/privacy-policy-smart-attendance.html</loc>
+    <loc>https://www.quantumcoderstechlab.codes/smart-attendance/privacy-policy-smart-attendance.html</loc>
     <lastmod>2026-01-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-  <loc>https://quantumcoderstechlab.codes/smart-attendance/terms-of-service.html</loc>
+  <loc>https://www.quantumcoderstechlab.codes/smart-attendance/terms-of-service.html</loc>
   <lastmod>2026-01-25</lastmod>
   <changefreq>yearly</changefreq>
   <priority>0.5</priority>

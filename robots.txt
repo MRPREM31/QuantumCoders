@@ -1,5 +1,5 @@
 # robots.txt for QuantumCoders Tech Lab
-# Main Website: https://quantumcoderstechlab.codes
+# Main Website: https://www.quantumcoderstechlab.codes
 # Last Updated: 2026-03-08
 
 ############################
@@ -66,9 +66,9 @@ Disallow: /
 ############################
 # PRIMARY DOMAIN
 ############################
-Host: https://quantumcoderstechlab.codes
+Host: https://www.quantumcoderstechlab.codes
 
 ############################
 # SITEMAP LOCATION
 ############################
-Sitemap: https://quantumcoderstechlab.codes/sitemap.xml
+Sitemap: https://www.quantumcoderstechlab.codes/sitemap.xml
