@@ -157,11 +157,14 @@
         /* Navbar Styling */
         header {
             position:sticky; top:0; z-index:100;
-            background:rgba(var(--bg) == #ffffff ? '255,255,255' : '6,13,24', 0.8);
+            background:rgba(255, 255, 255, 0.8);
             backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
             border-bottom:1px solid var(--border);
             padding:16px 0;
             transition:var(--tr-slow);
+        }
+        [data-theme="dark"] header {
+            background:rgba(6, 13, 24, 0.8);
         }
 
         .nav-wrapper { display:flex; justify-content:space-between; align-items:center; }
@@ -335,11 +338,14 @@
         /* Footer */
         footer {
             padding:30px 0; border-top:1px solid var(--border);
-            background:rgba(var(--bg) == #ffffff ? '255,255,255' : '6,13,24', 0.6);
+            background:rgba(255, 255, 255, 0.6);
             backdrop-filter:blur(10px);
             text-align:center;
             font-size:0.85rem; color:var(--text-light);
             position:relative; z-index:1;
+        }
+        [data-theme="dark"] footer {
+            background:rgba(6, 13, 24, 0.6);
         }
 
         /* Custom Toast Notification System */
