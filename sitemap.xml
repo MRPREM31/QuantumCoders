@@ -39,10 +39,24 @@
     </image:image>
   </url>
 
+  <!-- DESICREW X QCDS AI ODIA TRANSCRIPTION PROGRAM -->
+  <url>
+    <loc>https://www.quantumcoderstechlab.codes/projects/desicrew-contributors</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+
+    <image:image>
+      <image:loc>https://www.quantumcoderstechlab.codes/assets/Data%20Solutions/Logo/DesiCrew_QCDS.png</image:loc>
+      <image:title>DesiCrew &amp; QCDS AI Odia Transcription Recruitment Poster</image:title>
+      <image:caption>Recruitment poster for DesiCrew and QCDS AI Odia transcription and translation projects.</image:caption>
+    </image:image>
+  </url>
+
   <!-- QCDS OPPORTUNITIES PORTAL -->
   <url>
     <loc>https://www.quantumcoderstechlab.codes/projects/opportunities</loc>
-    <lastmod>2026-06-07</lastmod>
+    <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>

@@ -444,12 +444,12 @@
             </div>
 
             <div class="opp-grid">
-                <!-- Option 1: QCDS x DesiCrew (Coming Soon) -->
-                <div class="opp-card" id="desicrewCard">
+                <!-- Option 1: QCDS x DesiCrew (Active) -->
+                <div class="opp-card" onclick="window.location.href='/projects/desicrew-contributors';">
                     <div class="card-top">
                         <div class="badge-group">
-                            <span class="badge badge-soon">Coming Soon</span>
-                            <i class="fas fa-lock" style="color:var(--text-light); font-size:1.1rem;"></i>
+                            <span class="badge badge-active">Active</span>
+                            <i class="fas fa-lock-open" style="color:var(--success); font-size:1.1rem;"></i>
                         </div>
                         <div class="partner-symbol">
                             <span class="partner-qcds">QCDS</span>
@@ -471,11 +471,15 @@
                                 <i class="fas fa-check-circle"></i>
                                 <span>Enterprise SLA Requirements</span>
                             </div>
+                            <div class="feature-item">
+                                <i class="fas fa-calendar-alt" style="color:var(--accent);"></i>
+                                <span style="color:var(--accent); font-weight:700;">Registration Open: 09 June 2026</span>
+                            </div>
                         </div>
                     </div>
-                    <button class="btn-card btn-card-soon" id="desicrewBtn">
-                        <i class="fas fa-clock"></i> Access Coming Soon
-                    </button>
+                    <a href="/projects/desicrew-contributors" class="btn-card btn-card-active">
+                        <i class="fas fa-arrow-right"></i> Explore &amp; Apply Now
+                    </a>
                 </div>
 
                 <!-- Option 2: QCDS x Karya (Active) -->
@@ -570,63 +574,7 @@
             applyTheme(newTheme);
         });
 
-        // Toast System for DesiCrew Card
-        const desicrewCard = document.getElementById('desicrewCard');
-        const desicrewBtn = document.getElementById('desicrewBtn');
-        const toastContainer = document.getElementById('toastContainer');
-
-        function showComingSoonToast() {
-            // Prevent multiple identical toasts
-            if (document.querySelector('.toast-desicrew')) return;
-
-            const toast = document.createElement('div');
-            toast.className = 'toast toast-desicrew';
-            toast.innerHTML = `
-                <div class="toast-icon">
-                    <i class="fas fa-lock"></i>
-                </div>
-                <div class="toast-body">
-                    <span class="toast-title">DesiCrew Opportunities</span>
-                    <span class="toast-desc">Registration is opening soon! We are currently finalising the portal onboarding details. Please check back.</span>
-                </div>
-                <button class="toast-close" aria-label="Close Toast">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-
-            toastContainer.appendChild(toast);
-
-            // Trigger animation
-            setTimeout(() => toast.classList.add('show'), 10);
-
-            // Auto-remove after 5 seconds
-            const autoRemove = setTimeout(() => removeToast(toast), 5000);
-
-            // Close button click listener
-            toast.querySelector('.toast-close').addEventListener('click', () => {
-                clearTimeout(autoRemove);
-                removeToast(toast);
-            });
-        }
-
-        function removeToast(toast) {
-            toast.classList.remove('show');
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
-            }, 400);
-        }
-
-        desicrewCard.addEventListener('click', (e) => {
-            e.stopPropagation();
-            showComingSoonToast();
-        });
-
-        desicrewBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            showComingSoonToast();
-        });
+        // DesiCrew Card click hander is managed via direct inline onclick for simplicity and performance.
     </script>
 </body>
 </html>
