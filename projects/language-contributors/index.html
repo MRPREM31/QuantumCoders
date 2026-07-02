@@ -797,6 +797,121 @@
                 max-width: 500px;
             }
         }
+
+        /* Notice Banner */
+        .notice-banner {
+            background: linear-gradient(135deg, rgba(239, 71, 111, 0.95), rgba(247, 127, 0, 0.95));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 70px; /* Clear fixed navbar */
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            position: relative;
+            z-index: 99;
+            box-shadow: var(--shadow-sm);
+        }
+        .notice-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .notice-banner a {
+            color: white;
+            text-decoration: underline;
+            font-weight: 700;
+            margin-left: 5px;
+            transition: opacity 0.2s;
+        }
+        .notice-banner a:hover {
+            opacity: 0.8;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 9999;
+        }
+        .toast {
+            background: var(--card);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-sm);
+            padding: 16px 24px;
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 380px;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(239, 71, 111, 0.15);
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .toast-body {
+            display: flex;
+            flex-direction: column;
+        }
+        .toast-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        .toast-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1rem;
+            margin-left: auto;
+            transition: color 0.2s ease;
+        }
+        .toast-close:hover {
+            color: var(--danger);
+        }
+
+        @media (max-width: 768px) {
+            .toast-container {
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+            }
+            .toast {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -833,6 +948,15 @@
             </div>
         </div>
     </nav>
+
+    <!-- NOTICE BANNER -->
+    <div class="notice-banner">
+        <div class="notice-inner">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>New onboarding has been stopped. Connect with us for future work opportunities.</span>
+            <a href="#contact">Contact Us</a>
+        </div>
+    </div>
 
     <main>
 
@@ -1184,14 +1308,14 @@
                 </div>
 
                 <div class="cta-grid">
-                    <div class="cta-card primary fade-up">
-                        <div class="cta-icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="cta-card primary fade-up" style="opacity: 0.95;">
+                        <div class="cta-icon" style="background: rgba(239, 71, 111, 0.1); color: var(--danger);"><i class="fas fa-user-slash"></i></div>
                         <div>
-                            <h3 class="cta-title">1. Submit Application</h3>
-                            <p class="cta-desc">Fill out our Google Form questionnaire to catalog your profile for ongoing language initiatives.</p>
+                            <h3 class="cta-title" style="color: var(--text-light);">1. Onboarding Stopped</h3>
+                            <p class="cta-desc">Registration and onboarding for Karya projects are currently suspended. Connect with us for future opportunities.</p>
                         </div>
-                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfFBeJXA8Q9tHXdc-1p6TKZLzqZYf53VJDoAEm2CicOzaas-Q/viewform" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                            Apply Now &nbsp;<i class="fas fa-external-link-alt"></i>
+                        <a href="#" id="applyFormBtn" class="btn btn-secondary" style="border-color: var(--danger); color: var(--danger); width: 100%;">
+                            Onboarding Stopped &nbsp;<i class="fas fa-lock"></i>
                         </a>
                     </div>
 
@@ -1301,6 +1425,9 @@
         </div>
     </footer>
 
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <script>
     document.addEventListener("DOMContentLoaded", () => {
         initTheme();
@@ -1308,7 +1435,53 @@
         initParticles();
         initScroll();
         initAnimations();
+        initOnboardingNotice();
     });
+
+    function initOnboardingNotice() {
+        const btn = document.getElementById('applyFormBtn');
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showToast('Onboarding Stopped', 'Karya project onboarding has been stopped. Connect with us for future opportunities.');
+            });
+        }
+    }
+
+    function showToast(title, message) {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `
+            <div class="toast-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="toast-body">
+                <div class="toast-title">${title}</div>
+                <div class="toast-desc">${message}</div>
+            </div>
+            <button class="toast-close"><i class="fas fa-times"></i></button>
+        `;
+        container.appendChild(toast);
+        
+        // Trigger transition
+        setTimeout(() => toast.classList.add('show'), 50);
+        
+        const closeBtn = toast.querySelector('.toast-close');
+        closeBtn.addEventListener('click', () => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400);
+        });
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }
+        }, 5000);
+    }
 
     /* Theme Initializer & Toggler */
     function initTheme() {
